@@ -111,6 +111,53 @@ To run the frontend
 - start the front end by using the following two commands ```npm install```, ```npm start```;
 If all the steps have been successfully executed a new browser window will open automatically.
 
+## Backend-Specifications
+
+- scatterdata/
+  - GET
+    - Returns: A list of all people, with information about the fairness of their decision. Bias is some number describing the predicted bias for that person,
+    qualification some number describing the predicted actual qualification and
+    id the ID of the person.
+    - Exact format:
+        ```json
+        {"scatterdata": [{"bias", "qualification", "id"}]}
+        ```
+    - Justification of existence: We need some way to get the predicted aggregated values
+    for each person as it is required to draw our scatter plot relating indiviuals to "fair" qualifications and unfair biases, which played a role in the decision. Already in our case and especially with an actually suited model this will be complex, so it should be done in the backend.
+- person/{`id`}/
+  - GET
+    - Returns: All data about the person with ID `id`. This is basically simply a row
+    of the dataset.
+    - Justification of existence: We want to show detailed person information when user clicks 
+    on entries.
+  - POST
+    - A post to a person will mark the influence of bias for this person as zero. Since we don't have different actions related to people, it's fine to always do this as reaction to a POST.
+    - Justification of existence: We would like to give the user the option to state that
+    a decision was not biased. This will change the output of nearly all other endpoints,
+    so therefore it has to be a POST. (side-effects)
+- similarpeople/{`id`}/{`amount`}
+  - GET
+    - Returns: A list of `amount` people
+    which are the most similar to the person defined by `id` based on fair qualifications (not on bias). The contained information per person are exactly the same as you would get by a 
+    call to person/{`id`}
+    - Justification of existence: We would like to show similar people if user clicks on a person in the scatter-plot. This is a rather complex task for which we have to look at
+    the whole dataset, so this should clearly be on the server.
+- reconsider/
+  - GET
+    - Returns: A list of people for which bias played an important role in the decision. The
+    content per person is the same as a call to person/{`id`} would return.
+    - Justification of existence: We want to have a dashboard showing people that should be reconsidered. One could probably figure this out from scatterdata, but it's already non trivial, so it makes more sense to do it in the backend.
+- fairness/
+  - GET
+    - Returns: Some rating of how biased the decisions are. Groups is a list of attributes on which people might be biased (e.g. gender) and score is some measure of how strongly biased the decisions where with respect to that attribute.
+    Overallscore is some total fairness score that we compute over all groups.
+    - Exact format:
+      ```json
+      {"groups": [{"group", "score"}], "overallscore"}
+      ```
+    - Justification of existence: We want to show fairness per group and total fairness. This is a very complex task and depends on our ML model (just like scatterdata), so we definitively want to do this in the backend.
+
+
 ## Milestones
 Document here the major milestones of your code and future planned steps.\
 - [x] Week 1
