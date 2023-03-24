@@ -1,4 +1,4 @@
-# Project Title
+# CV Bias Assessment
 
 [[_TOC_]]
 
@@ -163,19 +163,28 @@ If all the steps have been successfully executed a new browser window will open 
     - Justification of existence: We want to show fairness per group and total fairness. This is a very complex task and depends on our ML model (just like scatterdata), so we definitively want to do this in the backend.
 
 ## Frontend: Visual Encoding
-TODO: add sketches
-1. ScatterPlot
-  - point: person
-  - x-axis: bias attribute
-  - y-axis: qualification attribute
-  - RadioButton/Checkbox/DropdownButton to select attributes for each axis
-2. Person Pop-up
-  - All informations about this person
+
+
+![Main Page](https://gitlab.inf.ethz.ch/course-xai-iml23/c3-cv-bias-assessment/-/blob/milestone2-visual-encoding/images/VisualEncodingMain.png?raw=true)
+
+![Person Pop-up](https://gitlab.inf.ethz.ch/course-xai-iml23/c3-cv-bias-assessment/-/blob/milestone2-visual-encoding/images/VisualEncodingPopUp.png?raw=true)
+
+#### 1. ScatterPlot
+  - point: person (onClick -> open Person Pop-up)
+  - x-axis: bias attribute.
+  - y-axis: qualification attribute.
+  - color: red: rejected, green: accepted
+  - RadioButton/Checkbox/DropdownButton to select attribute for each axis.
+  
+#### 2. Person Pop-up
+  - All informations about this person.
   - An "Ignore" button to to mark the influence of this person as zero.
   - A list of one/multiple similar people to which the user can compare the person and the respective decission to. 
-3. Reconsider-list
-4. Fairness score
-
+#### 3. Reconsider-list
+  - List of 10 people 
+  - onClick -> open Person Pop-up 
+#### 4. Fairness score
+  - BarPlot of influence of biased/unfair attributes to the hiring decission.
 
 ## Milestones
 Document here the major milestones of your code and future planned steps.\
