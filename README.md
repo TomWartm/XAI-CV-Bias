@@ -164,10 +164,9 @@ If all the steps have been successfully executed a new browser window will open 
 
 ## Frontend: Visual Encoding
 
-
 ![Main Page](https://gitlab.inf.ethz.ch/course-xai-iml23/c3-cv-bias-assessment/-/blob/milestone2-visual-encoding/images/VisualEncodingMain.png?raw=true)
 
-![Person Pop-up](https://gitlab.inf.ethz.ch/course-xai-iml23/c3-cv-bias-assessment/-/blob/milestone2-visual-encoding/images/VisualEncodingPopUp.png?raw=true)
+![Person Pop-up](/images/VisualEncodingPopUp.png)
 
 #### 1. ScatterPlot
   - point: person (onClick -> open Person Pop-up)
