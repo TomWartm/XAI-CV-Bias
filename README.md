@@ -163,8 +163,8 @@ If all the steps have been successfully executed a new browser window will open 
     - Justification of existence: We want to show fairness per group and total fairness. This is a very complex task and depends on our ML model (just like scatterdata), so we definitively want to do this in the backend.
 
 ## Frontend: Visual Encoding
-<img src="/images/VisualEncodingMain.png" alt= "MainPage" width=50 height=30>
-<img src="/images/VisualEncodingPopUp.png" alt= "PopUp" width=50 height=30>
+<img src="/images/VisualEncodingMain.png" alt= "MainPage" width=500 height=300>
+<img src="/images/VisualEncodingPopUp.png" alt= "PopUp" width=500 height=300>
 
 
 
