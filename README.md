@@ -3,20 +3,25 @@
 [[_TOC_]]
 
 ## Team Members
-1. Team member 1
-2. Team member 2
-3. Team member 3
-4. ...
+1. Vito Pagone
+2. Simon Perisanidis
+3. Tom Wartmann
+4. Jannis Widmer
 
 ## Project Description 
-Describe here your project in detail and define your goals.
+We all have some amount of unconcious bias, whether that's towards someone's race, gender, age, sexual orientation or even education, socioeconomic backround etc. That's not always bad, but it can be deleterious when these shortcuts are used by desicion-makers such as recruiters.
+Our goal is to create an interactive tool that assists recruiters in identifying and overcome their biases. The focus of the proposed project is the interactivity of the user interface.
+
 
 ### Users
-List your projects target Users.
+- Recruiters
+- HR Managers/Leads
 
 ### Datasets
-Add here all used datasets.\
-Document here where to find the data and how to download it. 
+Utrecht fairness recruitment (synthetic)
+Link: [https://www.kaggle.com/datasets/ictinstitute/utrecht-fairness-recruitment-dataset](url)
+
+See the folder Data-Analysis for exploration.
 
 ### Tasks
 Define all the tasks you want your dashboard solve.
@@ -156,6 +161,20 @@ If all the steps have been successfully executed a new browser window will open 
       {"groups": [{"group", "score"}], "overallscore"}
       ```
     - Justification of existence: We want to show fairness per group and total fairness. This is a very complex task and depends on our ML model (just like scatterdata), so we definitively want to do this in the backend.
+
+## Frontend: Visual Encoding
+TODO: add sketches
+1. ScatterPlot
+  - point: person
+  - x-axis: bias attribute
+  - y-axis: qualification attribute
+  - RadioButton/Checkbox/DropdownButton to select attributes for each axis
+2. Person Pop-up
+  - All informations about this person
+  - An "Ignore" button to to mark the influence of this person as zero.
+  - A list of one/multiple similar people to which the user can compare the person and the respective decission to. 
+3. Reconsider-list
+4. Fairness score
 
 
 ## Milestones
