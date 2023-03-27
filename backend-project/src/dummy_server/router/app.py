@@ -1,16 +1,19 @@
 import argparse
 import os
+import pandas as pd
 
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 
 from dummy_server.router.routes import add_routes
+from analytics.data_analysis import DataAnalysis
 
 
 def create_app():
     app = Flask(__name__)  # static_url_path, static_folder, template_folder...
     CORS(app, resources={r"/*": {"origins": "*"}})
     add_routes(app)
+    dataAnalysis = DataAnalysis()
 
     @app.route('/version')
     def version():
@@ -19,6 +22,21 @@ def create_app():
     @app.route('/dargons')
     def dargons():
         return f"There be dragons here!"
+
+    @app.route('/')
+    def index():
+        return "<html><body><h1>Welcome to the coolest IML project out there</h1></body></html>"
+
+    @app.route('/person/<string:id>', methods = ['POST', 'GET'])
+    def person(id):
+        if request.method == 'GET':
+
+            df = pd.read_csv("dataset.csv")
+            return df[df['Id']==id].to_json()
+
+        elif request.method == 'POST': # TODO mark the influence of bias for this person as zero
+            return True
+        return "Wrong request"
 
     return app
 
