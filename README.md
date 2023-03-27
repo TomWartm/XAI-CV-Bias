@@ -164,7 +164,7 @@ If all the steps have been successfully executed a new browser window will open 
 
 ## Frontend: Visual Encoding
 <details><summary>MainPage</summary>
-<img src="/images/VisualEncodingMain.png" alt= "MainPage" width=750 height=500>
+<img src="/images/VisualEncodingMain2.png" alt= "MainPage" width=750 height=500>
 </details>
 <details><summary>PopUp</summary>
 <img src="/images/VisualEncodingPopUp.png" alt= "PopUp" width=500 height=300>
@@ -178,7 +178,7 @@ If all the steps have been successfully executed a new browser window will open 
   - x-axis: bias attribute.
   - y-axis: qualification attribute.
   - color: red: rejected, green: accepted
-  - RadioButton/Checkbox/DropdownButton to select attribute for each axis.
+  - Yellow question marks: display infos onClick how the bias/qualification attribute was computed.
   
 #### 2. Person Pop-up
   - All informations about this person.
