@@ -192,13 +192,12 @@ If all the steps have been successfully executed a new browser window will open 
 
 ## Milestones
 Document here the major milestones of your code and future planned steps.\
-- [x] Week 1
-  - [x] Completed Sub-task: [#20984ec2](https://gitlab.inf.ethz.ch/COURSE-XAI-IML22/dummy-fullstack/-/commit/20984ec2197fa8dcdc50f19723e5aa234b9588a3)
-  - [x] Completed Sub-task: ...
-
-- [ ] Week 2
-  - [ ] Sub-task: [#2](https://gitlab.inf.ethz.ch/COURSE-XAI-IML22/dummy-fullstack/-/issues/2)
-  - [ ] Sub-task: ...
+- [x] Milestone 1
+- [ ] Milestone 2
+  - [ ] Sub-task: Data Analysis
+  - [ ] Sub-task: Implement first endpoint
+  - [ ] Sub-task: Define BackEnd endpoints
+  - [x] Sub-task: Visual Encoding
 
 Create a list subtask.\
 Open an issue for each subtask. Once you create a subtask, link the corresponding issue.\
