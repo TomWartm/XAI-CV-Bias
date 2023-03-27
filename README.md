@@ -122,10 +122,10 @@ If all the steps have been successfully executed a new browser window will open 
   - GET
     - Returns: A list of all people, with information about the fairness of their decision. Bias is some number describing the predicted bias for that person,
     qualification some number describing the predicted actual qualification and
-    id the ID of the person.
+    id the ID of the person. "decision" is an boolean describing if the person got accepted or rejected by the company.
     - Exact format:
         ```json
-        {"scatterdata": [{"bias", "qualification", "id"}]}
+        {"scatterdata": [{"bias", "qualification", "id", "decision"}]}
         ```
     - Justification of existence: We need some way to get the predicted aggregated values
     for each person as it is required to draw our scatter plot relating indiviuals to "fair" qualifications and unfair biases, which played a role in the decision. Already in our case and especially with an actually suited model this will be complex, so it should be done in the backend.
@@ -194,7 +194,7 @@ If all the steps have been successfully executed a new browser window will open 
 Document here the major milestones of your code and future planned steps.\
 - [x] Milestone 1
 - [ ] Milestone 2
-  - [ ] Sub-task: Data Analysis
+  - [x] Sub-task: Data Analysis
   - [ ] Sub-task: Implement first endpoint
   - [ ] Sub-task: Define BackEnd endpoints
   - [x] Sub-task: Visual Encoding
