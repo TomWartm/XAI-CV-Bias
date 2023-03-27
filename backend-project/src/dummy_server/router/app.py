@@ -6,14 +6,11 @@ from flask import Flask, request
 from flask_cors import CORS
 
 from dummy_server.router.routes import add_routes
-from analytics.data_analysis import DataAnalysis
-
 
 def create_app():
     app = Flask(__name__)  # static_url_path, static_folder, template_folder...
     CORS(app, resources={r"/*": {"origins": "*"}})
     add_routes(app)
-    dataAnalysis = DataAnalysis()
 
     @app.route('/version')
     def version():
