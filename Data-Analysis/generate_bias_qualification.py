@@ -7,7 +7,7 @@ import numpy as np
 df = pd.read_csv("Data-Analysis/Dataset.csv")
 
 # Look only at company A
-df = df[df['company'] == "A"]
+df = df[df['company'] == "B"]
 df = df.drop("company", axis=1)
 df = df.drop("Id", axis=1)
 
@@ -19,7 +19,8 @@ df = pd.get_dummies(df, ["gender: ", "nationality: ", "sport: ", "ind-degree: "]
 
 pd.set_option("display.max_columns", None)
 
-X = df.drop("decision", axis=1).to_numpy()
+df_train = df.drop("decision", axis=1)
+X = df_train.to_numpy()
 X = preprocessing.StandardScaler().fit(X).transform(X)
 y = df["decision"].to_numpy()
 
@@ -27,13 +28,10 @@ y = df["decision"].to_numpy()
 lr = LogisticRegression()
 lr.fit(X, y)
 
-# Make predictions on the training data
 y_pred = lr.predict(X)
-
-# Evaluate the model's accuracy on the training data
 accuracy = accuracy_score(y, y_pred)
 print("Accuracy:", accuracy)
 
-np.set_printoptions(suppress=True)
-print(lr.coef_)
-print(df.head())
+coef_df = pd.DataFrame(lr.coef_, columns=df_train.columns)
+
+print(coef_df)
