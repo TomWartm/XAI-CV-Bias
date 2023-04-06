@@ -54,7 +54,8 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
 
 NewsItem.propTypes = {
   news: PropTypes.shape({
-    description: PropTypes.string,
+    age: PropTypes.string,
+    nationality: PropTypes.string,
     image: PropTypes.string,
     decision: PropTypes.bool,
     title: PropTypes.string,
@@ -62,7 +63,7 @@ NewsItem.propTypes = {
 };
 
 function NewsItem({ news }) {
-  const { image, title, description, decision } = news;
+  const { image, title, age, nationality, decision } = news;
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
@@ -79,7 +80,10 @@ function NewsItem({ news }) {
         </Link>
 
         <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-          {description}
+          Age: {age}
+        </Typography>
+        <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
+          Nationality: {nationality}
         </Typography>
       </Box>
 
