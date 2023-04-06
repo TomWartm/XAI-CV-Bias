@@ -59,8 +59,7 @@ export default function DashboardAppPage() {
             list={dummyPersons.map((x) => ({
               id: x.Id,
               title: x.Id,
-              age: x.age.toString(),
-              nationality: x.nationality,
+
               image: `/assets/images/avatars/${x.gender}.jpg`,
               decision: x.decision,
             }))}

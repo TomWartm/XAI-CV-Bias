@@ -39,12 +39,9 @@ export default function PopupWindows({ personId }) {
     company: "",
     decision: false,
   });
-  const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState("");
 
   const handleClick = async () => {
-    setIsLoading(true);
-
     try {
       const response = await fetch(`http://127.0.0.1:8000/person/${personId}`, {
         method: "GET",
@@ -66,7 +63,6 @@ export default function PopupWindows({ personId }) {
     } catch (err) {
       setErr(err.message);
     } finally {
-      setIsLoading(false);
     }
 
     console.log(data);
@@ -74,8 +70,8 @@ export default function PopupWindows({ personId }) {
   return (
     <>
       {err && <h2>{err}</h2>}
-      <Button onClick={handleClick}>
-        {!isLoading ? "Open Dialog" : "Loading..."}
+      <Button onClick={handleClick} variant="body2">
+        {personId}
       </Button>
 
       <Dialog open={open} onClose={() => setOpen(false)}>
@@ -87,7 +83,7 @@ export default function PopupWindows({ personId }) {
                 component="img"
                 alt={data.Id}
                 src={`/assets/images/avatars/${data.gender}.jpg`}
-                sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }}
+                sx={{ width: 96, height: 96, borderRadius: 1.5, flexShrink: 0 }}
               ></Box>
               <Typography
                 variant="body2"
@@ -99,10 +95,6 @@ export default function PopupWindows({ personId }) {
               >
                 {data.decision ? "Accepted" : "Rejected"}
               </Typography>
-            </Box>
-            {/* TODO: make this nicer */}
-
-            <Box>
               <Typography
                 variant="body2"
                 sx={{ color: "text.secondary" }}
@@ -127,6 +119,10 @@ export default function PopupWindows({ personId }) {
                 <b>Nationality: </b>
                 {data.nationality}
               </Typography>
+            </Box>
+            {/* TODO: make this nicer */}
+
+            <Box>
               <Typography
                 variant="body2"
                 sx={{ color: "text.secondary" }}
