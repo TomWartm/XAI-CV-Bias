@@ -100,19 +100,23 @@ export default function PopupWindows({ personId }) {
                 {data.decision ? "Accepted" : "Rejected"}
               </Typography>
             </Box>
+            {/* TODO: make this nicer */}
+
             <Box>
               <Typography
                 variant="body2"
                 sx={{ color: "text.secondary" }}
                 noWrap
               >
-                Gender: {data.gender}
+                <b>Gender: </b>
+                {data.gender}
               </Typography>
               <Typography
                 variant="body2"
                 sx={{ color: "text.secondary" }}
                 noWrap
               >
+                <b>Age: </b>
                 {data.age}
               </Typography>
               <Typography
@@ -120,6 +124,7 @@ export default function PopupWindows({ personId }) {
                 sx={{ color: "text.secondary" }}
                 noWrap
               >
+                <b>Nationality: </b>
                 {data.nationality}
               </Typography>
               <Typography
@@ -127,6 +132,7 @@ export default function PopupWindows({ personId }) {
                 sx={{ color: "text.secondary" }}
                 noWrap
               >
+                <b>Sport: </b>
                 {data.sport}
               </Typography>
               <Typography
@@ -134,7 +140,65 @@ export default function PopupWindows({ personId }) {
                 sx={{ color: "text.secondary" }}
                 noWrap
               >
-                {data["ind - university_grade"]}
+                <b>University Grade: </b>
+                {data["ind-university_grade"].toString()}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                <b>Debateclub: </b>
+                {data["ind-debateclub"].toString()}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                <b>Programming Exp.: </b>
+                {data["ind-programming_exp"].toString()}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                <b>International Exp.: </b>
+                {data["ind-international_exp"].toString()}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                <b>Entrepreneur Exp.: </b>
+                {data["ind-entrepeneur_exp"].toString()}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                <b>Languages: </b>
+                {data["ind-languages"].toString()}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                <b>Exact Study: </b>
+                {data["ind-exact_study"].toString()}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                <b>Degree: </b>
+                {data["ind-degree"]}
               </Typography>
             </Box>
           </Stack>
