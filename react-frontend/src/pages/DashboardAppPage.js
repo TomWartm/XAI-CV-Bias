@@ -65,19 +65,6 @@ export default function DashboardAppPage() {
           Hi, Welcome back
         </Typography>
 
-        <Grid item xs={12} md={6} lg={8}>
-          <AppReconsiderUpdate
-            title="Reconsider"
-            list={dummyPersons.map((x) => ({
-              id: x.Id,
-              title: x.Id,
-
-              image: `/assets/images/avatars/${x.gender}.jpg`,
-              decision: x.decision,
-            }))}
-          />
-        </Grid>
-
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={4}>
             <Card sx={{ height: "100%" }}>
@@ -282,7 +269,17 @@ export default function DashboardAppPage() {
               )}
             />
           </Grid>
-
+          <Grid item xs={12} md={6} lg={8}>
+            <AppReconsiderUpdate
+              title="Reconsider"
+              list={dummyPersons.map((x) => ({
+                id: x.Id,
+                title: x.Id,
+                image: `/assets/images/avatars/${x.gender}.jpg`,
+                decision: x.decision,
+              }))}
+            />
+          </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline
               title="Order Timeline"
