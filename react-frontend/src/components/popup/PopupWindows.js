@@ -54,7 +54,10 @@ export default function PopupWindows({ personId }) {
       //get only first element since we are sure there is only one returned
       const result = await response.json();
 
-      console.log("result is: ", JSON.stringify(result, null, 4));
+      console.log(
+        `"result of GET /person/${personId} is: `,
+        JSON.stringify(result, null, 4)
+      );
 
       setData(result[0]);
 
@@ -64,8 +67,6 @@ export default function PopupWindows({ personId }) {
       setErr(err.message);
     } finally {
     }
-
-    console.log(data);
   };
   return (
     <>

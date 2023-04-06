@@ -35,8 +35,11 @@ export default function AppReconsiderUpdate({
 
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
-          {list.map((news) => (
-            <ReconsiderItem key={news.id} news={news} />
+          {list.map((personSummary) => (
+            <ReconsiderItem
+              key={personSummary.id}
+              personSummary={personSummary}
+            />
           ))}
         </Stack>
       </Scrollbar>
@@ -59,15 +62,15 @@ export default function AppReconsiderUpdate({
 // ----------------------------------------------------------------------
 
 ReconsiderItem.propTypes = {
-  news: PropTypes.shape({
+  personSummary: PropTypes.shape({
     image: PropTypes.string,
     decision: PropTypes.bool,
     title: PropTypes.string,
   }),
 };
 
-function ReconsiderItem({ news }) {
-  const { image, title, decision } = news;
+function ReconsiderItem({ personSummary }) {
+  const { image, title, decision } = personSummary;
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
