@@ -90,7 +90,7 @@ function NewsItem({ news }) {
         sx={{
           pr: 3,
           flexShrink: 0,
-          color: decision ? "text.secondary" : "inherit",
+          color: decision ? "success.main" : "error.main",
         }}
       >
         {decision ? "Accepted" : "Rejected"}
