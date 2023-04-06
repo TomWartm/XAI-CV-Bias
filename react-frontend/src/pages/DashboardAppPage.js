@@ -60,7 +60,7 @@ export default function DashboardAppPage() {
               id: x.Id,
               title: x.Id,
               description: x.gender,
-              image: `/assets/images/covers/cover_${1}.jpg`,
+              image: `/assets/images/avatars/${x.gender}.jpg`,
               decision: x.decision,
             }))}
           />
