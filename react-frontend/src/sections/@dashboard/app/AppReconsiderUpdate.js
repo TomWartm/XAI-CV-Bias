@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import {
   Box,
   Stack,
-  Link,
   Card,
   Button,
   Divider,
@@ -61,8 +60,6 @@ export default function AppReconsiderUpdate({
 
 ReconsiderItem.propTypes = {
   news: PropTypes.shape({
-    age: PropTypes.string,
-    nationality: PropTypes.string,
     image: PropTypes.string,
     decision: PropTypes.bool,
     title: PropTypes.string,
@@ -70,7 +67,7 @@ ReconsiderItem.propTypes = {
 };
 
 function ReconsiderItem({ news }) {
-  const { image, title, age, nationality, decision } = news;
+  const { image, title, decision } = news;
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
@@ -82,30 +79,20 @@ function ReconsiderItem({ news }) {
       />
 
       <Box sx={{ minWidth: 240, flexGrow: 1 }}>
-        <Link color="inherit" variant="subtitle2" underline="hover" noWrap>
-          {title}
-        </Link>
-
-        <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-          {age}
-        </Typography>
-        <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-          {nationality}
+        <PopupWindows personId={title}></PopupWindows>
+      </Box>
+      <Box>
+        <Typography
+          variant="body2"
+          sx={{
+            pr: 3,
+            flexShrink: 0,
+            color: decision ? "success.main" : "error.main",
+          }}
+        >
+          {decision ? "Accepted" : "Rejected"}
         </Typography>
       </Box>
-
-      <Typography
-        variant="body2"
-        sx={{
-          pr: 3,
-          flexShrink: 0,
-          color: decision ? "success.main" : "error.main",
-        }}
-      >
-        {decision ? "Accepted" : "Rejected"}
-      </Typography>
-
-      <PopupWindows personId={title}></PopupWindows>
     </Stack>
   );
 }
