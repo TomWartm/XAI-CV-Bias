@@ -85,10 +85,10 @@ function ReconsiderItem({ news }) {
         </Link>
 
         <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-          Age: {age}
+          {age}
         </Typography>
         <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-          Nationality: {nationality}
+          {nationality}
         </Typography>
       </Box>
 
