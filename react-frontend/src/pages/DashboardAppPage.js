@@ -27,18 +27,19 @@ export default function DashboardAppPage() {
   const theme = useTheme();
 
   // load example person from backend
-  const [person, setPerson] = useState([]);
-  const fetchPersonData = () => {
-    fetch("http://127.0.0.1:8000/person/x8011e")
+  const [dummyPersons, setDummyPersons] = useState([]);
+  const fetchDummyPersonsData = () => {
+    fetch("http://127.0.0.1:8000/person/random/5")
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        setPerson(data);
+        setDummyPersons(data);
       });
   };
+  // fetchDummyPersonData each time App component loads
   useEffect(() => {
-    fetchPersonData();
+    fetchDummyPersonsData();
   }, []);
 
   return (
@@ -51,6 +52,19 @@ export default function DashboardAppPage() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography>
+
+        <Grid item xs={12} md={6} lg={8}>
+          <AppNewsUpdate
+            title="Reconsider"
+            list={dummyPersons.map((x) => ({
+              id: x.Id,
+              title: x.Id,
+              description: x.gender,
+              image: `/assets/images/covers/cover_${1}.jpg`,
+              decision: x.decision,
+            }))}
+          />
+        </Grid>
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
@@ -187,31 +201,6 @@ export default function DashboardAppPage() {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
-            <AppNewsUpdate
-              title="Reconsider"
-              list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: faker.name.jobTitle(),
-                description: faker.name.jobTitle(),
-                image: `/assets/images/covers/cover_${index + 1}.jpg`,
-                postedAt: faker.date.recent(),
-              }))}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={8}>
-            <AppNewsUpdate
-              title="News Update"
-              list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: faker.name.jobTitle(),
-                description: faker.name.jobTitle(),
-                image: `/assets/images/covers/cover_${index + 1}.jpg`,
-                postedAt: faker.date.recent(),
-              }))}
-            />
-          </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <AppOrderTimeline
               title="Order Timeline"
