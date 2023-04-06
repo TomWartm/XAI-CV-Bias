@@ -16,13 +16,18 @@ import Scrollbar from "../../../components/scrollbar";
 
 // ----------------------------------------------------------------------
 
-AppNewsUpdate.propTypes = {
+AppReconsiderUpdate.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
   list: PropTypes.array.isRequired,
 };
 
-export default function AppNewsUpdate({ title, subheader, list, ...other }) {
+export default function AppReconsiderUpdate({
+  title,
+  subheader,
+  list,
+  ...other
+}) {
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -30,7 +35,7 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
       <Scrollbar>
         <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
           {list.map((news) => (
-            <NewsItem key={news.id} news={news} />
+            <ReconsiderItem key={news.id} news={news} />
           ))}
         </Stack>
       </Scrollbar>
@@ -52,7 +57,7 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
 
 // ----------------------------------------------------------------------
 
-NewsItem.propTypes = {
+ReconsiderItem.propTypes = {
   news: PropTypes.shape({
     age: PropTypes.string,
     nationality: PropTypes.string,
@@ -62,7 +67,7 @@ NewsItem.propTypes = {
   }),
 };
 
-function NewsItem({ news }) {
+function ReconsiderItem({ news }) {
   const { image, title, age, nationality, decision } = news;
 
   return (
