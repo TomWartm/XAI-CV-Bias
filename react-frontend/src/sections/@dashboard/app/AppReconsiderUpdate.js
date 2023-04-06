@@ -1,5 +1,6 @@
 // @mui
 import PropTypes from "prop-types";
+
 import {
   Box,
   Stack,
@@ -13,6 +14,7 @@ import {
 // components
 import Iconify from "../../../components/iconify";
 import Scrollbar from "../../../components/scrollbar";
+import { PopupWindows } from "../../../components/popup";
 
 // ----------------------------------------------------------------------
 
@@ -102,6 +104,8 @@ function ReconsiderItem({ news }) {
       >
         {decision ? "Accepted" : "Rejected"}
       </Typography>
+
+      <PopupWindows personId={title}></PopupWindows>
     </Stack>
   );
 }
