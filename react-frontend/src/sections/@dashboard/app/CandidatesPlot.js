@@ -12,11 +12,13 @@ import {
   Divider,
   CardContent,
   Paper,
+  Stack,
+  Button,
+  Typography,
 } from "@mui/material";
 // components
 import { useChart } from "../../../components/chart";
-import Typography from "src/theme/overrides/Typography";
-
+import { useTheme } from "@mui/material/styles";
 // ----------------------------------------------------------------------
 
 CandidatesPlot.propTypes = {
@@ -26,6 +28,30 @@ CandidatesPlot.propTypes = {
   chartLabels: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
+function Number({ number, text, icon }) {
+  const theme = useTheme();
+  return (
+    <>
+      <Paper>
+        <Box
+          sx={{
+            p: 3,
+            textAlign: "center",
+            border: "1px solid",
+            borderRadius: "16px",
+            borderColor: theme.palette.divider,
+          }}
+        >
+          <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
+            {text}
+          </Typography>
+          <Typography variant="h3">{number}</Typography>
+        </Box>
+      </Paper>
+    </>
+  );
+}
+
 export default function CandidatesPlot({
   title,
   subheader,
@@ -33,6 +59,7 @@ export default function CandidatesPlot({
   chartData,
   ...other
 }) {
+  const theme = useTheme();
   const chartOptions = useChart({
     plotOptions: { bar: { columnWidth: "16%" } },
     fill: { type: chartData.map((i) => i.fill) },
@@ -53,17 +80,29 @@ export default function CandidatesPlot({
   });
 
   return (
-    <Card>
-      <Grid container>
+    <Card {...other}>
+      <Grid container divider={<Divider orientation="vertical" flexItem />}>
         <Grid item xs={12} md={8} lg={8}>
           <Card>
             <CardHeader title={title} subheader={subheader} />
             <CardContent>
-              <span>
-                {" "}
-                4000 candidates 304 seen 34 accepted 270 rejected (TODO pretty
-                boxes)
-              </span>
+              <Stack direction="row" spacing={2}>
+                <Number number={4000} text="Total Candidates" />
+                <Number number={56} text="Accepted" />
+                <Number number={3944} text="Rejected" />
+                <Number number={0} text="Unseen" />
+                {/*<AppWidgetSummary
+                  title="Weekly Sales"
+                  total={714000}
+                  icon={"ant-design:android-filled"}
+                />
+                <AppWidgetSummary
+                  title="New Users"
+                  total={1352831}
+                  color="info"
+                  icon={"ant-design:apple-filled"}
+                />*/}
+              </Stack>
               <Box sx={{ p: 3, pb: 1 }} dir="ltr">
                 <ReactApexChart
                   type="line"

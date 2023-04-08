@@ -2,7 +2,16 @@ import { Helmet } from "react-helmet-async";
 import { faker } from "@faker-js/faker";
 // @mui
 import { useTheme } from "@mui/material/styles";
-import { Grid, Container, Typography, Box } from "@mui/material";
+import {
+  Card,
+  CardHeader,
+  Grid,
+  Container,
+  Typography,
+  Box,
+  CardContent,
+} from "@mui/material";
+
 // components
 import Iconify from "../components/iconify";
 // sections
@@ -37,25 +46,18 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentSubject
-              title="Overall Fairness"
-              chartLabels={[
-                "English",
-                "History",
-                "Physics",
-                "Geography",
-                "Chinese",
-                "Math",
-              ]}
-              chartData={[
-                { name: "Series 1", data: [80, 50, 30, 40, 100, 20] },
-                { name: "Series 2", data: [20, 30, 40, 80, 20, 80] },
-                { name: "Series 3", data: [44, 76, 78, 13, 43, 10] },
-              ]}
-              chartColors={[...Array(6)].map(
-                () => theme.palette.text.secondary
-              )}
-            />
+            <Card>
+              <CardHeader title="Overall Fairness" />
+              <CardContent>
+                <Box
+                  sx={{
+                    p: 22,
+                  }}
+                >
+                  {" "}
+                </Box>
+              </CardContent>
+            </Card>
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
@@ -79,7 +81,7 @@ export default function DashboardAppPage() {
 
           <Grid item xs={12} md={12} lg={12}>
             <CandidatesPlot
-              title="Candidates Plot"
+              title="Fairness Scatterplot"
               subheader="A plot of candidates' qualifications against potential bias"
               chartLabels={[
                 "01/01/2003",
