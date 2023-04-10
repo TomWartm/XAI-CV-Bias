@@ -19,6 +19,11 @@ import {
 // components
 import { useChart } from "../../../components/chart";
 import { useTheme } from "@mui/material/styles";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import NotInterestedIcon from "@mui/icons-material/NotInterested";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Person } from "@mui/icons-material";
 // ----------------------------------------------------------------------
 
 CandidatesPlot.propTypes = {
@@ -37,14 +42,22 @@ function Number({ number, text, icon }) {
           sx={{
             p: 3,
             textAlign: "center",
+            /*
             border: "1px solid",
             borderRadius: "16px",
             borderColor: theme.palette.divider,
+            */
           }}
         >
-          <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-            {text}
-          </Typography>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            {icon}
+            <Typography
+              variant="subtitle2"
+              sx={{ color: theme.palette.text.secondary }}
+            >
+              {text}
+            </Typography>
+          </Stack>
           <Typography variant="h3">{number}</Typography>
         </Box>
       </Paper>
@@ -81,17 +94,48 @@ export default function CandidatesPlot({
 
   return (
     <Card {...other}>
+      <CardHeader title={title} subheader={subheader} />
       <Grid container divider={<Divider orientation="vertical" flexItem />}>
         <Grid item xs={12} md={8} lg={8}>
-          <Card>
-            <CardHeader title={title} subheader={subheader} />
-            <CardContent>
-              <Stack direction="row" spacing={2}>
-                <Number number={4000} text="Total Candidates" />
-                <Number number={56} text="Accepted" />
-                <Number number={3944} text="Rejected" />
-                <Number number={0} text="Unseen" />
-                {/*<AppWidgetSummary
+          <Paper sx={{ p: 3 }}>
+            <Stack direction="row" spacing={2}>
+              <Number
+                number={4000}
+                text="Total Candidates"
+                icon={
+                  <PersonOutlineIcon
+                    sx={{ color: theme.palette.text.secondary }}
+                  />
+                }
+              />
+              <Number
+                number={56}
+                text="Accepted"
+                icon={
+                  <CheckCircleOutlineIcon
+                    sx={{ color: theme.palette.text.secondary }}
+                  />
+                }
+              />
+              <Number
+                number={3944}
+                text="Rejected"
+                icon={
+                  <NotInterestedIcon
+                    sx={{ color: theme.palette.text.secondary }}
+                  />
+                }
+              />
+              <Number
+                number={0}
+                text="Unseen"
+                icon={
+                  <VisibilityOffIcon
+                    sx={{ color: theme.palette.text.secondary }}
+                  />
+                }
+              />
+              {/*<AppWidgetSummary
                   title="Weekly Sales"
                   total={714000}
                   icon={"ant-design:android-filled"}
@@ -102,17 +146,16 @@ export default function CandidatesPlot({
                   color="info"
                   icon={"ant-design:apple-filled"}
                 />*/}
-              </Stack>
-              <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-                <ReactApexChart
-                  type="line"
-                  series={chartData}
-                  options={chartOptions}
-                  height={364}
-                />
-              </Box>
-            </CardContent>
-          </Card>
+            </Stack>
+            <Box sx={{ p: 3, pb: 1 }} dir="ltr">
+              <ReactApexChart
+                type="line"
+                series={chartData}
+                options={chartOptions}
+                height={364}
+              />
+            </Box>
+          </Paper>
         </Grid>
 
         {/*
@@ -120,23 +163,27 @@ export default function CandidatesPlot({
           <Divider orientation="vertical" flexItem />
         </Grid>
         */}
+        <Divider orientation="vertical" flexItem />
 
-        <Grid item xs={12} md={4} lg={4}>
-          <AppOrderTimeline
-            title="People to reconsider"
-            list={[...Array(5)].map((_, index) => ({
-              id: faker.datatype.uuid(),
-              title: [
-                "1983, orders, $4220",
-                "12 Invoices have been paid",
-                "Order #37745 from September",
-                "New order placed #XF-2356",
-                "New order placed #XF-2346",
-              ][index],
-              type: `order${index + 1}`,
-              time: faker.date.past(),
-            }))}
-          />
+        <Grid item xs>
+          {/*<Grid item xs={12} md={4} lg={4}>*/}
+          <Paper sx={{ p: 3 }}>
+            <AppOrderTimeline
+              title="People to reconsider"
+              list={[...Array(5)].map((_, index) => ({
+                id: faker.datatype.uuid(),
+                title: [
+                  "1983, orders, $4220",
+                  "12 Invoices have been paid",
+                  "Order #37745 from September",
+                  "New order placed #XF-2356",
+                  "New order placed #XF-2346",
+                ][index],
+                type: `order${index + 1}`,
+                time: faker.date.past(),
+              }))}
+            />
+          </Paper>
         </Grid>
       </Grid>
     </Card>
