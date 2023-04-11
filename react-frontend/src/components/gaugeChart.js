@@ -39,10 +39,10 @@ export default function GaugeChart({ value }) {
     .cornerRadius(2)();
 
   const getBlobColor = (value) => {
-    if (value >= 0 && value <= 25) return "#e81246";
-    if (value > 25 && value <= 50) return "#ee8d41";
-    if (value > 50 && value <= 75) return "#4dff4d";
-    if (value >= 75) return "#2e5bff";
+    if (value >= 0 && value <= 25) return theme.palette.error.main;
+    if (value > 25 && value <= 50) return theme.palette.warning.main;
+    if (value > 50 && value <= 75) return theme.palette.success.main;
+    if (value >= 75) return theme.palette.primary.main;
   };
 
   const percentScale = scaleLinear()
@@ -59,10 +59,10 @@ export default function GaugeChart({ value }) {
   return (
     <div>
       <svg viewBox={[-1, -1, 2, 1].join(" ")}>
-        <path d={redArc} fill="#e81246" />
-        <path d={orangeArc} fill="#ee8d41" />
-        <path d={greenArc} fill="#4dff4d" />
-        <path d={blueArc} fill="#2e5bff" />
+        <path d={redArc} fill={theme.palette.error.main} />
+        <path d={orangeArc} fill={theme.palette.warning.main} />
+        <path d={greenArc} fill={theme.palette.success.main} />
+        <path d={blueArc} fill={theme.palette.primary.main} />
         <circle
           cx={markerLocation[0]}
           cy={markerLocation[1]}
@@ -82,7 +82,7 @@ export default function GaugeChart({ value }) {
       </svg>
       <Container align="center" style={{ padding: 10 }}>
         <Typography component="div">
-          Your estimated fairness score is{" "}
+          Your score is{" "}
           <Box
             sx={{
               display: "inline",
