@@ -28,6 +28,8 @@ import {
   AppConversionRates,
 } from "../sections/@dashboard/app";
 
+import GaugeChart from "../components/gaugeChart";
+
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
@@ -46,16 +48,10 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={4}>
-            <Card>
+            <Card sx={{ height: "100%" }}>
               <CardHeader title="Overall Fairness" />
               <CardContent>
-                <Box
-                  sx={{
-                    p: 22,
-                  }}
-                >
-                  {" "}
-                </Box>
+                <GaugeChart value={89} />
               </CardContent>
             </Card>
           </Grid>
