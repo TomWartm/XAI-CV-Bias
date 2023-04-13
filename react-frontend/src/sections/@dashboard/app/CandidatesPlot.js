@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import ReactApexChart from "react-apexcharts";
 import { AppReconsiderList } from "./";
 
 import {
@@ -13,7 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 // components
-import { useChart } from "../../../components/chart";
 import { useTheme } from "@mui/material/styles";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -21,6 +19,7 @@ import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import React, { useEffect, useState } from "react";
+import ScatterPlot from "src/components/plots/ScatterPlot";
 // ----------------------------------------------------------------------
 
 CandidatesPlot.propTypes = {
@@ -70,7 +69,7 @@ export default function CandidatesPlot({
   ...other
 }) {
   const theme = useTheme();
-  const chartOptions = useChart({
+  /* const chartOptions = useChart({
     plotOptions: { bar: { columnWidth: "16%" } },
     fill: { type: chartData.map((i) => i.fill) },
     labels: chartLabels,
@@ -87,12 +86,12 @@ export default function CandidatesPlot({
         },
       },
     },
-  });
+  }); */
 
   // load example person from backend
   const [dummyPersons, setDummyPersons] = useState([]);
   const fetchDummyPersonsData = () => {
-    fetch("http://127.0.0.1:8000/person/random/5")
+    fetch("http://127.0.0.1:8000/person/random/6")
       .then((response) => {
         return response.json();
       })
@@ -100,9 +99,24 @@ export default function CandidatesPlot({
         setDummyPersons(data);
       });
   };
+  // load scatter Data from backend
+  const [dummyScatterData, setDummyScatterData] = useState([]);
+  const fetchDummyScatterData = () => {
+    setDummyScatterData([
+      [9, 2],
+      [4, 7],
+      [5, 9],
+      [-1, -7],
+      [3.5, -2],
+      [-4, 3],
+      [4.5, 2],
+      [0, 3],
+    ]);
+  };
   // fetchDummyPersonData each time App component loads
   useEffect(() => {
     fetchDummyPersonsData();
+    fetchDummyScatterData();
   }, []);
   return (
     <Card {...other}>
@@ -159,13 +173,8 @@ export default function CandidatesPlot({
                   icon={"ant-design:apple-filled"}
                 />*/}
             </Stack>
-            <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-              <ReactApexChart
-                type="line"
-                series={chartData}
-                options={chartOptions}
-                height={364}
-              />
+            <Box sx={{ p: 1, pb: 1 }} dir="ltr">
+              <ScatterPlot data={dummyScatterData}></ScatterPlot>
             </Box>
           </Paper>
         </Grid>

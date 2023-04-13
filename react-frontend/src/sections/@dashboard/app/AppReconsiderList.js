@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import { Box, Stack, Card, Typography, CardHeader } from "@mui/material";
 // components
-import Iconify from "../../../components/iconify";
 import Scrollbar from "../../../components/scrollbar";
 import { PopupWindows } from "../../../components/popup";
 
