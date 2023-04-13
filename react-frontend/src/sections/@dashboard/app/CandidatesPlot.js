@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import ReactApexChart from "react-apexcharts";
-import { AppOrderTimeline, AppWidgetSummary } from "./";
+import { AppOrderTimeline, AppWidgetSummary, AppReconsiderUpdate } from "./";
 // @mui
 
 import { faker } from "@faker-js/faker";
@@ -24,6 +24,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Person } from "@mui/icons-material";
+import React, { useEffect, useState } from "react";
 // ----------------------------------------------------------------------
 
 CandidatesPlot.propTypes = {
@@ -92,6 +93,21 @@ export default function CandidatesPlot({
     },
   });
 
+  // load example person from backend
+  const [dummyPersons, setDummyPersons] = useState([]);
+  const fetchDummyPersonsData = () => {
+    fetch("http://127.0.0.1:8000/person/random/5")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setDummyPersons(data);
+      });
+  };
+  // fetchDummyPersonData each time App component loads
+  useEffect(() => {
+    fetchDummyPersonsData();
+  }, []);
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
@@ -168,6 +184,16 @@ export default function CandidatesPlot({
         <Grid item xs>
           {/*<Grid item xs={12} md={4} lg={4}>*/}
           <Paper sx={{ p: 3 }}>
+            <AppReconsiderUpdate
+              title="Reconsider"
+              list={dummyPersons.map((x) => ({
+                id: x.Id,
+                title: x.Id,
+                image: `/assets/images/avatars/${x.gender}.jpg`,
+                decision: x.decision,
+              }))}
+            />
+
             <AppOrderTimeline
               title="People to reconsider"
               list={[...Array(5)].map((_, index) => ({

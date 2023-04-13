@@ -30,28 +30,12 @@ import {
 
 import GaugeChart from "../components/gaugeChart";
 // data
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
   const theme = useTheme();
-
-  // load example person from backend
-  const [dummyPersons, setDummyPersons] = useState([]);
-  const fetchDummyPersonsData = () => {
-    fetch("http://127.0.0.1:8000/person/random/5")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setDummyPersons(data);
-      });
-  };
-  // fetchDummyPersonData each time App component loads
-  useEffect(() => {
-    fetchDummyPersonsData();
-  }, []);
 
   return (
     <>
