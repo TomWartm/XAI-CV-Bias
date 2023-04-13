@@ -22,7 +22,7 @@ export default function DashboardAppPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard | Minimal UI </title>
+        <title> Dashboard | Bias Assessment </title>
       </Helmet>
 
       <Container maxWidth="xl">
@@ -45,16 +45,13 @@ export default function DashboardAppPage() {
               title="Fairness by Group"
               subheader="(+43%) than last month"
               chartData={[
-                { label: "Italy", value: 400 },
-                { label: "Japan", value: 430 },
-                { label: "China", value: 448 },
-                { label: "Canada", value: 470 },
-                { label: "France", value: 540 },
-                { label: "Germany", value: 580 },
-                { label: "South Korea", value: 690 },
-                { label: "Netherlands", value: 1100 },
-                { label: "United States", value: 1200 },
-                { label: "United Kingdom", value: 1380 },
+                { label: "Gender", value: 100 },
+                { label: "Age", value: 95 },
+                { label: "Race", value: 94 },
+                { label: "Gender & Age", value: 80 },
+                { label: "Gender & Race", value: 70 },
+                { label: "Age & Race", value: 60 },
+                { label: "All", value: 60 },
               ]}
             />
           </Grid>

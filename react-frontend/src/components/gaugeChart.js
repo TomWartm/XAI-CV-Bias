@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material/styles";
-import { Box, Typography, Container } from "@mui/material";
+import { Box, Typography, Container, Stack, Paper } from "@mui/material";
 import { arc } from "d3-shape";
 import { scaleLinear } from "d3-scale";
 
@@ -57,7 +57,7 @@ export default function GaugeChart({ value }) {
   const markerLocation = getCoordsOnArc(angle, 1 - (1 - 0.9) / 2);
 
   return (
-    <div>
+    <Paper sx={{ py: 5 }}>
       <svg viewBox={[-1, -1, 2, 1].join(" ")}>
         <path d={redArc} fill={theme.palette.error.main} />
         <path d={orangeArc} fill={theme.palette.warning.main} />
@@ -98,7 +98,7 @@ export default function GaugeChart({ value }) {
           variant="body2"
           sx={{ color: theme.palette.text.secondary }}
         >
-          You imporved by{" "}
+          You've imporved by{" "}
           <Box
             sx={{
               display: "inline",
@@ -111,7 +111,7 @@ export default function GaugeChart({ value }) {
           since last month
         </Typography>
       </Container>
-    </div>
+    </Paper>
 
     /*<Box
       sx={{
