@@ -23,7 +23,7 @@ export default function PersonProfile({ personData }) {
               color: personData.decision ? "success.main" : "error.main",
             }}
           >
-            {personData.decision ? "Accepted" : "Rejected"}
+            <b>{personData.decision ? "Accepted" : "Rejected"}</b>
           </Typography>
         </Box>
 
