@@ -1,11 +1,11 @@
-import PropTypes from 'prop-types';
-import ReactApexChart from 'react-apexcharts';
+import PropTypes from "prop-types";
+import ReactApexChart from "react-apexcharts";
 // @mui
-import { Box, Card, CardHeader } from '@mui/material';
+import { Box, Card, CardHeader } from "@mui/material";
 // utils
-import { fNumber } from '../../../utils/formatNumber';
+import { fNumber } from "../../../utils/formatNumber";
 // components
-import { useChart } from '../../../components/chart';
+import { useChart } from "../../../components/chart";
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +15,12 @@ AppConversionRates.propTypes = {
   chartData: PropTypes.array.isRequired,
 };
 
-export default function AppConversionRates({ title, subheader, chartData, ...other }) {
+export default function AppConversionRates({
+  title,
+  subheader,
+  chartData,
+  ...other
+}) {
   const chartLabels = chartData.map((i) => i.label);
 
   const chartSeries = chartData.map((i) => i.value);
@@ -26,12 +31,12 @@ export default function AppConversionRates({ title, subheader, chartData, ...oth
       y: {
         formatter: (seriesName) => fNumber(seriesName),
         title: {
-          formatter: () => '',
+          formatter: () => "",
         },
       },
     },
     plotOptions: {
-      bar: { horizontal: true, barHeight: '28%', borderRadius: 2 },
+      bar: { horizontal: true, barHeight: "28%", borderRadius: 2 },
     },
     xaxis: {
       categories: chartLabels,
@@ -39,11 +44,16 @@ export default function AppConversionRates({ title, subheader, chartData, ...oth
   });
 
   return (
-    <Card {...other}>
+    <Card {...other} sx={{ height: "100%" }}>
       <CardHeader title={title} subheader={subheader} />
 
       <Box sx={{ mx: 3 }} dir="ltr">
-        <ReactApexChart type="bar" series={[{ data: chartSeries }]} options={chartOptions} height={364} />
+        <ReactApexChart
+          type="bar"
+          series={[{ data: chartSeries }]}
+          options={chartOptions}
+          height={364}
+        />
       </Box>
     </Card>
   );
