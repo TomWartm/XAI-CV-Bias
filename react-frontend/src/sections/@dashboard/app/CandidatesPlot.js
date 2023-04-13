@@ -103,14 +103,13 @@ export default function CandidatesPlot({
   const [dummyScatterData, setDummyScatterData] = useState([]);
   const fetchDummyScatterData = () => {
     setDummyScatterData([
-      [9, 2],
-      [4, 7],
-      [5, 9],
-      [-1, -7],
-      [3.5, -2],
-      [-4, 3],
-      [4.5, 2],
-      [0, 3],
+      { bias: 9, qualification: 2 },
+      { bias: -3, qualification: 4 },
+      { bias: 2, qualification: 8 },
+      { bias: -2, qualification: -2 },
+      { bias: 3, qualification: -2 },
+      { bias: 9, qualification: -7 },
+      { bias: 2, qualification: 2 },
     ]);
   };
   // fetchDummyPersonData each time App component loads
@@ -123,45 +122,46 @@ export default function CandidatesPlot({
       <CardHeader title={title} subheader={subheader} />
       <Grid container divider={<Divider orientation="vertical" flexItem />}>
         <Grid item xs={12} md={8} lg={8}>
-          <Paper sx={{ p: 3 }}>
-            <Stack direction="row" spacing={2}>
-              <Number
-                number={4000}
-                text="Total Candidates"
-                icon={
-                  <PersonOutlineIcon
-                    sx={{ color: theme.palette.text.secondary }}
-                  />
-                }
-              />
-              <Number
-                number={56}
-                text="Accepted"
-                icon={
-                  <CheckCircleOutlineIcon
-                    sx={{ color: theme.palette.text.secondary }}
-                  />
-                }
-              />
-              <Number
-                number={3944}
-                text="Rejected"
-                icon={
-                  <NotInterestedIcon
-                    sx={{ color: theme.palette.text.secondary }}
-                  />
-                }
-              />
-              <Number
-                number={0}
-                text="Unseen"
-                icon={
-                  <VisibilityOffIcon
-                    sx={{ color: theme.palette.text.secondary }}
-                  />
-                }
-              />
-              {/*<AppWidgetSummary
+          <Stack direction="column" alignItems="center">
+            <Paper sx={{ p: 2 }}>
+              <Stack direction="row" spacing={2}>
+                <Number
+                  number={4000}
+                  text="Total Candidates"
+                  icon={
+                    <PersonOutlineIcon
+                      sx={{ color: theme.palette.text.secondary }}
+                    />
+                  }
+                />
+                <Number
+                  number={56}
+                  text="Accepted"
+                  icon={
+                    <CheckCircleOutlineIcon
+                      sx={{ color: theme.palette.text.secondary }}
+                    />
+                  }
+                />
+                <Number
+                  number={3944}
+                  text="Rejected"
+                  icon={
+                    <NotInterestedIcon
+                      sx={{ color: theme.palette.text.secondary }}
+                    />
+                  }
+                />
+                <Number
+                  number={0}
+                  text="Unseen"
+                  icon={
+                    <VisibilityOffIcon
+                      sx={{ color: theme.palette.text.secondary }}
+                    />
+                  }
+                />
+                {/*<AppWidgetSummary
                   title="Weekly Sales"
                   total={714000}
                   icon={"ant-design:android-filled"}
@@ -172,11 +172,12 @@ export default function CandidatesPlot({
                   color="info"
                   icon={"ant-design:apple-filled"}
                 />*/}
-            </Stack>
-            <Box sx={{ p: 1, pb: 1 }} dir="ltr">
+              </Stack>
+            </Paper>
+            <Paper sx={{ p: 2 }}>
               <ScatterPlot data={dummyScatterData}></ScatterPlot>
-            </Box>
-          </Paper>
+            </Paper>
+          </Stack>
         </Grid>
 
         {/*

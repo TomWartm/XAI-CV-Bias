@@ -2,13 +2,10 @@ import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import * as d3 from "d3";
 
-ScatterPlot.propTypes = {
-  data: PropTypes.array.isRequired,
-};
+ScatterPlot.propTypes = { data: PropTypes.array };
 
 function ScatterPlot({ data }) {
   const svgRef = useRef();
-
   useEffect(() => {
     //setting up container
     const w = 400;
@@ -48,16 +45,48 @@ function ScatterPlot({ data }) {
       .attr("y", -10)
       .attr("x", w / 2 - 50)
       .text("Qualification");
+    //create tooltip
+
+    var tip = d3
+      .select("body")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0)
+      .style("background-color", "white")
+      .style("position", "absolute")
+      .style("border", "solid")
+      .style("border-width", "1px")
+      .style("border-radius", "5px")
+      .style("padding", "10px");
 
     // set up data
-    svg
-      .selectAll()
+    var circles = svg
+      .selectAll("circle")
       .data(data)
       .enter()
       .append("circle")
-      .attr("cx", (d) => xScale(d[0]))
-      .attr("cy", (d) => yScale(d[1]))
-      .attr("r", 2);
+      .attr("cx", function (d) {
+        return xScale(d.bias);
+      })
+      .attr("cy", function (d) {
+        return yScale(d.qualification);
+      })
+      .attr("r", 10);
+
+    circles
+      .on("mouseover", function (event, d) {
+        tip
+          .style("opacity", 1)
+          .style("left", event.pageX - 25 + "px")
+          .style("top", event.pageY - 75 + "px")
+          .html("Bias: " + d.bias + "<br>Qualification: " + d.qualification);
+
+        console.log("mouseover", d);
+      })
+      .on("mouseout", function (d) {
+        tip.style("opacity", 0);
+        console.log("mouseout", d);
+      });
   }, [data]);
   return (
     <div className="scatterPlot">

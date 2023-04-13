@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Typography, Box, Stack, Button } from "@mui/material";
 PersonProfile.propTypes = {
-  personData: PropTypes.array.isRequired,
+  personData: PropTypes.object,
 };
 
 export default function PersonProfile({ personData }) {
