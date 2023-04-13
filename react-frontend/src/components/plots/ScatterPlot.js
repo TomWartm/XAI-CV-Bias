@@ -80,12 +80,13 @@ function ScatterPlot({ data }) {
           .style("left", event.pageX - 25 + "px")
           .style("top", event.pageY - 75 + "px")
           .html("Bias: " + d.bias + "<br>Qualification: " + d.qualification);
-
+        d3.select(this).attr("opacity", 0.5);
         console.log("mouseover", d);
       })
-      .on("mouseout", function (d) {
+      .on("mouseout", function (event, d) {
         tip.style("opacity", 0);
         console.log("mouseout", d);
+        d3.select(this).attr("opacity", 1);
       });
   }, [data]);
   return (
