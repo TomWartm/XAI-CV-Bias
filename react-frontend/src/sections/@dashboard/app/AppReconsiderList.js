@@ -1,15 +1,7 @@
 // @mui
 import PropTypes from "prop-types";
 
-import {
-  Box,
-  Stack,
-  Card,
-  Button,
-  Divider,
-  Typography,
-  CardHeader,
-} from "@mui/material";
+import { Box, Stack, Card, Typography, CardHeader } from "@mui/material";
 // components
 import Iconify from "../../../components/iconify";
 import Scrollbar from "../../../components/scrollbar";
@@ -43,18 +35,6 @@ export default function AppReconsiderList({
           ))}
         </Stack>
       </Scrollbar>
-
-      <Divider />
-
-      <Box sx={{ p: 2, textAlign: "right" }}>
-        <Button
-          size="small"
-          color="inherit"
-          endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
-        >
-          View all
-        </Button>
-      </Box>
     </Card>
   );
 }
