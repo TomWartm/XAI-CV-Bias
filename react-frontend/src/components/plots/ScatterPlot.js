@@ -84,7 +84,10 @@ function ScatterPlot({ data }) {
         console.log("mouseover", d);
       })
       .on("mouseout", function (event, d) {
-        tip.style("opacity", 0);
+        tip
+          .style("opacity", 0)
+          .style("left", 0 + "px") // little hack sth. the invisible element is for sure not clicked by acceident
+          .style("top", 0 + "px");
         console.log("mouseout", d);
         d3.select(this).attr("opacity", 1);
       });
