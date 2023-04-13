@@ -28,13 +28,24 @@ def create_app():
     def person(id):
         if request.method == 'GET':
 
-            df = pd.read_csv("dataset.csv")
-            return df[df['Id']==id].to_json()
+            df = pd.read_csv("dataset.csv")     
+            return df[df['Id']==id].to_json(orient = "records")
 
         elif request.method == 'POST': # TODO mark the influence of bias for this person as zero
             return True
         return "Wrong request"
+    
 
+    # Return some dummy data
+    @app.route('/person/random/<int:nr>', methods = ['POST', 'GET'])
+    def random_persons(nr):
+        if request.method == 'GET':
+            df = pd.read_csv("dataset.csv")     
+            return df.iloc[:nr].to_json(orient = "records")
+
+        elif request.method == 'POST': # TODO mark the influence of bias for this person as zero
+            return True
+        return "Wrong request"    
     return app
 
 
@@ -64,6 +75,7 @@ def start_server():
 
     server_app.run(debug=args.debug, host=args.host, port=args.port)
 
+    
 
 if __name__ == "__main__":
     start_server()
