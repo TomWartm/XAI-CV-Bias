@@ -1,14 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { PersonProfile } from "./";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogTitle,
   DialogContent,
-  Typography,
-  Box,
-  Stack,
 } from "@mui/material";
 
 import { useState } from "react";
@@ -78,127 +76,7 @@ export default function PopupWindows({ personId }) {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>{data.Id}</DialogTitle>
         <DialogContent>
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Box>
-              <Box
-                component="img"
-                alt={data.Id}
-                src={`/assets/images/avatars/${data.gender}.jpg`}
-                sx={{ width: 96, height: 96, borderRadius: 1.5, flexShrink: 0 }}
-              ></Box>
-              <Typography
-                variant="body2"
-                sx={{
-                  pr: 3,
-                  flexShrink: 0,
-                  color: data.decision ? "success.main" : "error.main",
-                }}
-              >
-                {data.decision ? "Accepted" : "Rejected"}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                <b>Gender: </b>
-                {data.gender}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                <b>Age: </b>
-                {data.age}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                <b>Nationality: </b>
-                {data.nationality}
-              </Typography>
-            </Box>
-            {/* TODO: make this nicer */}
-
-            <Box>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                <b>Sport: </b>
-                {data.sport}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                <b>University Grade: </b>
-                {data["ind-university_grade"].toString()}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                <b>Debateclub: </b>
-                {data["ind-debateclub"].toString()}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                <b>Programming Exp.: </b>
-                {data["ind-programming_exp"].toString()}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                <b>International Exp.: </b>
-                {data["ind-international_exp"].toString()}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                <b>Entrepreneur Exp.: </b>
-                {data["ind-entrepeneur_exp"].toString()}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                <b>Languages: </b>
-                {data["ind-languages"].toString()}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                <b>Exact Study: </b>
-                {data["ind-exact_study"].toString()}
-              </Typography>
-
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
-                <b>Degree: </b>
-                {data["ind-degree"]}
-              </Typography>
-            </Box>
-          </Stack>
+          <PersonProfile personData={data} />
         </DialogContent>
 
         <DialogActions>
