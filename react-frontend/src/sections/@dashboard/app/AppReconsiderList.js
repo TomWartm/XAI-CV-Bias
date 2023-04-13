@@ -9,6 +9,8 @@ import {
   Divider,
   Typography,
   CardHeader,
+  CardContent,
+  CardActions,
 } from "@mui/material";
 // components
 import Iconify from "../../../components/iconify";
@@ -30,31 +32,33 @@ export default function AppReconsiderList({
   ...other
 }) {
   return (
-    <Card {...other}>
+    <Card {...other} sx={{ height: "100%", border: "none", boxShadow: "none" }}>
       <CardHeader title={title} subheader={subheader} />
 
-      <Scrollbar>
-        <Stack spacing={2} sx={{ p: 3, pr: 0 }}>
-          {list.map((personSummary) => (
-            <ReconsiderItem
-              key={personSummary.id}
-              personSummary={personSummary}
-            />
-          ))}
-        </Stack>
-      </Scrollbar>
-
+      <CardContent>
+        <Scrollbar>
+          <Stack spacing={2} sx={{ m: 3, pr: 0 }}>
+            {list.map((personSummary) => (
+              <ReconsiderItem
+                key={personSummary.id}
+                personSummary={personSummary}
+              />
+            ))}
+          </Stack>
+        </Scrollbar>
+      </CardContent>
       <Divider />
-
-      <Box sx={{ p: 2, textAlign: "right" }}>
-        <Button
-          size="small"
-          color="inherit"
-          endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
-        >
-          View all
-        </Button>
-      </Box>
+      <CardActions>
+        <Box sx={{ px: 2, marginLeft: "auto" }}>
+          <Button
+            size="small"
+            color="inherit"
+            endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
+          >
+            View all
+          </Button>
+        </Box>
+      </CardActions>
     </Card>
   );
 }
@@ -81,7 +85,7 @@ function ReconsiderItem({ personSummary }) {
         sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }}
       />
 
-      <Box sx={{ minWidth: 50, flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1 }}>
         <PopupWindows personId={title}></PopupWindows>
       </Box>
       <Box>

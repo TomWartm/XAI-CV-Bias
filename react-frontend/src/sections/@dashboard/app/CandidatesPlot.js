@@ -108,7 +108,9 @@ export default function CandidatesPlot({
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
       <Grid container divider={<Divider orientation="vertical" flexItem />}>
-        <Grid item xs={12} md={8} lg={8}>
+        <Grid item xs={12} md={7.9} lg={7.9}>
+          {" "}
+          {/* 8 instead of 7.9 should have worked, but smh it doesn't. maybe because of the divider*/}
           <Paper sx={{ p: 3 }}>
             <Stack direction="row" spacing={2}>
               <Number
@@ -147,17 +149,6 @@ export default function CandidatesPlot({
                   />
                 }
               />
-              {/*<AppWidgetSummary
-                  title="Weekly Sales"
-                  total={714000}
-                  icon={"ant-design:android-filled"}
-                />
-                <AppWidgetSummary
-                  title="New Users"
-                  total={1352831}
-                  color="info"
-                  icon={"ant-design:apple-filled"}
-                />*/}
             </Stack>
             <Box sx={{ p: 3, pb: 1 }} dir="ltr">
               <ReactApexChart
@@ -170,26 +161,19 @@ export default function CandidatesPlot({
           </Paper>
         </Grid>
 
-        {/*
-        <Grid item xs={2} md={2} lg={2}>
-          <Divider orientation="vertical" flexItem />
-        </Grid>
-        */}
         <Divider orientation="vertical" flexItem />
 
-        <Grid item xs>
-          {/*<Grid item xs={12} md={4} lg={4}>*/}
-          <Paper sx={{ p: 3 }}>
-            <AppReconsiderList
-              title="People to reconsider"
-              list={dummyPersons.map((x) => ({
-                id: x.Id,
-                title: x.Id,
-                image: `/assets/images/avatars/${x.gender}.jpg`,
-                decision: x.decision,
-              }))}
-            />
-          </Paper>
+        {/*<Grid item xs>*/}
+        <Grid item xs={12} md={4} lg={4}>
+          <AppReconsiderList
+            title="People to reconsider"
+            list={dummyPersons.map((x) => ({
+              id: x.Id,
+              title: x.Id,
+              image: `/assets/images/avatars/${x.gender}.jpg`,
+              decision: x.decision,
+            }))}
+          />
         </Grid>
       </Grid>
     </Card>
