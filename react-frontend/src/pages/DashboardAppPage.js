@@ -18,7 +18,7 @@ import Iconify from "../components/iconify";
 // sections
 import {
   AppTasks,
-  AppNewsUpdate,
+  AppReconsiderUpdate,
   AppOrderTimeline,
   AppCurrentVisits,
   AppWebsiteVisits,
@@ -66,7 +66,7 @@ export default function DashboardAppPage() {
         </Typography>
 
         <Grid item xs={12} md={6} lg={8}>
-          <AppNewsUpdate
+          <AppReconsiderUpdate
             title="Reconsider"
             list={dummyPersons.map((x) => ({
               id: x.Id,
