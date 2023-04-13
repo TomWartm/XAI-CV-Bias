@@ -17,13 +17,13 @@ import { PopupWindows } from "../../../components/popup";
 
 // ----------------------------------------------------------------------
 
-AppReconsiderUpdate.propTypes = {
+AppReconsiderList.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
   list: PropTypes.array.isRequired,
 };
 
-export default function AppReconsiderUpdate({
+export default function AppReconsiderList({
   title,
   subheader,
   list,
@@ -34,7 +34,7 @@ export default function AppReconsiderUpdate({
       <CardHeader title={title} subheader={subheader} />
 
       <Scrollbar>
-        <Stack spacing={3} sx={{ p: 3, pr: 0 }}>
+        <Stack spacing={2} sx={{ p: 3, pr: 0 }}>
           {list.map((personSummary) => (
             <ReconsiderItem
               key={personSummary.id}
@@ -81,7 +81,7 @@ function ReconsiderItem({ personSummary }) {
         sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }}
       />
 
-      <Box sx={{ minWidth: 240, flexGrow: 1 }}>
+      <Box sx={{ minWidth: 50, flexGrow: 1 }}>
         <PopupWindows personId={title}></PopupWindows>
       </Box>
       <Box>

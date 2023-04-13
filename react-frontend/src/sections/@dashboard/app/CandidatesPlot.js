@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import ReactApexChart from "react-apexcharts";
-import { AppReconsiderUpdate } from "./";
+import { AppReconsiderList } from "./";
 
 import {
   Grid,
@@ -180,7 +180,7 @@ export default function CandidatesPlot({
         <Grid item xs>
           {/*<Grid item xs={12} md={4} lg={4}>*/}
           <Paper sx={{ p: 3 }}>
-            <AppReconsiderUpdate
+            <AppReconsiderList
               title="People to reconsider"
               list={dummyPersons.map((x) => ({
                 id: x.Id,
