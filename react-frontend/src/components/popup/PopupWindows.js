@@ -7,6 +7,10 @@ import {
   DialogActions,
   DialogTitle,
   DialogContent,
+  Stack,
+  Divider,
+  Box,
+  Typography,
 } from "@mui/material";
 
 import { useState } from "react";
@@ -74,14 +78,33 @@ export default function PopupWindows({ personId }) {
       </Button>
 
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>{data.Id}</DialogTitle>
         <DialogContent>
-          <PersonProfile personData={data} />
+          <Stack direction="row">
+            <Box sx={{ p: 6, pb: 1 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.primary", fontSize: 18 }}
+                noWrap
+              >
+                <b>Person to reconsider</b>
+              </Typography>
+              <PersonProfile personData={data} />
+            </Box>
+            <Divider orientation="vertical" flexItem />
+            <Box sx={{ p: 6, pb: 1 }} backgroundColor="#f2f2f2">
+              <Typography
+                variant="body2"
+                sx={{ color: "text.primary", fontSize: 18 }}
+                noWrap
+              >
+                <b>Similar person</b>
+              </Typography>
+              <PersonProfile personData={data} />
+            </Box>
+          </Stack>
         </DialogContent>
 
-        <DialogActions>
-          <Button>Ignore this Person</Button>
-        </DialogActions>
+        <DialogActions></DialogActions>
       </Dialog>
     </>
   );

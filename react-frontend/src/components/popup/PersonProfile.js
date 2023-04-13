@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Typography, Box, Stack } from "@mui/material";
+import { Typography, Box, Stack, Button } from "@mui/material";
 PersonProfile.propTypes = {
   personData: PropTypes.array.isRequired,
 };
@@ -21,6 +21,7 @@ export default function PersonProfile({ personData }) {
               pr: 3,
               flexShrink: 0,
               color: personData.decision ? "success.main" : "error.main",
+              fontSize: 18,
             }}
           >
             <b>{personData.decision ? "Accepted" : "Rejected"}</b>
@@ -155,69 +156,69 @@ export default function PersonProfile({ personData }) {
             noWrap
           >
             <b>Experience</b>
-            <Stack direction="row" spacing={1}>
-              <Box>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary" }}
-                  noWrap
-                >
-                  <b>Programming: </b>
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary" }}
-                  noWrap
-                >
-                  <b>International: </b>
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary" }}
-                  noWrap
-                >
-                  <b>Entrepreneur: </b>
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary" }}
-                  noWrap
-                >
-                  <b>Debateclub: </b>
-                </Typography>
-              </Box>
-              <Box>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary" }}
-                  noWrap
-                >
-                  {personData["ind-programming_exp"].toString()}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary" }}
-                  noWrap
-                >
-                  {personData["ind-international_exp"].toString()}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary" }}
-                  noWrap
-                >
-                  {personData["ind-entrepeneur_exp"].toString()}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary" }}
-                  noWrap
-                >
-                  {personData["ind-debateclub"].toString()}
-                </Typography>
-              </Box>
-            </Stack>
           </Typography>
+          <Stack direction="row" spacing={1}>
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                <b>Programming: </b>
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                <b>International: </b>
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                <b>Entrepreneur: </b>
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                <b>Debateclub: </b>
+              </Typography>
+            </Box>
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                {personData["ind-programming_exp"].toString()}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                {personData["ind-international_exp"].toString()}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                {personData["ind-entrepeneur_exp"].toString()}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+                noWrap
+              >
+                {personData["ind-debateclub"].toString()}
+              </Typography>
+            </Box>
+          </Stack>
         </Box>
         <Box>
           <Typography
@@ -247,6 +248,9 @@ export default function PersonProfile({ personData }) {
               </Typography>
             </Box>
           </Stack>
+        </Box>
+        <Box alignItems="left">
+          <Button>Ignore this Person</Button>
         </Box>
       </Stack>
     </Stack>
