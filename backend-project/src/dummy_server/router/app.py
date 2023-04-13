@@ -1,13 +1,22 @@
 import argparse
 import os
 import pandas as pd
+import json
 
-from flask import Flask, request
+from flask import Flask, request, abort
 from flask_cors import CORS
 
 def create_app():
     app = Flask(__name__)  # static_url_path, static_folder, template_folder...
     CORS(app, resources={r"/*": {"origins": "*"}})
+
+    dataset = pd.read_csv("backend-project/data/dataset.csv")
+    scatterdataset = pd.read_csv("backend-project/data/scatterdata.csv")
+    with open("backend-project/data/similarpeopledata.json") as f:
+        similarpeopledataset = json.load(f)
+    reconsiderdataset = pd.read_csv("backend-project/data/reconsiderdata.csv")
+    with open("backend-project/data/totalfairness.json") as f:
+        totalfairnessdataset = json.load(f)
 
     @app.route('/version')
     def version():
@@ -19,31 +28,41 @@ def create_app():
 
     @app.route('/scatterdata')
     def scatterdata():
-        df = pd.read_csv("scatterdata.csv")
-        return df.to_json(orient='records')
+        return scatterdataset.to_json(orient='records')
 
     @app.route('/person/<string:id>', methods = ['POST', 'GET'])
     def person(id):
         if request.method == 'GET':
-
-            df = pd.read_csv("dataset.csv")
-            return df[df['Id']==id].to_json(orient='records')
-
+            result = dataset[dataset['Id']==id]
+            if len(result) == 1:
+                return result.to_json(orient='records')
+            else:
+                return abort(404)
+            
         elif request.method == 'POST': # TODO mark the influence of bias for this person as zero
             return True
-        return "Wrong request"
+        
+        return abort(405)
     
     @app.route('/similarpeople/<string:id>')
     def similarpeople(id):
-        return "Not implemented"
+        try:
+            json_entry = similarpeopledataset[id]
+        except KeyError:
+            abort(404)
+
+        sorted_kv_pairs = sorted(json_entry.items(), key=lambda x: int(x[0]))
+        filtered_df = dataset.loc[dataset['Id'].isin([kv_pair[1] for kv_pair in sorted_kv_pairs])]
+        return filtered_df.to_json(orient='records')
     
     @app.route('/reconsider')
     def reconsider():
-        return "Not implemented"
+        filtered_df = dataset.loc[dataset['Id'].isin(reconsiderdataset["Id"])]
+        return filtered_df.to_json(orient='records')
     
     @app.route('/fairness')
     def fairness():
-        return "Not implemented"
+        return totalfairnessdataset
 
     return app
 
