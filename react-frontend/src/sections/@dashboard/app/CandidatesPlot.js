@@ -1,19 +1,15 @@
 import PropTypes from "prop-types";
 import ReactApexChart from "react-apexcharts";
-import { AppOrderTimeline, AppWidgetSummary, AppReconsiderUpdate } from "./";
-// @mui
+import { AppReconsiderUpdate } from "./";
 
-import { faker } from "@faker-js/faker";
 import {
   Grid,
   Card,
   CardHeader,
   Box,
   Divider,
-  CardContent,
   Paper,
   Stack,
-  Button,
   Typography,
 } from "@mui/material";
 // components
@@ -23,7 +19,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Person } from "@mui/icons-material";
+
 import React, { useEffect, useState } from "react";
 // ----------------------------------------------------------------------
 
@@ -185,28 +181,12 @@ export default function CandidatesPlot({
           {/*<Grid item xs={12} md={4} lg={4}>*/}
           <Paper sx={{ p: 3 }}>
             <AppReconsiderUpdate
-              title="Reconsider"
+              title="People to reconsider"
               list={dummyPersons.map((x) => ({
                 id: x.Id,
                 title: x.Id,
                 image: `/assets/images/avatars/${x.gender}.jpg`,
                 decision: x.decision,
-              }))}
-            />
-
-            <AppOrderTimeline
-              title="People to reconsider"
-              list={[...Array(5)].map((_, index) => ({
-                id: faker.datatype.uuid(),
-                title: [
-                  "1983, orders, $4220",
-                  "12 Invoices have been paid",
-                  "Order #37745 from September",
-                  "New order placed #XF-2356",
-                  "New order placed #XF-2346",
-                ][index],
-                type: `order${index + 1}`,
-                time: faker.date.past(),
               }))}
             />
           </Paper>

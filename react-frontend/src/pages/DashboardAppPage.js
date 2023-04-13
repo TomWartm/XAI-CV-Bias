@@ -1,32 +1,16 @@
 import { Helmet } from "react-helmet-async";
-import { faker } from "@faker-js/faker";
-// @mui
-import { useTheme } from "@mui/material/styles";
+
 import {
   Card,
   CardHeader,
   Grid,
   Container,
   Typography,
-  Box,
   CardContent,
 } from "@mui/material";
 
-// components
-import Iconify from "../components/iconify";
 // sections
-import {
-  AppTasks,
-  AppReconsiderUpdate,
-  AppOrderTimeline,
-  AppCurrentVisits,
-  AppWebsiteVisits,
-  AppTrafficBySite,
-  AppWidgetSummary,
-  CandidatesPlot,
-  AppCurrentSubject,
-  AppConversionRates,
-} from "../sections/@dashboard/app";
+import { CandidatesPlot, AppConversionRates } from "../sections/@dashboard/app";
 
 import GaugeChart from "../components/gaugeChart";
 // data
@@ -35,8 +19,6 @@ import React from "react";
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
-  const theme = useTheme();
-
   return (
     <>
       <Helmet>
