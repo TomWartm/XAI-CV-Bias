@@ -17,6 +17,11 @@ def create_app():
     def index():
         return "<html><body><h1>Welcome to the coolest IML project out there</h1></body></html>"
 
+    @app.route('/scatterdata')
+    def scatterdata():
+        df = pd.read_csv("scatterdata.csv")
+        return df.to_json(orient='records')
+
     @app.route('/person/<string:id>', methods = ['POST', 'GET'])
     def person(id):
         if request.method == 'GET':
@@ -27,6 +32,18 @@ def create_app():
         elif request.method == 'POST': # TODO mark the influence of bias for this person as zero
             return True
         return "Wrong request"
+    
+    @app.route('/similarpeople/<string:id>')
+    def similarpeople(id):
+        return "Not implemented"
+    
+    @app.route('/reconsider')
+    def reconsider():
+        return "Not implemented"
+    
+    @app.route('/fairness')
+    def fairness():
+        return "Not implemented"
 
     return app
 
