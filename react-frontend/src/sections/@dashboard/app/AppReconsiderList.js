@@ -54,24 +54,24 @@ ReconsiderItem.propTypes = {
   personSummary: PropTypes.shape({
     image: PropTypes.string,
     decision: PropTypes.bool,
-    title: PropTypes.string,
+    personId: PropTypes.string,
   }),
 };
 
 function ReconsiderItem({ personSummary }) {
-  const { image, title, decision } = personSummary;
+  const { image, personId, decision } = personSummary;
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <Box
         component="img"
-        alt={title}
+        alt={personId}
         src={image}
         sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }}
       />
 
       <Box sx={{ flexGrow: 1 }}>
-        <PopupWindows personId={title}></PopupWindows>
+        <PopupWindows personId={personId}></PopupWindows>
       </Box>
       {decision ? <CheckCircleOutlineIcon /> : <NotInterestedIcon />}
       <Box>
