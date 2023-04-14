@@ -12,7 +12,8 @@ import {
 // components
 import Scrollbar from "../../../components/scrollbar";
 import { PopupWindows } from "../../../components/popup";
-
+import NotInterestedIcon from "@mui/icons-material/NotInterested";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 // ----------------------------------------------------------------------
 
 AppReconsiderList.propTypes = {
@@ -72,6 +73,7 @@ function ReconsiderItem({ personSummary }) {
       <Box sx={{ flexGrow: 1 }}>
         <PopupWindows personId={title}></PopupWindows>
       </Box>
+      {decision ? <CheckCircleOutlineIcon /> : <NotInterestedIcon />}
       <Box>
         <Typography
           variant="body2"
