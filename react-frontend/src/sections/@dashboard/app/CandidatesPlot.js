@@ -89,33 +89,33 @@ export default function CandidatesPlot({
   }); */
 
   // load example person from backend
-  const [dummyPersons, setDummyPersons] = useState([]);
-  const fetchDummyPersonsData = () => {
-    fetch("http://127.0.0.1:8000/person/random/6")
+  const [reconsiderPersons, setReconsiderPersons] = useState([]);
+  const fetchReconsiderPersonsData = () => {
+    fetch("http://127.0.0.1:8000/reconsider")
       .then((response) => {
+        console.log(response);
         return response.json();
       })
       .then((data) => {
-        setDummyPersons(data);
+        setReconsiderPersons(data);
       });
   };
   // load scatter Data from backend
-  const [dummyScatterData, setDummyScatterData] = useState([]);
-  const fetchDummyScatterData = () => {
-    setDummyScatterData([
-      { bias: 9, qualification: 2, Id: "X8011e", decision: true }, // this is a non existing Id to see errors
-      { bias: -3, qualification: 4, Id: "x6077a", decision: false },
-      { bias: 2, qualification: 8, Id: "x6241a", decision: true },
-      { bias: -2, qualification: -2, Id: "x2173b", decision: false },
-      { bias: 3, qualification: -2, Id: "x4044c", decision: false },
-      { bias: 9, qualification: -7, Id: "x9428d", decision: true },
-      { bias: 2, qualification: 2, Id: "x2781d", decision: true },
-    ]);
+  const [scatterData, setScatterData] = useState([]);
+  const fetchScatterData = () => {
+    fetch("http://127.0.0.1:8000/scatterdata")
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        setScatterData(data);
+      });
   };
   // fetchDummyPersonData each time App component loads
   useEffect(() => {
-    fetchDummyPersonsData();
-    fetchDummyScatterData();
+    fetchReconsiderPersonsData();
+    fetchScatterData();
   }, []);
   return (
     <Card {...other}>
@@ -175,7 +175,7 @@ export default function CandidatesPlot({
               </Stack>
             </Paper>
             <Paper sx={{ p: 2 }}>
-              <ScatterPlot data={dummyScatterData}></ScatterPlot>
+              <ScatterPlot data={scatterData}></ScatterPlot>
             </Paper>
           </Stack>
         </Grid>
@@ -186,7 +186,7 @@ export default function CandidatesPlot({
         <Grid item xs={12} md={4} lg={4}>
           <AppReconsiderList
             title="People to reconsider"
-            list={dummyPersons.map((x) => ({
+            list={reconsiderPersons.map((x) => ({
               id: x.Id,
               personId: x.Id,
               image: `/assets/images/avatars/${x.gender}.jpg`,
