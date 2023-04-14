@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material/styles";
-import { Box, Typography, Container, Stack, Paper } from "@mui/material";
+import { Box, Typography, Container, Paper } from "@mui/material";
 import { arc } from "d3-shape";
 import { scaleLinear } from "d3-scale";
 

@@ -5,15 +5,11 @@ import {
   Box,
   Stack,
   Card,
-  Button,
-  Divider,
   Typography,
   CardHeader,
   CardContent,
-  CardActions,
 } from "@mui/material";
 // components
-import Iconify from "../../../components/iconify";
 import Scrollbar from "../../../components/scrollbar";
 import { PopupWindows } from "../../../components/popup";
 
@@ -47,18 +43,6 @@ export default function AppReconsiderList({
           </Stack>
         </Scrollbar>
       </CardContent>
-      <Divider />
-      <CardActions>
-        <Box sx={{ px: 2, marginLeft: "auto" }}>
-          <Button
-            size="small"
-            color="inherit"
-            endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
-          >
-            View all
-          </Button>
-        </Box>
-      </CardActions>
     </Card>
   );
 }
