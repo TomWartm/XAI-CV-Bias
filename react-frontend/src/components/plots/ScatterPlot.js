@@ -106,7 +106,7 @@ function ScatterPlot({ data }) {
         d3.select(this).attr("opacity", 1);
       })
       .on("click", function (event, d) {
-        handleClick(d.Id);
+        handleClick(d.id);
       });
   }, [data]);
 
