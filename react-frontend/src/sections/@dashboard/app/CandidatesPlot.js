@@ -103,13 +103,13 @@ export default function CandidatesPlot({
   const [dummyScatterData, setDummyScatterData] = useState([]);
   const fetchDummyScatterData = () => {
     setDummyScatterData([
-      { bias: 9, qualification: 2, Id: "X8011e" },
-      { bias: -3, qualification: 4, Id: "x6077a" },
-      { bias: 2, qualification: 8, Id: "x6241a" },
-      { bias: -2, qualification: -2, Id: "x2173b" },
-      { bias: 3, qualification: -2, Id: "x4044c" },
-      { bias: 9, qualification: -7, Id: "x9428d" },
-      { bias: 2, qualification: 2, Id: "x2781d" },
+      { bias: 9, qualification: 2, Id: "X8011e", decision: true },
+      { bias: -3, qualification: 4, Id: "x6077a", decision: false },
+      { bias: 2, qualification: 8, Id: "x6241a", decision: true },
+      { bias: -2, qualification: -2, Id: "x2173b", decision: false },
+      { bias: 3, qualification: -2, Id: "x4044c", decision: false },
+      { bias: 9, qualification: -7, Id: "x9428d", decision: true },
+      { bias: 2, qualification: 2, Id: "x2781d", decision: true },
     ]);
   };
   // fetchDummyPersonData each time App component loads

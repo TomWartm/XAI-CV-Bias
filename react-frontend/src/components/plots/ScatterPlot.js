@@ -8,8 +8,8 @@ function ScatterPlot({ data }) {
   const svgRef = useRef();
   useEffect(() => {
     //setting up container
-    const w = 400;
-    const h = 300;
+    const w = 500;
+    const h = 400;
     const svg = d3
       .select(svgRef.current)
       .attr("width", w)
@@ -65,13 +65,16 @@ function ScatterPlot({ data }) {
       .data(data)
       .enter()
       .append("circle")
+      .attr("fill", function (d) {
+        return d.decision === true ? "rgb(51, 153, 51)" : "rgb(204, 0, 0)";
+      })
       .attr("cx", function (d) {
         return xScale(d.bias);
       })
       .attr("cy", function (d) {
         return yScale(d.qualification);
       })
-      .attr("r", 10);
+      .attr("r", 5);
 
     circles
       .on("mouseover", function (event, d) {
