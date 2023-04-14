@@ -122,7 +122,7 @@ function ScatterPlot({ data }) {
     try {
       // (1) get person data
       const responsePerson = await fetch(
-        `http://127.0.0.1:8000/person/${personId}`,
+        `http://127.0.0.1:8000/similarpeople/${personId}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -136,42 +136,16 @@ function ScatterPlot({ data }) {
       const resultPerson = await responsePerson.json();
       if (resultPerson.length < 1) {
         throw new Error(
-          `Error! result of fetch("http://127.0.0.1:8000/person/${personId}" not as expected. It is: ${resultPerson}. Probably there is a non existing Id requested.`
+          `Error! result of fetch("http://127.0.0.1:8000/similarpeople/${personId}" not as expected. It is: ${resultPerson}. Probably there is a non existing Id requested.`
         );
       }
       console.log(
-        `"result of GET /person/${personId} is: `,
+        `"result of GET /similarpeople/${personId} is: `,
         JSON.stringify(resultPerson, null, 4)
       );
 
       setPersonData(resultPerson[0]);
-      // (2) get similar person Id
-      const similarPersonId = "x8011e"; // TODO: fetch this from server
-      // (3) get similar person data
-      const responseSimilarPerson = await fetch(
-        `http://127.0.0.1:8000/person/${similarPersonId}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      if (!responseSimilarPerson.ok) {
-        throw new Error(`Error! status: ${responseSimilarPerson.status}`);
-      }
-
-      const resultSimilarPerson = await responseSimilarPerson.json();
-      if (resultSimilarPerson.length < 1) {
-        throw new Error(
-          `Error! result of fetch("http://127.0.0.1:8000/person/${similarPersonId}" not as expected. It is: ${resultSimilarPerson}. Probably there is a non existing Id requested.`
-        );
-      }
-      console.log(
-        `"result of GET /person/${similarPersonId} is: `,
-        JSON.stringify(resultSimilarPerson, null, 4)
-      );
-
-      setSimilarPersonData(resultSimilarPerson[0]);
+      setSimilarPersonData(resultPerson[1]);
 
       //open the window
       setOpen(true);
