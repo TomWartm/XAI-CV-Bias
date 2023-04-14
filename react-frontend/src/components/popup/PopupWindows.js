@@ -19,63 +19,79 @@ PopupWindows.propTypes = {
 };
 
 export default function PopupWindows({ personId }) {
+  // TODO: resolve this code duplication with ScatterPlot.js
+  ///////////////////////////////////////////////////////////code duplication top/////////////////////////////////////////////////////////
   const [open, setOpen] = useState(false);
 
   // fetch person data
-  // set default values
-  const [data, setData] = useState({
-    Id: "",
-    gender: "female",
-    age: 0,
-    nationality: "",
-    sport: "",
-    "ind-university_grade": 0,
-    "ind-debateclub": false,
-    "ind-programming_exp": false,
-    "ind-international_exp": false,
-    "ind-entrepeneur_exp": false,
-    "ind-languages": 0,
-    "ind-exact_study": false,
-    "ind-degree": "",
-    company: "",
-    decision: false,
-  });
-  const [err, setErr] = useState("");
+  const [personData, setPersonData] = useState({});
+  const [similarPersonData, setSimilarPersonData] = useState({});
 
   const handleClick = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/person/${personId}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
+      // (1) get person data
+      const responsePerson = await fetch(
+        `http://127.0.0.1:8000/person/${personId}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error(`Error! status: ${response.status}`);
+      if (!responsePerson.ok) {
+        throw new Error(`Error! status: ${responsePerson.status}`);
       }
       //get only first element since we are sure there is only one returned
-      const result = await response.json();
-      if (result.length < 1) {
+      const resultPerson = await responsePerson.json();
+      if (resultPerson.length < 1) {
         throw new Error(
-          `Error! result of fetch("http://127.0.0.1:8000/person/${personId}" not as expected. It is: ${result}. Probably there is a non existing Id requested.`
+          `Error! result of fetch("http://127.0.0.1:8000/person/${personId}" not as expected. It is: ${resultPerson}. Probably there is a non existing Id requested.`
         );
       }
       console.log(
         `"result of GET /person/${personId} is: `,
-        JSON.stringify(result, null, 4)
+        JSON.stringify(resultPerson, null, 4)
       );
 
-      setData(result[0]);
+      setPersonData(resultPerson[0]);
+      // (2) get similar person Id
+      const similarPersonId = "x8011e"; // TODO: fetch this from server
+      // (3) get similar person data
+      const responseSimilarPerson = await fetch(
+        `http://127.0.0.1:8000/person/${similarPersonId}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (!responseSimilarPerson.ok) {
+        throw new Error(`Error! status: ${responseSimilarPerson.status}`);
+      }
+
+      const resultSimilarPerson = await responseSimilarPerson.json();
+      if (resultSimilarPerson.length < 1) {
+        throw new Error(
+          `Error! result of fetch("http://127.0.0.1:8000/person/${similarPersonId}" not as expected. It is: ${resultSimilarPerson}. Probably there is a non existing Id requested.`
+        );
+      }
+      console.log(
+        `"result of GET /person/${similarPersonId} is: `,
+        JSON.stringify(resultSimilarPerson, null, 4)
+      );
+
+      setSimilarPersonData(resultSimilarPerson[0]);
 
       //open the window
       setOpen(true);
     } catch (err) {
-      setErr(err.message);
+      console.log(err.message);
     } finally {
     }
   };
+  ///////////////////////////////////////////////////////////code duplication bottom/////////////////////////////////////////////////////////
   return (
     <>
-      {err && <h2>{err}</h2>}
       <Button onClick={handleClick} variant="body2">
         {personId}
       </Button>
@@ -91,7 +107,7 @@ export default function PopupWindows({ personId }) {
               >
                 <b>Person to reconsider</b>
               </Typography>
-              <PersonProfile personData={data} />
+              <PersonProfile personData={personData} />
             </Box>
             <Divider orientation="vertical" flexItem />
             <Box sx={{ p: 6, pb: 1 }} backgroundColor="#f2f2f2">
@@ -102,7 +118,7 @@ export default function PopupWindows({ personId }) {
               >
                 <b>Similar person</b>
               </Typography>
-              <PersonProfile personData={data} />
+              <PersonProfile personData={similarPersonData} />
             </Box>
           </Stack>
         </DialogContent>

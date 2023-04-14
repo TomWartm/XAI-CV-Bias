@@ -188,7 +188,7 @@ export default function CandidatesPlot({
             title="People to reconsider"
             list={dummyPersons.map((x) => ({
               id: x.Id,
-              title: x.Id,
+              personId: x.Id,
               image: `/assets/images/avatars/${x.gender}.jpg`,
               decision: x.decision,
             }))}

@@ -12,7 +12,8 @@ import {
 // components
 import Scrollbar from "../../../components/scrollbar";
 import { PopupWindows } from "../../../components/popup";
-
+import NotInterestedIcon from "@mui/icons-material/NotInterested";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 // ----------------------------------------------------------------------
 
 AppReconsiderList.propTypes = {
@@ -33,7 +34,7 @@ export default function AppReconsiderList({
 
       <CardContent>
         <Scrollbar>
-          <Stack spacing={2} sx={{ m: 3, pr: 0 }}>
+          <Stack spacing={2} sx={{ m: 3, pr: 0 }} alignItems="left">
             {list.map((personSummary) => (
               <ReconsiderItem
                 key={personSummary.id}
@@ -53,36 +54,40 @@ ReconsiderItem.propTypes = {
   personSummary: PropTypes.shape({
     image: PropTypes.string,
     decision: PropTypes.bool,
-    title: PropTypes.string,
+    personId: PropTypes.string,
   }),
 };
 
 function ReconsiderItem({ personSummary }) {
-  const { image, title, decision } = personSummary;
+  const { image, personId, decision } = personSummary;
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <Box
         component="img"
-        alt={title}
+        alt={personId}
         src={image}
         sx={{ width: 48, height: 48, borderRadius: 1.5, flexShrink: 0 }}
       />
 
       <Box sx={{ flexGrow: 1 }}>
-        <PopupWindows personId={title}></PopupWindows>
+        <PopupWindows personId={personId}></PopupWindows>
       </Box>
+
       <Box>
-        <Typography
-          variant="body2"
-          sx={{
-            pr: 3,
-            flexShrink: 0,
-            color: decision ? "success.main" : "error.main",
-          }}
-        >
-          {decision ? "Accepted" : "Rejected"}
-        </Typography>
+        <Stack direction="row" alignItems="center" spacing={2}>
+          {decision ? <CheckCircleOutlineIcon /> : <NotInterestedIcon />}
+          <Typography
+            variant="body2"
+            sx={{
+              pr: 3,
+              flexShrink: 0,
+              color: decision ? "success.main" : "error.main",
+            }}
+          >
+            {decision ? "Accepted" : "Rejected"}
+          </Typography>
+        </Stack>
       </Box>
     </Stack>
   );
