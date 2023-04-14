@@ -81,7 +81,7 @@ export default function GaugeChart({ value }) {
         </text>
       </svg>
       <Container align="center" style={{ padding: 10 }}>
-        <Typography component="div">
+        <Typography component="span">
           Your score is{" "}
           <Box
             sx={{
@@ -95,6 +95,7 @@ export default function GaugeChart({ value }) {
           </Box>
         </Typography>
         <Typography
+          component="span"
           variant="body2"
           sx={{ color: theme.palette.text.secondary }}
         >
