@@ -19,12 +19,13 @@ PopupWindows.propTypes = {
 };
 
 export default function PopupWindows({ personId }) {
+  // TODO: resolve this code duplication with ScatterPlot.js
+  ///////////////////////////////////////////////////////////code duplication top/////////////////////////////////////////////////////////
   const [open, setOpen] = useState(false);
 
   // fetch person data
   const [personData, setPersonData] = useState({});
   const [similarPersonData, setSimilarPersonData] = useState({});
-  const [err, setErr] = useState("");
 
   const handleClick = async () => {
     try {
@@ -84,13 +85,13 @@ export default function PopupWindows({ personId }) {
       //open the window
       setOpen(true);
     } catch (err) {
-      setErr(err.message);
+      console.log(err.message);
     } finally {
     }
   };
+  ///////////////////////////////////////////////////////////code duplication bottom/////////////////////////////////////////////////////////
   return (
     <>
-      {err && <h2>{err}</h2>}
       <Button onClick={handleClick} variant="body2">
         {personId}
       </Button>

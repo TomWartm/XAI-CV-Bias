@@ -111,13 +111,12 @@ function ScatterPlot({ data }) {
   }, [data]);
 
   // handle click event --> load data (code duplicate from PopupWindows.js)
-  ///////////////////////////////////////////////////////////code duplication top/////////////////////////////////////////////////////////
   // TODO: remvove this code duplication, but idk when to fetch the data
+  ///////////////////////////////////////////////////////////code duplication top/////////////////////////////////////////////////////////
   const [open, setOpen] = useState(false);
   // set default values
   const [personData, setPersonData] = useState({});
   const [similarPersonData, setSimilarPersonData] = useState({});
-  const [err, setErr] = useState("");
   const handleClick = async (personId) => {
     console.log("handleClick", personId);
     try {
@@ -177,7 +176,7 @@ function ScatterPlot({ data }) {
       //open the window
       setOpen(true);
     } catch (err) {
-      setErr(err.message);
+      console.log(err.message);
     } finally {
     }
   };
@@ -185,7 +184,6 @@ function ScatterPlot({ data }) {
   return (
     <div className="scatterPlot">
       <svg ref={svgRef}></svg>
-      {err && <h2>{err}</h2>}
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogContent>
           <Stack direction="row">
