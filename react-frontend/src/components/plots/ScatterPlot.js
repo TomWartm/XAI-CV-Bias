@@ -142,9 +142,15 @@ function ScatterPlot({ data }) {
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
+
       //get only first element since we are sure there is only one returned
       const result = await response.json();
 
+      if (result.length < 1) {
+        throw new Error(
+          `Error! result of fetch("http://127.0.0.1:8000/person/${personId}" not as expected. It is: ${result}. Probably there is a non existing Id requested.`
+        );
+      }
       console.log(
         `"result of GET /person/${personId} is: `,
         JSON.stringify(result, null, 4)
