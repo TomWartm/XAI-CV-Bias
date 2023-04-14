@@ -111,6 +111,7 @@ function ScatterPlot({ data }) {
   }, [data]);
 
   // handle click event --> load data (code duplicate from PopupWindows.js)
+  ///////////////////////////////////////////////////////////code duplication top/////////////////////////////////////////////////////////
   // TODO: remvove this code duplication, but idk when to fetch the data
   const [open, setOpen] = useState(false);
   // set default values
@@ -180,6 +181,7 @@ function ScatterPlot({ data }) {
     } finally {
     }
   };
+  ///////////////////////////////////////////////////////////code duplication bottom/////////////////////////////////////////////////////////
   return (
     <div className="scatterPlot">
       <svg ref={svgRef}></svg>
