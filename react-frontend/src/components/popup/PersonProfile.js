@@ -31,48 +31,24 @@ export default function PersonProfile({ personData }) {
         <Box>
           <Stack direction="row" spacing={1}>
             <Box>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <b>Gender: </b>
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <b>Age: </b>
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <b>Nationality: </b>
               </Typography>
             </Box>
             <Box>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {personData.gender}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {personData.age}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {personData.nationality}
               </Typography>
             </Box>
@@ -82,68 +58,35 @@ export default function PersonProfile({ personData }) {
           <Typography
             variant="body2"
             sx={{ color: "text.primary", fontSize: 18 }}
-            noWrap
           >
             <b>Education</b>
           </Typography>
           <Stack direction="row" spacing={1}>
             <Box>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <b>Degree: </b>
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <b>University Grade: </b>
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <b>Exact Study: </b>
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <b>Languages: </b>
               </Typography>
             </Box>
             <Box>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {personData["ind-degree"]}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {personData["ind-university_grade"].toString()}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {personData["ind-exact_study"].toString()}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {personData["ind-languages"].toString()}
               </Typography>
             </Box>
@@ -153,68 +96,35 @@ export default function PersonProfile({ personData }) {
           <Typography
             variant="body2"
             sx={{ color: "text.primary", fontSize: 18 }}
-            noWrap
           >
             <b>Experience</b>
           </Typography>
           <Stack direction="row" spacing={1}>
             <Box>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <b>Programming: </b>
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <b>International: </b>
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <b>Entrepreneur: </b>
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <b>Debateclub: </b>
               </Typography>
             </Box>
             <Box>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {personData["ind-programming_exp"].toString()}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {personData["ind-international_exp"].toString()}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {personData["ind-entrepeneur_exp"].toString()}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {personData["ind-debateclub"].toString()}
               </Typography>
             </Box>
@@ -224,26 +134,17 @@ export default function PersonProfile({ personData }) {
           <Typography
             variant="body2"
             sx={{ color: "text.primary", fontSize: 18 }}
-            noWrap
           >
             <b>Hobbies</b>
           </Typography>
           <Stack direction="row" spacing={1}>
             <Box>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <b>Sport: </b>
               </Typography>
             </Box>
             <Box>
-              <Typography
-                variant="body2"
-                sx={{ color: "text.secondary" }}
-                noWrap
-              >
+              <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 {personData.sport}
               </Typography>
             </Box>
