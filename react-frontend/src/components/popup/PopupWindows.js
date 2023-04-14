@@ -22,24 +22,7 @@ export default function PopupWindows({ personId }) {
   const [open, setOpen] = useState(false);
 
   // fetch person data
-  // set default values
-  const [data, setData] = useState({
-    Id: "",
-    gender: "female",
-    age: 0,
-    nationality: "",
-    sport: "",
-    "ind-university_grade": 0,
-    "ind-debateclub": false,
-    "ind-programming_exp": false,
-    "ind-international_exp": false,
-    "ind-entrepeneur_exp": false,
-    "ind-languages": 0,
-    "ind-exact_study": false,
-    "ind-degree": "",
-    company: "",
-    decision: false,
-  });
+  const [data, setData] = useState({});
   const [err, setErr] = useState("");
 
   const handleClick = async () => {

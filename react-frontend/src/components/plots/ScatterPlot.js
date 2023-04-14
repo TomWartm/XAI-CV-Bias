@@ -110,27 +110,11 @@ function ScatterPlot({ data }) {
       });
   }, [data]);
 
-  // handle click event (code duplicate from PopupWindows.js)
-  // TODO: remvove this code duplication
+  // handle click event --> load data (code duplicate from PopupWindows.js)
+  // TODO: remvove this code duplication, option 1. move data fetching into PersonProfile, idk when to fetch the data
   const [open, setOpen] = useState(false);
   // set default values
-  const [personData, setPersonData] = useState({
-    Id: "",
-    gender: "female",
-    age: 0,
-    nationality: "",
-    sport: "",
-    "ind-university_grade": 0,
-    "ind-debateclub": false,
-    "ind-programming_exp": false,
-    "ind-international_exp": false,
-    "ind-entrepeneur_exp": false,
-    "ind-languages": 0,
-    "ind-exact_study": false,
-    "ind-degree": "",
-    company: "",
-    decision: false,
-  });
+  const [personData, setPersonData] = useState({});
   const handleClick = async (personId) => {
     console.log("handleClick", personId);
     try {
