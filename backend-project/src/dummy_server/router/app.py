@@ -64,8 +64,6 @@ def create_app():
     def fairness():
         return totalfairnessdataset
 
-    return app
-
 
 def start_server():
     parser = argparse.ArgumentParser()
@@ -93,6 +91,7 @@ def start_server():
 
     server_app.run(debug=args.debug, host=args.host, port=args.port)
 
+    
 
 if __name__ == "__main__":
     start_server()
