@@ -18,10 +18,6 @@ def create_app():
     with open("backend-project/data/totalfairness.json") as f:
         totalfairnessdataset = json.load(f)
 
-    @app.route('/version')
-    def version():
-        return f"Job ID: {os.environ['JOB_ID']}\nCommit ID: {os.environ['COMMIT_ID']}"
-
     @app.route('/')
     def index():
         return "<html><body><h1>Welcome to the coolest IML project out there</h1></body></html>"
@@ -63,6 +59,8 @@ def create_app():
     @app.route('/fairness')
     def fairness():
         return totalfairnessdataset
+    
+    return app
 
 
 def start_server():
