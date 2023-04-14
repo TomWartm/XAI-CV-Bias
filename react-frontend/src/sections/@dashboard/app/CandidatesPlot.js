@@ -103,7 +103,7 @@ export default function CandidatesPlot({
   const [dummyScatterData, setDummyScatterData] = useState([]);
   const fetchDummyScatterData = () => {
     setDummyScatterData([
-      { bias: 9, qualification: 2, Id: "X8011e", decision: true },
+      { bias: 9, qualification: 2, Id: "X8011e", decision: true }, // this is a non existing Id to see errors
       { bias: -3, qualification: 4, Id: "x6077a", decision: false },
       { bias: 2, qualification: 8, Id: "x6241a", decision: true },
       { bias: -2, qualification: -2, Id: "x2173b", decision: false },
