@@ -48,7 +48,11 @@ def create_app():
             abort(404)
 
         sorted_kv_pairs = sorted(json_entry.items(), key=lambda x: int(x[0]))
-        filtered_df = dataset.loc[dataset['Id'].isin([kv_pair[1] for kv_pair in sorted_kv_pairs])]
+        sorted_kv_pairs.insert(0, ("0", id))
+        ids = [id for _, id in sorted_kv_pairs]
+        filtered_df = dataset[dataset['Id']==ids[0]]
+        for i in range(1, len(ids)):
+            filtered_df = pd.concat((filtered_df, dataset[dataset['Id']==ids[i]]), axis=0)
         return filtered_df.to_json(orient='records')
     
     @app.route('/reconsider')
