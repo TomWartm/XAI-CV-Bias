@@ -1,6 +1,17 @@
 import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import * as d3 from "d3";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  Stack,
+  Divider,
+  Box,
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
+import { PersonProfile } from "../popup";
 
 ScatterPlot.propTypes = { data: PropTypes.array };
 
@@ -93,11 +104,93 @@ function ScatterPlot({ data }) {
           .style("top", 0 + "px");
         console.log("mouseout", d);
         d3.select(this).attr("opacity", 1);
+      })
+      .on("click", function (event, d) {
+        handleClick(d.Id);
       });
   }, [data]);
+
+  // handle click event (code duplicate from PopupWindows.js)
+  // TODO: remvove this code duplication
+  const [open, setOpen] = useState(false);
+  // set default values
+  const [personData, setPersonData] = useState({
+    Id: "",
+    gender: "female",
+    age: 0,
+    nationality: "",
+    sport: "",
+    "ind-university_grade": 0,
+    "ind-debateclub": false,
+    "ind-programming_exp": false,
+    "ind-international_exp": false,
+    "ind-entrepeneur_exp": false,
+    "ind-languages": 0,
+    "ind-exact_study": false,
+    "ind-degree": "",
+    company: "",
+    decision: false,
+  });
+  const handleClick = async (personId) => {
+    console.log("handleClick", personId);
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/person/${personId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      //get only first element since we are sure there is only one returned
+      const result = await response.json();
+
+      console.log(
+        `"result of GET /person/${personId} is: `,
+        JSON.stringify(result, null, 4)
+      );
+
+      setPersonData(result[0]);
+
+      //open the window
+      setOpen(true);
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+    }
+  };
   return (
     <div className="scatterPlot">
       <svg ref={svgRef}></svg>
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogContent>
+          <Stack direction="row">
+            <Box sx={{ p: 6, pb: 1 }}>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.primary", fontSize: 18 }}
+                noWrap
+              >
+                <b>Person to reconsider</b>
+              </Typography>
+              <PersonProfile personData={personData} />
+            </Box>
+            <Divider orientation="vertical" flexItem />
+            <Box sx={{ p: 6, pb: 1 }} backgroundColor="#f2f2f2">
+              <Typography
+                variant="body2"
+                sx={{ color: "text.primary", fontSize: 18 }}
+                noWrap
+              >
+                <b>Similar person</b>
+              </Typography>
+              <PersonProfile personData={personData} />
+            </Box>
+          </Stack>
+        </DialogContent>
+
+        <DialogActions></DialogActions>
+      </Dialog>
     </div>
   );
 }
