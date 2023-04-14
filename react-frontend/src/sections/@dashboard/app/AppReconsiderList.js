@@ -34,7 +34,7 @@ export default function AppReconsiderList({
 
       <CardContent>
         <Scrollbar>
-          <Stack spacing={2} sx={{ m: 3, pr: 0 }}>
+          <Stack spacing={2} sx={{ m: 3, pr: 0 }} alignItems="left">
             {list.map((personSummary) => (
               <ReconsiderItem
                 key={personSummary.id}
@@ -73,18 +73,21 @@ function ReconsiderItem({ personSummary }) {
       <Box sx={{ flexGrow: 1 }}>
         <PopupWindows personId={personId}></PopupWindows>
       </Box>
-      {decision ? <CheckCircleOutlineIcon /> : <NotInterestedIcon />}
+
       <Box>
-        <Typography
-          variant="body2"
-          sx={{
-            pr: 3,
-            flexShrink: 0,
-            color: decision ? "success.main" : "error.main",
-          }}
-        >
-          {decision ? "Accepted" : "Rejected"}
-        </Typography>
+        <Stack direction="row" alignItems="center" spacing={2}>
+          {decision ? <CheckCircleOutlineIcon /> : <NotInterestedIcon />}
+          <Typography
+            variant="body2"
+            sx={{
+              pr: 3,
+              flexShrink: 0,
+              color: decision ? "success.main" : "error.main",
+            }}
+          >
+            {decision ? "Accepted" : "Rejected"}
+          </Typography>
+        </Stack>
       </Box>
     </Stack>
   );
