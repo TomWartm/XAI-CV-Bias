@@ -1,7 +1,6 @@
 import argparse
-import os
 import pandas as pd
-import json
+import ml
 
 from flask import Flask, request, abort
 from flask_cors import CORS
@@ -11,12 +10,10 @@ def create_app():
     CORS(app, resources={r"/*": {"origins": "*"}})
 
     dataset = pd.read_csv("backend-project/data/dataset.csv")
-    scatterdataset = pd.read_csv("backend-project/data/scatterdata.csv")
-    with open("backend-project/data/similarpeopledata.json") as f:
-        similarpeopledataset = json.load(f)
-    reconsiderdataset = pd.read_csv("backend-project/data/reconsiderdata.csv")
-    with open("backend-project/data/totalfairness.json") as f:
-        totalfairnessdataset = json.load(f)
+    (scatterdataset,
+    similarpeopledataset,
+    reconsiderdataset,
+    totalfairnessdataset) = ml.train_ml_model()
 
     @app.route('/')
     def index():
@@ -57,7 +54,7 @@ def create_app():
     
     @app.route('/reconsider')
     def reconsider():
-        filtered_df = dataset.loc[dataset['Id'].isin(reconsiderdataset["Id"])]
+        filtered_df = dataset.loc[dataset['Id'].isin(reconsiderdataset["id"])]
         return filtered_df.to_json(orient='records')
     
     @app.route('/fairness')
