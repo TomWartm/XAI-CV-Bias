@@ -56,6 +56,20 @@ export default function GaugeChart({ value }) {
   const angle = angleScale(percent);
   const markerLocation = getCoordsOnArc(angle, 1 - (1 - 0.9) / 2);
 
+  let scorerate = ""
+  if (value < 25) {
+    scorerate = "Very low "
+  }
+  else if (value < 50) {
+    scorerate = "Mediocre "
+  }
+  else if (value < 75) {
+    scorerate = "Good "
+  }
+  else {
+    scorerate = "Excellent "
+  }
+
   return (
     <Paper sx={{ py: 5 }}>
       <svg viewBox={[-1, -1, 2, 1].join(" ")}>
@@ -91,7 +105,8 @@ export default function GaugeChart({ value }) {
               fontWeight: "bold",
             }}
           >
-            Excellent
+            
+            {scorerate}
           </Box>
         </Typography>
         <Typography

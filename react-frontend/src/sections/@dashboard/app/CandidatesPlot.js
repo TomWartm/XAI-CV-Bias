@@ -102,6 +102,9 @@ export default function CandidatesPlot({
   };
   // load scatter Data from backend
   const [scatterData, setScatterData] = useState([]);
+  const [totalPeople, setTotalPeople] = useState()
+  const [accepedPeople, setAcceptedPeople] = useState()
+  const [rejectedPeople, setRejectedPeople] = useState()
   const fetchScatterData = () => {
     fetch("http://127.0.0.1:8000/scatterdata")
       .then((response) => {
@@ -110,8 +113,24 @@ export default function CandidatesPlot({
       })
       .then((data) => {
         setScatterData(data);
+        let total = 0
+        let accepted = 0
+        let rejected = 0
+        for (let p of data) {
+          total += 1
+          if (p.decision) {
+            accepted += 1
+          }
+          else {
+            rejected += 1
+          }
+        }
+        setTotalPeople(total)
+        setAcceptedPeople(accepted)
+        setRejectedPeople(rejected)
       });
   };
+
   // fetchDummyPersonData each time App component loads
   useEffect(() => {
     fetchReconsiderPersonsData();
@@ -126,7 +145,7 @@ export default function CandidatesPlot({
             <Paper sx={{ p: 2 }}>
               <Stack direction="row" spacing={2}>
                 <Number
-                  number={4000}
+                  number={totalPeople}
                   text="Total Candidates"
                   icon={
                     <PersonOutlineIcon
@@ -135,7 +154,7 @@ export default function CandidatesPlot({
                   }
                 />
                 <Number
-                  number={56}
+                  number={accepedPeople}
                   text="Accepted"
                   icon={
                     <CheckCircleOutlineIcon
@@ -144,7 +163,7 @@ export default function CandidatesPlot({
                   }
                 />
                 <Number
-                  number={3944}
+                  number={rejectedPeople}
                   text="Rejected"
                   icon={
                     <NotInterestedIcon

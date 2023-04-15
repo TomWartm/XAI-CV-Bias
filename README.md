@@ -144,7 +144,7 @@ If all the steps have been successfully executed a new browser window will open 
   - GET
     - Returns: A list of `amount` people
     which are the most similar to the person defined by `id` based on fair qualifications (not on bias). The contained information per person are exactly the same as you would get by a 
-    call to person/{`id`}
+    call to person/{`id`}. The first row is the data for the person with `id` itself.
     - Justification of existence: We would like to show similar people if user clicks on a person in the scatter-plot. This is a rather complex task for which we have to look at
     the whole dataset, so this should clearly be on the server.
 - reconsider/
@@ -158,7 +158,7 @@ If all the steps have been successfully executed a new browser window will open 
     Overallscore is some total fairness score that we compute over all groups.
     - Exact format:
       ```json
-      {"groups": [{"group", "score"}], "overallscore"}
+      {"groups": [{"label": "group","value": "score"}], "overallscore"}
       ```
     - Justification of existence: We want to show fairness per group and total fairness. This is a very complex task and depends on our ML model (just like scatterdata), so we definitively want to do this in the backend.
 

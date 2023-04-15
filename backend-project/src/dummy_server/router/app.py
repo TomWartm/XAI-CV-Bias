@@ -36,7 +36,7 @@ def create_app():
                 return abort(404)
             
         elif request.method == 'POST': # TODO mark the influence of bias for this person as zero
-            return True
+            return "Not implemented"
         
         return abort(405)
     
