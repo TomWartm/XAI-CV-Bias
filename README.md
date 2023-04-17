@@ -193,11 +193,12 @@ If all the steps have been successfully executed a new browser window will open 
 ## Milestones
 Document here the major milestones of your code and future planned steps.\
 - [x] Milestone 1
-- [ ] Milestone 2
+- [x] Milestone 2
   - [x] Sub-task: Data Analysis
-  - [ ] Sub-task: Implement first endpoint
-  - [ ] Sub-task: Define BackEnd endpoints
+  - [x] Sub-task: Implement first endpoint
+  - [x] Sub-task: Define BackEnd endpoints
   - [x] Sub-task: Visual Encoding
+- [x] Milestone 3
 
 Create a list subtask.\
 Open an issue for each subtask. Once you create a subtask, link the corresponding issue.\
@@ -220,8 +221,7 @@ We will evaluate your code every week, based on the corresponding version.
 
 Tags:
 - Week 1: [Week 1 Tag](https://gitlab.inf.ethz.ch/COURSE-XAI-IML22/dummy-fullstack/-/tags/stable-readme)
-- Week 2: ..
-- Week 3: ..
-- ...
+- Milestone 3: [Tag](https://gitlab.inf.ethz.ch/course-xai-iml23/c3-cv-bias-assessment/-/tags/milestone3)
+
 
 
