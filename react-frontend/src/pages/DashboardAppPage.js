@@ -48,7 +48,7 @@ export default function DashboardAppPage() {
             <Card sx={{ height: "100%" }}>
               <CardHeader title="Overall Fairness" />
               <CardContent>
-                <GaugeChart value={fairness.overallscore} />
+                <GaugeChart value={Math.floor(fairness.overallscore)} />
               </CardContent>
             </Card>
           </Grid>

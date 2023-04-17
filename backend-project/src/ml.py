@@ -59,7 +59,14 @@ def build_scatterplot_data(shap_df):
     scatter_df["bias"] = shap_df[bias_columns].sum(axis=1)
     scatter_df["qualification"] = shap_df[fair_columns].sum(axis=1)
     scatter_df["id"] = shap_df["Id"]
-    scatter_df["decision"] = shap_df["actual_decision"]
+    scatter_df["decision"] = shap_df["actual_decision"].astype(bool)
+
+    # Make this look nicer. Remove later
+    df_decision_0 = scatter_df.loc[scatter_df['decision'] == True].head(100)
+    df_decision_1 = scatter_df.loc[scatter_df['decision'] == False].head(100)
+    scatter_df = pd.concat([df_decision_0, df_decision_1])
+    scatter_df["bias"] = scatter_df["bias"] * 20
+
 
     return scatter_df
 
