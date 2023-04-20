@@ -19,8 +19,8 @@ function ScatterPlot({ data }) {
   const svgRef = useRef();
   useEffect(() => {
     //setting up container
-    const w = 500;
-    const h = 400;
+    const w = 650;
+    const h = 550;
     const svg = d3
       .select(svgRef.current)
       .attr("width", w)
