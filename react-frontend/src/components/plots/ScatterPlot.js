@@ -33,8 +33,8 @@ function ScatterPlot({ data }) {
       .style("padding", "10px");
 
     //setting up container
-    const w = 650;
-    const h = 550;
+    const w = 750;
+    const h = 650;
     const svg = d3
       .select(svgRef.current)
       .attr("width", w)
