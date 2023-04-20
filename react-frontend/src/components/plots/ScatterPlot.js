@@ -62,7 +62,7 @@ function ScatterPlot({ data }) {
     // set up axis labels
     svg
       .append("text")
-      .attr("x", w + 10)
+      .attr("x", w + 20)
       .attr("y", h / 2 + 5)
       .text("Bias")
       .on("mouseover", function (event, d) {
@@ -90,7 +90,7 @@ function ScatterPlot({ data }) {
       });
     svg
       .append("text")
-      .attr("y", -10)
+      .attr("y", -20)
       .attr("x", w / 2 - 50)
       .text("Qualification")
       .on("mouseover", function (event, d) {
