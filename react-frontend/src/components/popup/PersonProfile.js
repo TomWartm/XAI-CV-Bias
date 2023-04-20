@@ -7,13 +7,13 @@ PersonProfile.propTypes = {
 export default function PersonProfile({ personData }) {
   const ignoreClicked = () => {
     // Probably reloading the entire page is not a nice way to do this
-    fetch("http://127.0.0.1:8000/person/" + personData.Id, {"method": "POST"}).then(
-      (r) => window.location.reload() 
-    )
-  }
+    fetch("http://127.0.0.1:8000/person/" + personData.Id, {
+      method: "POST",
+    }).then((r) => window.location.reload());
+  };
 
   return (
-    <Stack direction="row">
+    <Stack direction="row" sx={{ pt: 4 }}>
       <Stack direction="column" alignItems="left" spacing={2}>
         <Box
           component="img"

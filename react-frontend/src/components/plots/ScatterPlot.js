@@ -166,21 +166,21 @@ function ScatterPlot({ data }) {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogContent>
           <Stack direction="row">
-            <Box sx={{ p: 6, pb: 1 }}>
+            <Box sx={{ p: 6, pt: 2, pb: 2 }}>
               <Typography
                 variant="body2"
-                sx={{ color: "text.primary", fontSize: 18 }}
+                sx={{ color: "text.primary", fontSize: 24 }}
                 noWrap
               >
-                <b>Person to reconsider</b>
+                <b>Person</b>
               </Typography>
               <PersonProfile personData={personData} />
             </Box>
             <Divider orientation="vertical" flexItem />
-            <Box sx={{ p: 6, pb: 1 }} backgroundColor="#f2f2f2">
+            <Box sx={{ p: 6, pt: 2, pb: 2 }} backgroundColor="#f2f2f2">
               <Typography
                 variant="body2"
-                sx={{ color: "text.primary", fontSize: 18 }}
+                sx={{ color: "text.primary", fontSize: 24 }}
                 noWrap
               >
                 <b>Similar person</b>

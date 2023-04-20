@@ -139,7 +139,7 @@ export default function CandidatesPlot({
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
       <Grid container divider={<Divider orientation="vertical" flexItem />}>
-        <Grid item xs={12} lg="auto">
+        <Grid item lg="auto">
           <Stack direction="column" alignItems="center">
             <Paper sx={{ p: 2 }}>
               <Stack direction="row" spacing={2}>
@@ -192,7 +192,7 @@ export default function CandidatesPlot({
                 />*/}
               </Stack>
             </Paper>
-            <Paper sx={{ p: 7 }}>
+            <Paper sx={{ px: 10, py: 2 }}>
               <ScatterPlot data={scatterData}></ScatterPlot>
             </Paper>
           </Stack>
