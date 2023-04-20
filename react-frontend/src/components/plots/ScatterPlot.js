@@ -93,7 +93,12 @@ function ScatterPlot({ data }) {
           .style("opacity", 1)
           .style("left", event.pageX - 25 + "px")
           .style("top", event.pageY - 75 + "px")
-          .html("Bias: " + d.bias + "<br>Qualification: " + d.qualification);
+          .html(
+            "Bias: " +
+              d.bias.toPrecision(3) +
+              "<br>Qualification: " +
+              d.qualification.toPrecision(3)
+          );
         d3.select(this).attr("opacity", 0.5);
         console.log("mouseover", d);
       })
