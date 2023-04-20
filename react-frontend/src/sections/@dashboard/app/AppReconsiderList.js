@@ -12,8 +12,7 @@ import {
 // components
 import Scrollbar from "../../../components/scrollbar";
 import { PopupWindows } from "../../../components/popup";
-import NotInterestedIcon from "@mui/icons-material/NotInterested";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+
 // ----------------------------------------------------------------------
 
 AppReconsiderList.propTypes = {
