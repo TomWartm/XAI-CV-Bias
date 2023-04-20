@@ -115,6 +115,34 @@ function ScatterPlot({ data }) {
         d3.select(this).attr("opacity", 1);
       });
 
+    // set up legend
+    svg
+      .append("circle")
+      .attr("cx", 0)
+      .attr("cy", -80)
+      .attr("r", 5)
+      .style("fill", "rgb(51, 153, 51)");
+    svg
+      .append("circle")
+      .attr("cx", 0)
+      .attr("cy", -60)
+      .attr("r", 5)
+      .style("fill", "rgb(204, 0, 0)");
+    svg
+      .append("text")
+      .attr("x", 20)
+      .attr("y", -80)
+      .text("accepted")
+      .style("font-size", "15px")
+      .attr("alignment-baseline", "middle");
+    svg
+      .append("text")
+      .attr("x", 20)
+      .attr("y", -60)
+      .text("rejected")
+      .style("font-size", "15px")
+      .attr("alignment-baseline", "middle");
+
     // set up data
     var circles = svg
       .selectAll("circle")
