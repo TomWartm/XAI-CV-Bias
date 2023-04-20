@@ -18,6 +18,20 @@ ScatterPlot.propTypes = { data: PropTypes.array };
 function ScatterPlot({ data }) {
   const svgRef = useRef();
   useEffect(() => {
+    //create tooltip
+
+    var tip = d3
+      .select("body")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0)
+      .style("background-color", "white")
+      .style("position", "absolute")
+      .style("border", "solid")
+      .style("border-width", "1px")
+      .style("border-radius", "5px")
+      .style("padding", "10px");
+
     //setting up container
     const w = 650;
     const h = 550;
@@ -50,25 +64,56 @@ function ScatterPlot({ data }) {
       .append("text")
       .attr("x", w + 10)
       .attr("y", h / 2 + 5)
-      .text("Bias");
+      .text("Bias")
+      .on("mouseover", function (event, d) {
+        tip
+          .style("opacity", 1)
+          .style("left", event.pageX + 25 + "px")
+          .style("top", event.pageY - 150 + "px")
+          .style("width", 250 + "px")
+          .html(
+            // add informations about the axis
+            "<u>Information: </u> <br/>" +
+              "A high value on the <b>Bias-axis</b> indicates that the person possesses a high sum of attributes that are considered <b>un-fair</b> and contribute positively towards the hiring decision. <br/>" +
+              "i.e. people who may have benefited from your biases have positive Bias values, while people that may have suffered from your biases have a negative Bias values."
+          );
+        d3.select(this).attr("fill-opacity", 0.5);
+        console.log("mouseover: Qulification Info");
+      })
+      .on("mouseout", function (event, d) {
+        tip
+          .style("opacity", 0)
+          .style("left", 0 + "px") // little hack sth. the invisible element is for sure not clicked by acceident
+          .style("top", 0 + "px");
+        console.log("mouseout: Qulification Info");
+        d3.select(this).attr("opacity", 1);
+      });
     svg
       .append("text")
       .attr("y", -10)
       .attr("x", w / 2 - 50)
-      .text("Qualification");
-    //create tooltip
-
-    var tip = d3
-      .select("body")
-      .append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0)
-      .style("background-color", "white")
-      .style("position", "absolute")
-      .style("border", "solid")
-      .style("border-width", "1px")
-      .style("border-radius", "5px")
-      .style("padding", "10px");
+      .text("Qualification")
+      .on("mouseover", function (event, d) {
+        tip
+          .style("opacity", 1)
+          .style("left", event.pageX + 25 + "px")
+          .style("top", event.pageY - 150 + "px")
+          .style("width", 250 + "px")
+          .html(
+            // add informations about the axis
+            "<u>Information: </u> <br/>  A high value on the <b>Qualification-axis</b> indicates that the person possesses a high sum of attributes that are considered <b>fair</b> and contribute positively towards the hiring decision. "
+          );
+        d3.select(this).attr("fill-opacity", 0.5);
+        console.log("mouseover: Qulification Info");
+      })
+      .on("mouseout", function (event, d) {
+        tip
+          .style("opacity", 0)
+          .style("left", 0 + "px") // little hack sth. the invisible element is for sure not clicked by acceident
+          .style("top", 0 + "px");
+        console.log("mouseout: Qulification Info");
+        d3.select(this).attr("opacity", 1);
+      });
 
     // set up data
     var circles = svg
@@ -94,9 +139,9 @@ function ScatterPlot({ data }) {
           .style("left", event.pageX - 25 + "px")
           .style("top", event.pageY - 75 + "px")
           .html(
-            "Bias: " +
+            "<b>Bias:</b> " +
               d.bias.toPrecision(3) +
-              "<br>Qualification: " +
+              "<br><b>Qualification:</b> " +
               d.qualification.toPrecision(3)
           );
         d3.select(this).attr("opacity", 0.5);
