@@ -102,9 +102,9 @@ export default function CandidatesPlot({
   };
   // load scatter Data from backend
   const [scatterData, setScatterData] = useState([]);
-  const [totalPeople, setTotalPeople] = useState()
-  const [accepedPeople, setAcceptedPeople] = useState()
-  const [rejectedPeople, setRejectedPeople] = useState()
+  const [totalPeople, setTotalPeople] = useState();
+  const [accepedPeople, setAcceptedPeople] = useState();
+  const [rejectedPeople, setRejectedPeople] = useState();
   const fetchScatterData = () => {
     fetch("http://127.0.0.1:8000/scatterdata")
       .then((response) => {
@@ -113,21 +113,20 @@ export default function CandidatesPlot({
       })
       .then((data) => {
         setScatterData(data);
-        let total = 0
-        let accepted = 0
-        let rejected = 0
+        let total = 0;
+        let accepted = 0;
+        let rejected = 0;
         for (let p of data) {
-          total += 1
+          total += 1;
           if (p.decision) {
-            accepted += 1
-          }
-          else {
-            rejected += 1
+            accepted += 1;
+          } else {
+            rejected += 1;
           }
         }
-        setTotalPeople(total)
-        setAcceptedPeople(accepted)
-        setRejectedPeople(rejected)
+        setTotalPeople(total);
+        setAcceptedPeople(accepted);
+        setRejectedPeople(rejected);
       });
   };
 
@@ -140,7 +139,7 @@ export default function CandidatesPlot({
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
       <Grid container divider={<Divider orientation="vertical" flexItem />}>
-        <Grid item xs={12} md={8} lg={8}>
+        <Grid item xs={12} lg="auto">
           <Stack direction="column" alignItems="center">
             <Paper sx={{ p: 2 }}>
               <Stack direction="row" spacing={2}>
@@ -193,7 +192,7 @@ export default function CandidatesPlot({
                 />*/}
               </Stack>
             </Paper>
-            <Paper sx={{ p: 2 }}>
+            <Paper sx={{ p: 7 }}>
               <ScatterPlot data={scatterData}></ScatterPlot>
             </Paper>
           </Stack>
@@ -202,17 +201,16 @@ export default function CandidatesPlot({
         <Divider orientation="vertical" flexItem />
 
         {/*<Grid item xs>*/}
-        <Grid item xs={12} md={4} lg={4}>
-          <AppReconsiderList
-            title="People to reconsider"
-            list={reconsiderPersons.map((x) => ({
-              id: x.Id,
-              personId: x.Id,
-              image: `/assets/images/avatars/${x.gender}.jpg`,
-              decision: x.decision,
-            }))}
-          />
-        </Grid>
+
+        <AppReconsiderList
+          title="People to reconsider"
+          list={reconsiderPersons.map((x) => ({
+            id: x.Id,
+            personId: x.Id,
+            image: `/assets/images/avatars/${x.gender}.jpg`,
+            decision: x.decision,
+          }))}
+        />
       </Grid>
     </Card>
   );

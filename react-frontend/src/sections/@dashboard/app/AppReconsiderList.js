@@ -32,9 +32,9 @@ export default function AppReconsiderList({
     <Card {...other} sx={{ height: "100%", border: "none", boxShadow: "none" }}>
       <CardHeader title={title} subheader={subheader} />
 
-      <CardContent>
+      <CardContent sx={{ width: 275 }}>
         <Scrollbar>
-          <Stack spacing={2} sx={{ m: 3, pr: 0 }} alignItems="left">
+          <Stack spacing={2} sx={{ m: 2, pr: 0 }} alignItems="left">
             {list.map((personSummary) => (
               <ReconsiderItem
                 key={personSummary.id}
@@ -62,7 +62,7 @@ function ReconsiderItem({ personSummary }) {
   const { image, personId, decision } = personSummary;
 
   return (
-    <Stack direction="row" alignItems="center" spacing={2}>
+    <Stack direction="row" alignItems="center" spacing={1}>
       <Box
         component="img"
         alt={personId}
@@ -75,19 +75,14 @@ function ReconsiderItem({ personSummary }) {
       </Box>
 
       <Box>
-        <Stack direction="row" alignItems="center" spacing={2}>
-          {decision ? <CheckCircleOutlineIcon /> : <NotInterestedIcon />}
-          <Typography
-            variant="body2"
-            sx={{
-              pr: 3,
-              flexShrink: 0,
-              color: decision ? "success.main" : "error.main",
-            }}
-          >
-            {decision ? "Accepted" : "Rejected"}
-          </Typography>
-        </Stack>
+        <Typography
+          variant="body2"
+          sx={{
+            color: decision ? "success.main" : "error.main",
+          }}
+        >
+          {decision ? "Accepted" : "Rejected"}
+        </Typography>
       </Box>
     </Stack>
   );
