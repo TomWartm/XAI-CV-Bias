@@ -18,9 +18,23 @@ ScatterPlot.propTypes = { data: PropTypes.array };
 function ScatterPlot({ data }) {
   const svgRef = useRef();
   useEffect(() => {
+    //create tooltip
+
+    var tip = d3
+      .select("body")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0)
+      .style("background-color", "white")
+      .style("position", "absolute")
+      .style("border", "solid")
+      .style("border-width", "1px")
+      .style("border-radius", "5px")
+      .style("padding", "10px");
+
     //setting up container
-    const w = 500;
-    const h = 400;
+    const w = 750;
+    const h = 650;
     const svg = d3
       .select(svgRef.current)
       .attr("width", w)
@@ -48,27 +62,86 @@ function ScatterPlot({ data }) {
     // set up axis labels
     svg
       .append("text")
-      .attr("x", w + 10)
+      .attr("x", w + 20)
       .attr("y", h / 2 + 5)
-      .text("Bias");
+      .text("Bias")
+      .on("mouseover", function (event, d) {
+        tip
+          .style("opacity", 1)
+          .style("left", event.pageX + 25 + "px")
+          .style("top", event.pageY - 150 + "px")
+          .style("width", 250 + "px")
+          .html(
+            // add informations about the axis
+            "<u>Information: </u> <br/>" +
+              "A high value on the <b>Bias-axis</b> indicates that the person possesses a high sum of attributes that are considered <b>un-fair</b> and contribute positively towards the hiring decision. <br/>" +
+              "i.e. people who may have benefited from your biases have positive Bias values, while people that may have suffered from your biases have a negative Bias values."
+          );
+        d3.select(this).attr("fill-opacity", 0.5);
+        console.log("mouseover: Qulification Info");
+      })
+      .on("mouseout", function (event, d) {
+        tip
+          .style("opacity", 0)
+          .style("left", 0 + "px") // little hack sth. the invisible element is for sure not clicked by acceident
+          .style("top", 0 + "px");
+        console.log("mouseout: Qulification Info");
+        d3.select(this).attr("opacity", 1);
+      });
     svg
       .append("text")
-      .attr("y", -10)
+      .attr("y", -20)
       .attr("x", w / 2 - 50)
-      .text("Qualification");
-    //create tooltip
+      .text("Qualification")
+      .on("mouseover", function (event, d) {
+        tip
+          .style("opacity", 1)
+          .style("left", event.pageX + 25 + "px")
+          .style("top", event.pageY - 150 + "px")
+          .style("width", 250 + "px")
+          .html(
+            // add informations about the axis
+            "<u>Information: </u> <br/>  A high value on the <b>Qualification-axis</b> indicates that the person possesses a high sum of attributes that are considered <b>fair</b> and contribute positively towards the hiring decision. "
+          );
+        d3.select(this).attr("fill-opacity", 0.5);
+        console.log("mouseover: Qulification Info");
+      })
+      .on("mouseout", function (event, d) {
+        tip
+          .style("opacity", 0)
+          .style("left", 0 + "px") // little hack sth. the invisible element is for sure not clicked by acceident
+          .style("top", 0 + "px");
+        console.log("mouseout: Qulification Info");
+        d3.select(this).attr("opacity", 1);
+      });
 
-    var tip = d3
-      .select("body")
-      .append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0)
-      .style("background-color", "white")
-      .style("position", "absolute")
-      .style("border", "solid")
-      .style("border-width", "1px")
-      .style("border-radius", "5px")
-      .style("padding", "10px");
+    // set up legend
+    svg
+      .append("circle")
+      .attr("cx", 0)
+      .attr("cy", -80)
+      .attr("r", 5)
+      .style("fill", "rgb(51, 153, 51)");
+    svg
+      .append("circle")
+      .attr("cx", 0)
+      .attr("cy", -60)
+      .attr("r", 5)
+      .style("fill", "rgb(204, 0, 0)");
+    svg
+      .append("text")
+      .attr("x", 20)
+      .attr("y", -80)
+      .text("accepted")
+      .style("font-size", "15px")
+      .attr("alignment-baseline", "middle");
+    svg
+      .append("text")
+      .attr("x", 20)
+      .attr("y", -60)
+      .text("rejected")
+      .style("font-size", "15px")
+      .attr("alignment-baseline", "middle");
 
     // set up data
     var circles = svg
@@ -93,7 +166,12 @@ function ScatterPlot({ data }) {
           .style("opacity", 1)
           .style("left", event.pageX - 25 + "px")
           .style("top", event.pageY - 75 + "px")
-          .html("Bias: " + d.bias + "<br>Qualification: " + d.qualification);
+          .html(
+            "<b>Bias:</b> " +
+              d.bias.toPrecision(3) +
+              "<br><b>Qualification:</b> " +
+              d.qualification.toPrecision(3)
+          );
         d3.select(this).attr("opacity", 0.5);
         console.log("mouseover", d);
       })
@@ -161,21 +239,21 @@ function ScatterPlot({ data }) {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogContent>
           <Stack direction="row">
-            <Box sx={{ p: 6, pb: 1 }}>
+            <Box sx={{ p: 6, pt: 2, pb: 2 }}>
               <Typography
                 variant="body2"
-                sx={{ color: "text.primary", fontSize: 18 }}
+                sx={{ color: "text.primary", fontSize: 24 }}
                 noWrap
               >
-                <b>Person to reconsider</b>
+                <b>Person</b>
               </Typography>
               <PersonProfile personData={personData} />
             </Box>
             <Divider orientation="vertical" flexItem />
-            <Box sx={{ p: 6, pb: 1 }} backgroundColor="#f2f2f2">
+            <Box sx={{ p: 6, pt: 2, pb: 2 }} backgroundColor="#f2f2f2">
               <Typography
                 variant="body2"
-                sx={{ color: "text.primary", fontSize: 18 }}
+                sx={{ color: "text.primary", fontSize: 24 }}
                 noWrap
               >
                 <b>Similar person</b>
