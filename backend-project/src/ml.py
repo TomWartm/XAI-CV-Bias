@@ -30,7 +30,6 @@ def get_shap_values():
     X = ml_dataset.drop(columns=["decision", "Id"])
     y = ml_dataset["decision"]
 
-
     model = LogisticRegression(max_iter=1000)
     model.fit(X, y)
     y_pred = model.predict(X)
@@ -43,44 +42,51 @@ def get_shap_values():
     shap_df["Id"] = ids.values
     shap_df['predicted_decision'] = y_pred
     shap_df["actual_decision"] = y.values
+
+    multiindex_vals = [
+        ["bias", "fair", "fair","fair","fair","fair","fair","fair","bias", "bias", "bias", "bias", "bias", "bias", "fair","fair","fair","fair","fair","fair","fair","fair","fair","fair","fair","meta", "meta", "meta"],
+        ['age', 'university_grade', 'debateclub', 'programming_exp',
+        'international_exp', 'entrepeneur_exp', 'languages',
+        'exact_study', 'gender', 'gender', 'gender',
+        'nationality', 'nationality', 'nationality',
+        'sport', 'sport', 'sport', 'sport', 'sport',
+        'sport', 'sport', 'sport', 'degree',
+        'degree', 'degree', 'Id', 'predicted_decision',
+        'actual_decision'],
+        shap_df.columns.values]
+    multiindex = pd.MultiIndex.from_arrays(multiindex_vals)
+    shap_df.columns = multiindex
+    
     return shap_df
 
 def build_scatterplot_data(shap_df):
-    bias_columns = ["age", 
-                    "gender_female",
-                    "gender_male",
-                    "gender_other",
-                    "nationality_Belgian",
-                    "nationality_Dutch",
-                    "nationality_German"]
-    fair_columns = list(set(shap_df.columns).difference(bias_columns))
-
     scatter_df = pd.DataFrame()
-    scatter_df["bias"] = shap_df[bias_columns].sum(axis=1)
-    scatter_df["qualification"] = shap_df[fair_columns].sum(axis=1)
-    scatter_df["id"] = shap_df["Id"]
-    scatter_df["decision"] = shap_df["actual_decision"].astype(bool)
-
-    # Make this look nicer. Remove later
-    df_decision_0 = scatter_df.loc[scatter_df['decision'] == True].head(100)
-    df_decision_1 = scatter_df.loc[scatter_df['decision'] == False].head(100)
-    scatter_df = pd.concat([df_decision_0, df_decision_1])
-    scatter_df["bias"] = scatter_df["bias"] * 20
-
+    scatter_df["bias"] = shap_df.loc[:, ("bias", slice(None), slice(None))].sum(axis=1)
+    scatter_df["qualification"] = shap_df.loc[:, ("fair", slice(None), slice(None))].sum(axis=1)
+    scatter_df["id"] = shap_df.loc[:, (slice(None), slice(None), "Id")]
+    scatter_df["decision"] = shap_df.loc[:, (slice(None), slice(None), "actual_decision")].astype(bool)
 
     return scatter_df
 
+def build_influence_df(shap_df):
+    pass
 
-def build_totals(shap_df):
-    age = (shap_df["age"] ** 2).sum()
-    gender = (shap_df[["gender_female","gender_male","gender_other"]] ** 2).sum().sum()
-    nationality = (shap_df[["nationality_Belgian","nationality_Dutch","nationality_German"]] ** 2).sum().sum()
-    overallscore = age + gender + nationality
+def build_totals(shap_df: pd.DataFrame):
+    bias_df = shap_df.loc[:, ("bias", slice(None), slice(None))]
+    bias_groups = bias_df.columns.get_level_values(1).unique()
+
+    groups = []
+    overallscore = 0
+    for bias_group in bias_groups:
+        subdf = bias_df.loc[:, (slice(None), bias_group, slice(None))]
+        current = subdf.abs().sum(axis=1).mean()
+        current = max(100 - 100 * current, 0)
+        groups.append({"label": bias_group, "value": current})
+        overallscore += current
+    overallscore /= len(bias_groups)
 
     return {
-        "groups": [{"label": "Age", "value": age}, 
-                   {"label": "Gender", "value": gender},
-                   {"label": "Nationality", "value": nationality}],
+        "groups": groups,
         "overallscore": overallscore
     }
 
