@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import * as d3 from "d3";
 import {
@@ -9,14 +9,20 @@ import {
   Divider,
   Box,
   Typography,
+  Checkbox,
+  Card,
+  FormGroup,
+  FormControlLabel,
+  FormLabel,
+  FormControl,
 } from "@mui/material";
-import { useState } from "react";
 import { PersonProfile } from "../popup";
 
 ScatterPlot.propTypes = { data: PropTypes.array };
 
 function ScatterPlot({ data }) {
   const svgRef = useRef();
+
   useEffect(() => {
     //create tooltip
 
@@ -233,8 +239,82 @@ function ScatterPlot({ data }) {
     }
   };
   ///////////////////////////////////////////////////////////code duplication bottom/////////////////////////////////////////////////////////
+
+  function filter_circles() {
+    d3.select(svgRef.current)
+      .selectAll("circle")
+      .filter(function (d) {
+        if (d.bias !== undefined)
+          if (d.bias > 0) {
+            // TODO: change this sth. it fits to backend
+            if (state.male) {
+              d3.select(this).attr("opacity", 0.1);
+            } else d3.select(this).attr("opacity", 1);
+          }
+
+        return true;
+      });
+  }
+  // set data filter for gender
+  const [state, setState] = useState({
+    male: true,
+    female: true,
+    other: true,
+  });
+
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+    console.log(state);
+    filter_circles();
+  };
+  const { male, female, other } = state;
   return (
     <div className="scatterPlot">
+      <Card>
+        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+          <FormLabel component="legend">Persons to plot:</FormLabel>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={male}
+                  onChange={handleChange}
+                  defaultChecked
+                  name="male"
+                />
+              }
+              label="male"
+            />
+            {male.toString()}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={female}
+                  onChange={handleChange}
+                  defaultChecked
+                  name="female"
+                />
+              }
+              label="female"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={other}
+                  onChange={handleChange}
+                  defaultChecked
+                  name="other"
+                />
+              }
+              label="other"
+            />
+          </FormGroup>
+        </FormControl>
+      </Card>
+
       <svg ref={svgRef}></svg>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogContent>
