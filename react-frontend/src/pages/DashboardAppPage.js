@@ -20,8 +20,9 @@ import React, { useEffect, useState } from "react";
 
 export default function DashboardAppPage() {
   let [fairness, setFairness] = useState({
-    "groups": [],
-    "overallscore": 0
+    "groupfairness": [],
+    "overallscore": 0,
+    "influence": [],
 })
   useEffect(() => {
     fetch("http://127.0.0.1:8000/fairness")
@@ -53,12 +54,16 @@ export default function DashboardAppPage() {
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
+          <Grid item xs={12} md={6} lg={4}>
             <AppConversionRates
               title="Fairness by Group"
               subheader="(+43%) than last month"
-              chartData={fairness.groups}
+              chartData={fairness.groupfairness}
             />
+          </Grid>
+
+          <Grid item xs={12} md={6} lg={4}>
+            
           </Grid>
 
           <Grid item xs={12} md={12} lg={12}>

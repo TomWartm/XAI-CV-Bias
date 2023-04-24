@@ -51,8 +51,8 @@ def get_shap_values():
         'nationality', 'nationality', 'nationality',
         'sport', 'sport', 'sport', 'sport', 'sport',
         'sport', 'sport', 'sport', 'degree',
-        'degree', 'degree', 'Id', 'predicted_decision',
-        'actual_decision'],
+        'degree', 'degree', 'meta', 'meta',
+        'meta'],
         shap_df.columns.values]
     multiindex = pd.MultiIndex.from_arrays(multiindex_vals)
     shap_df.columns = multiindex
@@ -68,25 +68,34 @@ def build_scatterplot_data(shap_df):
 
     return scatter_df
 
-def build_influence_df(shap_df):
-    pass
-
 def build_totals(shap_df: pd.DataFrame):
     bias_df = shap_df.loc[:, ("bias", slice(None), slice(None))]
     bias_groups = bias_df.columns.get_level_values(1).unique()
 
-    groups = []
-    overallscore = 0
-    for bias_group in bias_groups:
-        subdf = bias_df.loc[:, (slice(None), bias_group, slice(None))]
-        current = subdf.abs().sum(axis=1).mean()
-        current = max(100 - 100 * current, 0)
-        groups.append({"label": bias_group, "value": current})
-        overallscore += current
-    overallscore /= len(bias_groups)
+    bias_total_influence = 0
+    groups = shap_df.columns.get_level_values(1).unique().to_list()
+    groups.remove("meta")
+    influence_tmp = []
+    for group in groups:
+        subdf = shap_df.loc[:, (slice(None), group, slice(None))]
+        current_influence = subdf.abs().sum(axis=1).mean()
+        influence_tmp.append(current_influence)
+    influence_tmp = (np.array(influence_tmp) / np.array(influence_tmp).sum()).tolist()
+
+    influence = []
+    fairness = []
+    for group, current_influence in zip(groups, influence_tmp):
+        influence.append({"label": group, "value": current_influence})
+        if group in bias_groups:
+            bias_total_influence += current_influence
+            current_fairness = 100 - round(current_influence * 100)
+            fairness.append({"label": group, "value": current_fairness})
+
+    overallscore = 100 - round(bias_total_influence * 100)
 
     return {
-        "groups": groups,
+        "influence": influence,
+        "groupfairness": fairness,
         "overallscore": overallscore
     }
 
