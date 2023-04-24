@@ -7,11 +7,14 @@ import shap
 from sklearn.metrics import accuracy_score
 from sklearn.metrics.pairwise import cosine_similarity
 
-def prepare_dataset():
+def load_df():
     df = pd.read_csv('backend-project/data/dataset.csv')
     df = df[df['company'] == 'B']
     df = df.drop(['company'], axis=1)
 
+    return df
+
+def prepare_dataset(df):
     bool_cols = ['ind-debateclub', 'ind-programming_exp', 'ind-international_exp', 'ind-entrepeneur_exp', 'ind-exact_study', 'decision']
     df[bool_cols] = df[bool_cols].astype(int)
 
@@ -23,7 +26,8 @@ def prepare_dataset():
 
     return df
 
-ml_dataset = prepare_dataset()
+original_df = load_df()
+ml_dataset = prepare_dataset(original_df.copy())
 
 def get_shap_values():
     ids = ml_dataset["Id"]
@@ -64,7 +68,10 @@ def build_scatterplot_data(shap_df):
     scatter_df["bias"] = shap_df.loc[:, ("bias", slice(None), slice(None))].sum(axis=1)
     scatter_df["qualification"] = shap_df.loc[:, ("fair", slice(None), slice(None))].sum(axis=1)
     scatter_df["id"] = shap_df.loc[:, (slice(None), slice(None), "Id")]
-    scatter_df["decision"] = shap_df.loc[:, (slice(None), slice(None), "actual_decision")].astype(bool)
+    #scatter_df["decision"] = shap_df.loc[:, (slice(None), slice(None), "actual_decision")].astype(bool)
+
+    scatter_df = pd.merge(scatter_df, original_df, left_on="id", right_on="Id", how="inner")
+    scatter_df = scatter_df.drop(columns=["Id"])
 
     return scatter_df
 
