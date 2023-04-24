@@ -244,7 +244,7 @@ function ScatterPlot({ data }) {
     d3.select(svgRef.current)
       .selectAll("circle")
       .filter(function (d) {
-        if (d.bias !== undefined)
+        if (typeof d.bias !== "undefined")
           if (d.bias > 0) {
             // TODO: change this sth. it fits to backend
             if (state.male) {
@@ -279,22 +279,15 @@ function ScatterPlot({ data }) {
           <FormGroup>
             <FormControlLabel
               control={
-                <Checkbox
-                  checked={male}
-                  onChange={handleChange}
-                  defaultChecked
-                  name="male"
-                />
+                <Checkbox checked={male} onChange={handleChange} name="male" />
               }
               label="male"
             />
-            {male.toString()}
             <FormControlLabel
               control={
                 <Checkbox
                   checked={female}
                   onChange={handleChange}
-                  defaultChecked
                   name="female"
                 />
               }
@@ -305,7 +298,6 @@ function ScatterPlot({ data }) {
                 <Checkbox
                   checked={other}
                   onChange={handleChange}
-                  defaultChecked
                   name="other"
                 />
               }
