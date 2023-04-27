@@ -75,7 +75,7 @@ function ScatterPlot({ data }) {
       .text("Bias")
       .on("mouseover", function (event, d) {
         tip
-
+          .style("opacity", 1)
           .style("left", event.pageX + 25 + "px")
           .style("top", event.pageY - 150 + "px")
           .style("width", 250 + "px")
