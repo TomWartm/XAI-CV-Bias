@@ -22,7 +22,8 @@ ScatterPlot.propTypes = { data: PropTypes.array };
 
 function ScatterPlot({ data }) {
   const svgRef = useRef();
-
+  const MAX_OPACITY = "0.9";
+  const MIN_OPACITY = "0.1";
   useEffect(() => {
     //create tooltip
 
@@ -54,6 +55,7 @@ function ScatterPlot({ data }) {
     //set up axes
     const xAxis = d3.axisBottom(xScale).ticks(10);
     const yAxis = d3.axisLeft(yScale).ticks(10);
+
     svg
       .append("g")
       .attr("class", "axis")
@@ -83,7 +85,7 @@ function ScatterPlot({ data }) {
               "A high value on the <b>Bias-axis</b> indicates that the person possesses a high sum of attributes that are considered <b>un-fair</b> and contribute positively towards the hiring decision. <br/>" +
               "i.e. people who may have benefited from your biases have positive Bias values, while people that may have suffered from your biases have a negative Bias values."
           );
-        d3.select(this).attr("fill-opacity", 0.5);
+
         console.log("mouseover: Qulification Info");
       })
       .on("mouseout", function (event, d) {
@@ -92,7 +94,6 @@ function ScatterPlot({ data }) {
           .style("left", 0 + "px") // little hack sth. the invisible element is for sure not clicked by acceident
           .style("top", 0 + "px");
         console.log("mouseout: Qulification Info");
-        d3.select(this).attr("opacity", 1);
       });
     svg
       .append("text")
@@ -109,7 +110,7 @@ function ScatterPlot({ data }) {
             // add informations about the axis
             "<u>Information: </u> <br/>  A high value on the <b>Qualification-axis</b> indicates that the person possesses a high sum of attributes that are considered <b>fair</b> and contribute positively towards the hiring decision. "
           );
-        d3.select(this).attr("fill-opacity", 0.5);
+
         console.log("mouseover: Qulification Info");
       })
       .on("mouseout", function (event, d) {
@@ -118,7 +119,6 @@ function ScatterPlot({ data }) {
           .style("left", 0 + "px") // little hack sth. the invisible element is for sure not clicked by acceident
           .style("top", 0 + "px");
         console.log("mouseout: Qulification Info");
-        d3.select(this).attr("opacity", 1);
       });
 
     // set up legend
@@ -164,7 +164,8 @@ function ScatterPlot({ data }) {
       .attr("cy", function (d) {
         return yScale(d.qualification);
       })
-      .attr("r", 5);
+      .attr("r", 5)
+      .attr("opacity", MAX_OPACITY);
 
     circles
       .on("mouseover", function (event, d) {
@@ -194,6 +195,69 @@ function ScatterPlot({ data }) {
       });
   }, [data]);
 
+  // set data filter for gender
+  const [state, setState] = useState({
+    male: true,
+    female: true,
+    other: true,
+  });
+
+  useEffect(() => {
+    console.log("there was a change in a state: ", state);
+
+    // filter male
+    d3.select(svgRef.current)
+      .selectAll("circle")
+      .filter(function (d) {
+        if (d !== undefined) return d;
+        else return false;
+      })
+      .filter(function (d) {
+        return d.gender === "male";
+      })
+      .filter(function () {
+        if (!state.male) d3.select(this).attr("opacity", MIN_OPACITY);
+        else d3.select(this).attr("opacity", MAX_OPACITY);
+        return true;
+      });
+    // filter female
+    d3.select(svgRef.current)
+      .selectAll("circle")
+      .filter(function (d) {
+        if (d !== undefined) return d;
+        else return false;
+      })
+      .filter(function (d) {
+        return d.gender === "female";
+      })
+      .filter(function () {
+        if (!state.female) d3.select(this).attr("opacity", MIN_OPACITY);
+        else d3.select(this).attr("opacity", MAX_OPACITY);
+        return true;
+      });
+    // filter other
+    d3.select(svgRef.current)
+      .selectAll("circle")
+      .filter(function (d) {
+        if (d !== undefined) return d;
+        else return false;
+      })
+      .filter(function (d) {
+        return d.gender === "other";
+      })
+      .filter(function () {
+        if (!state.other) d3.select(this).attr("opacity", MIN_OPACITY);
+        else d3.select(this).attr("opacity", MAX_OPACITY);
+        return true;
+      });
+  }, [state]);
+
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+  };
   // handle click event --> load data (code duplicate from PopupWindows.js)
   // TODO: remvove this code duplication, but idk when to fetch the data
   ///////////////////////////////////////////////////////////code duplication top/////////////////////////////////////////////////////////
@@ -240,69 +304,6 @@ function ScatterPlot({ data }) {
   };
   ///////////////////////////////////////////////////////////code duplication bottom/////////////////////////////////////////////////////////
 
-  // set data filter for gender
-  const [state, setState] = useState({
-    male: true,
-    female: true,
-    other: true,
-  });
-
-  useEffect(() => {
-    console.log("there was a change in a state: ", state);
-
-    // filter male
-    d3.select(svgRef.current)
-      .selectAll("circle")
-      .filter(function (d) {
-        if (d !== undefined) return d;
-        else return false;
-      })
-      .filter(function (d) {
-        return d.gender === "male";
-      })
-      .filter(function () {
-        if (!state.male) d3.select(this).attr("opacity", 0.1);
-        else d3.select(this).attr("opacity", 1);
-        return true;
-      });
-    // filter female
-    d3.select(svgRef.current)
-      .selectAll("circle")
-      .filter(function (d) {
-        if (d !== undefined) return d;
-        else return false;
-      })
-      .filter(function (d) {
-        return d.gender === "female";
-      })
-      .filter(function () {
-        if (!state.female) d3.select(this).attr("opacity", 0.1);
-        else d3.select(this).attr("opacity", 1);
-        return true;
-      });
-    // filter other
-    d3.select(svgRef.current)
-      .selectAll("circle")
-      .filter(function (d) {
-        if (d !== undefined) return d;
-        else return false;
-      })
-      .filter(function (d) {
-        return d.gender === "other";
-      })
-      .filter(function () {
-        if (!state.other) d3.select(this).attr("opacity", 0.1);
-        else d3.select(this).attr("opacity", 1);
-        return true;
-      });
-  }, [state]);
-
-  const handleChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
-  };
   return (
     <div className="scatterPlot">
       <Card>
