@@ -171,14 +171,14 @@ function ScatterPlot({ data }) {
         tip
           .style("opacity", 1)
           .style("left", event.pageX - 25 + "px")
-          .style("top", event.pageY - 75 + "px")
+          .style("top", event.pageY - 85 + "px")
           .html(
             "<b>Bias:</b> " +
               d.bias.toPrecision(3) +
               "<br><b>Qualification:</b> " +
               d.qualification.toPrecision(3)
           );
-        d3.select(this).attr("opacity", 0.5);
+        d3.select(this).attr("stroke", "black").style("stroke-width", 3);
         console.log("mouseover", d);
       })
       .on("mouseout", function (event, d) {
@@ -187,7 +187,7 @@ function ScatterPlot({ data }) {
           .style("left", 0 + "px") // little hack sth. the invisible element is for sure not clicked by acceident
           .style("top", 0 + "px");
         console.log("mouseout", d);
-        d3.select(this).attr("opacity", 1);
+        d3.select(this).attr("stroke", "none").style("stroke-width", 0);
       })
       .on("click", function (event, d) {
         handleClick(d.id);
