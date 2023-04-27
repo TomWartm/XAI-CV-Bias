@@ -48,8 +48,8 @@ function ScatterPlot({ data }) {
       .style("overflow", "visible")
       .style("margin-top", "100px");
     //set up scaling
-    const xScale = d3.scaleLinear([-10, 10], [0, w]);
-    const yScale = d3.scaleLinear([-10, 10], [h, 0]);
+    const xScale = d3.scaleLinear([-1.2, 1.2], [0, w]);
+    const yScale = d3.scaleLinear([-5, 5], [h, 0]);
 
     //set up axes
     const xAxis = d3.axisBottom(xScale).ticks(10);
@@ -240,21 +240,6 @@ function ScatterPlot({ data }) {
   };
   ///////////////////////////////////////////////////////////code duplication bottom/////////////////////////////////////////////////////////
 
-  function filter_circles() {
-    d3.select(svgRef.current)
-      .selectAll("circle")
-      .filter(function (d) {
-        if (typeof d.bias !== "undefined")
-          if (d.bias > 0) {
-            // TODO: change this sth. it fits to backend
-            if (state.male) {
-              d3.select(this).attr("opacity", 0.1);
-            } else d3.select(this).attr("opacity", 1);
-          }
-
-        return true;
-      });
-  }
   // set data filter for gender
   const [state, setState] = useState({
     male: true,
@@ -262,15 +247,62 @@ function ScatterPlot({ data }) {
     other: true,
   });
 
+  useEffect(() => {
+    console.log("there was a change in a state: ", state);
+
+    // filter male
+    d3.select(svgRef.current)
+      .selectAll("circle")
+      .filter(function (d) {
+        if (d !== undefined) return d;
+        else return false;
+      })
+      .filter(function (d) {
+        return d.gender === "male";
+      })
+      .filter(function () {
+        if (!state.male) d3.select(this).attr("opacity", 0.1);
+        else d3.select(this).attr("opacity", 1);
+        return true;
+      });
+    // filter female
+    d3.select(svgRef.current)
+      .selectAll("circle")
+      .filter(function (d) {
+        if (d !== undefined) return d;
+        else return false;
+      })
+      .filter(function (d) {
+        return d.gender === "female";
+      })
+      .filter(function () {
+        if (!state.female) d3.select(this).attr("opacity", 0.1);
+        else d3.select(this).attr("opacity", 1);
+        return true;
+      });
+    // filter other
+    d3.select(svgRef.current)
+      .selectAll("circle")
+      .filter(function (d) {
+        if (d !== undefined) return d;
+        else return false;
+      })
+      .filter(function (d) {
+        return d.gender === "other";
+      })
+      .filter(function () {
+        if (!state.other) d3.select(this).attr("opacity", 0.1);
+        else d3.select(this).attr("opacity", 1);
+        return true;
+      });
+  }, [state]);
+
   const handleChange = (event) => {
     setState({
       ...state,
       [event.target.name]: event.target.checked,
     });
-    console.log(state);
-    filter_circles();
   };
-  const { male, female, other } = state;
   return (
     <div className="scatterPlot">
       <Card>
@@ -279,14 +311,18 @@ function ScatterPlot({ data }) {
           <FormGroup>
             <FormControlLabel
               control={
-                <Checkbox checked={male} onChange={handleChange} name="male" />
+                <Checkbox
+                  checked={state.male}
+                  onChange={handleChange}
+                  name="male"
+                />
               }
               label="male"
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={female}
+                  checked={state.female}
                   onChange={handleChange}
                   name="female"
                 />
@@ -296,7 +332,7 @@ function ScatterPlot({ data }) {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={other}
+                  checked={state.other}
                   onChange={handleChange}
                   name="other"
                 />
