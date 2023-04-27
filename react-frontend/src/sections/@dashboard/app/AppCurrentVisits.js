@@ -49,7 +49,7 @@ export default function AppCurrentVisits({ title, subheader, chartColors, chartD
     colors: chartColors,
     labels: chartLabels,
     stroke: { colors: [theme.palette.background.paper] },
-    legend: { floating: true, horizontalAlign: 'center' },
+    legend: { show: false },
     dataLabels: { enabled: true, dropShadow: { enabled: false } },
     tooltip: {
       fillSeriesColor: false,
@@ -70,7 +70,7 @@ export default function AppCurrentVisits({ title, subheader, chartColors, chartD
       <CardHeader title={title} subheader={subheader} />
 
       <StyledChartWrapper dir="ltr">
-        <ReactApexChart type="pie" series={chartSeries} options={chartOptions} height={280} />
+        <ReactApexChart type="pie" series={chartSeries} options={chartOptions} height={380} />
       </StyledChartWrapper>
     </Card>
   );

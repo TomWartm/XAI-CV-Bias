@@ -7,11 +7,14 @@ import shap
 from sklearn.metrics import accuracy_score
 from sklearn.metrics.pairwise import cosine_similarity
 
-def prepare_dataset():
+def load_df():
     df = pd.read_csv('backend-project/data/dataset.csv')
-    df = df[df['company'] == 'B']
+    df = df[df['company'] == 'C']
     df = df.drop(['company'], axis=1)
 
+    return df
+
+def prepare_dataset(df):
     bool_cols = ['ind-debateclub', 'ind-programming_exp', 'ind-international_exp', 'ind-entrepeneur_exp', 'ind-exact_study', 'decision']
     df[bool_cols] = df[bool_cols].astype(int)
 
@@ -23,13 +26,13 @@ def prepare_dataset():
 
     return df
 
-ml_dataset = prepare_dataset()
+original_df = load_df()
+ml_dataset = prepare_dataset(original_df.copy())
 
 def get_shap_values():
     ids = ml_dataset["Id"]
     X = ml_dataset.drop(columns=["decision", "Id"])
     y = ml_dataset["decision"]
-
 
     model = LogisticRegression(max_iter=1000)
     model.fit(X, y)
@@ -43,44 +46,62 @@ def get_shap_values():
     shap_df["Id"] = ids.values
     shap_df['predicted_decision'] = y_pred
     shap_df["actual_decision"] = y.values
+
+    multiindex_vals = [
+        ["bias", "fair", "fair","fair","fair","fair","fair","fair","bias", "bias", "bias", "bias", "bias", "bias", "fair","fair","fair","fair","fair","fair","fair","fair","fair","fair","fair","meta", "meta", "meta"],
+        ['age', 'university_grade', 'debateclub', 'programming_exp',
+        'international_exp', 'entrepeneur_exp', 'languages',
+        'exact_study', 'gender', 'gender', 'gender',
+        'nationality', 'nationality', 'nationality',
+        'sport', 'sport', 'sport', 'sport', 'sport',
+        'sport', 'sport', 'sport', 'degree',
+        'degree', 'degree', 'meta', 'meta',
+        'meta'],
+        shap_df.columns.values]
+    multiindex = pd.MultiIndex.from_arrays(multiindex_vals)
+    shap_df.columns = multiindex
+    
     return shap_df
 
 def build_scatterplot_data(shap_df):
-    bias_columns = ["age", 
-                    "gender_female",
-                    "gender_male",
-                    "gender_other",
-                    "nationality_Belgian",
-                    "nationality_Dutch",
-                    "nationality_German"]
-    fair_columns = list(set(shap_df.columns).difference(bias_columns))
-
     scatter_df = pd.DataFrame()
-    scatter_df["bias"] = shap_df[bias_columns].sum(axis=1)
-    scatter_df["qualification"] = shap_df[fair_columns].sum(axis=1)
-    scatter_df["id"] = shap_df["Id"]
-    scatter_df["decision"] = shap_df["actual_decision"].astype(bool)
+    scatter_df["bias"] = shap_df.loc[:, ("bias", slice(None), slice(None))].sum(axis=1)
+    scatter_df["qualification"] = shap_df.loc[:, ("fair", slice(None), slice(None))].sum(axis=1)
+    scatter_df["id"] = shap_df.loc[:, (slice(None), slice(None), "Id")]
 
-    # Make this look nicer. Remove later
-    df_decision_0 = scatter_df.loc[scatter_df['decision'] == True].head(100)
-    df_decision_1 = scatter_df.loc[scatter_df['decision'] == False].head(100)
-    scatter_df = pd.concat([df_decision_0, df_decision_1])
-    scatter_df["bias"] = scatter_df["bias"] * 20
-
+    scatter_df = pd.merge(scatter_df, original_df, left_on="id", right_on="Id", how="inner")
+    scatter_df = scatter_df.drop(columns=["Id"])
 
     return scatter_df
 
+def build_totals(shap_df: pd.DataFrame):
+    bias_df = shap_df.loc[:, ("bias", slice(None), slice(None))]
+    bias_groups = bias_df.columns.get_level_values(1).unique()
 
-def build_totals(shap_df):
-    age = (shap_df["age"] ** 2).sum()
-    gender = (shap_df[["gender_female","gender_male","gender_other"]] ** 2).sum().sum()
-    nationality = (shap_df[["nationality_Belgian","nationality_Dutch","nationality_German"]] ** 2).sum().sum()
-    overallscore = age + gender + nationality
+    bias_total_influence = 0
+    groups = shap_df.columns.get_level_values(1).unique().to_list()
+    groups.remove("meta")
+    influence_tmp = []
+    for group in groups:
+        subdf = shap_df.loc[:, (slice(None), group, slice(None))]
+        current_influence = subdf.abs().sum(axis=1).mean()
+        influence_tmp.append(current_influence)
+    influence_tmp = (np.array(influence_tmp) / np.array(influence_tmp).sum()).tolist()
+
+    influence = []
+    fairness = []
+    for group, current_influence in zip(groups, influence_tmp):
+        influence.append({"label": group, "value": current_influence})
+        if group in bias_groups:
+            bias_total_influence += current_influence
+            current_fairness = 100 - round(current_influence * 100)
+            fairness.append({"label": group, "value": current_fairness})
+
+    overallscore = 100 - round(bias_total_influence * 100)
 
     return {
-        "groups": [{"label": "Age", "value": age}, 
-                   {"label": "Gender", "value": gender},
-                   {"label": "Nationality", "value": nationality}],
+        "influence": influence,
+        "groupfairness": fairness,
         "overallscore": overallscore
     }
 
@@ -109,6 +130,11 @@ def build_similarpeople():
 
     return result
 
+def ignore_person(id):
+    global original_df
+    global ml_dataset
+    original_df = original_df.drop(original_df[original_df["Id"] == id].index)
+    ml_dataset = ml_dataset.drop(ml_dataset[ml_dataset["Id"] == id].index)
 
 def train_ml_model():
     shap_df = get_shap_values()
