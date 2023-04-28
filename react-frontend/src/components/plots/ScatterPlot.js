@@ -15,6 +15,7 @@ import {
   FormControlLabel,
   FormLabel,
   FormControl,
+  FormHelperText,
 } from "@mui/material";
 import { PersonProfile } from "../popup";
 
@@ -201,12 +202,25 @@ function ScatterPlot({ data }) {
     male: true,
     female: true,
     other: true,
+    dutch: true,
+    belgian: true,
+    german: true,
   });
 
   useEffect(() => {
-    console.log("there was a change in a state: ", state);
+    console.log("there was a change in a Gender state: ", state);
+    function ignore_point(d) {
+      // returns true if datapoint should be ignored, false otherwise
 
-    // filter male
+      if (d.gender === "male" && !state.male) return true;
+      if (d.gender === "female" && !state.female) return true;
+      if (d.gender === "other" && !state.other) return true;
+      if (d.nationality === "Dutch" && !state.dutch) return true;
+      if (d.nationality === "Belgian" && !state.belgian) return true;
+      if (d.nationality === "German" && !state.german) return true;
+      else return false;
+    }
+    // filter gender
     d3.select(svgRef.current)
       .selectAll("circle")
       .filter(function (d) {
@@ -214,40 +228,7 @@ function ScatterPlot({ data }) {
         else return false;
       })
       .filter(function (d) {
-        return d.gender === "male";
-      })
-      .filter(function () {
-        if (!state.male) d3.select(this).attr("opacity", MIN_OPACITY);
-        else d3.select(this).attr("opacity", MAX_OPACITY);
-        return true;
-      });
-    // filter female
-    d3.select(svgRef.current)
-      .selectAll("circle")
-      .filter(function (d) {
-        if (d !== undefined) return d;
-        else return false;
-      })
-      .filter(function (d) {
-        return d.gender === "female";
-      })
-      .filter(function () {
-        if (!state.female) d3.select(this).attr("opacity", MIN_OPACITY);
-        else d3.select(this).attr("opacity", MAX_OPACITY);
-        return true;
-      });
-    // filter other
-    d3.select(svgRef.current)
-      .selectAll("circle")
-      .filter(function (d) {
-        if (d !== undefined) return d;
-        else return false;
-      })
-      .filter(function (d) {
-        return d.gender === "other";
-      })
-      .filter(function () {
-        if (!state.other) d3.select(this).attr("opacity", MIN_OPACITY);
+        if (ignore_point(d)) d3.select(this).attr("opacity", MIN_OPACITY);
         else d3.select(this).attr("opacity", MAX_OPACITY);
         return true;
       });
@@ -308,39 +289,81 @@ function ScatterPlot({ data }) {
   return (
     <div className="scatterPlot">
       <Card>
-        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-          <FormLabel component="legend">Persons to plot:</FormLabel>
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={state.male}
-                  onChange={handleChange}
-                  name="male"
-                />
-              }
-              label="male"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={state.female}
-                  onChange={handleChange}
-                  name="female"
-                />
-              }
-              label="female"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={state.other}
-                  onChange={handleChange}
-                  name="other"
-                />
-              }
-              label="other"
-            />
+        <FormControl
+          sx={{ mt: 2, ml: 3, mr: 3 }}
+          component="fieldset"
+          variant="standard"
+        >
+          <FormLabel component="legend" focused={false}>
+            Filter Plot
+          </FormLabel>
+          <FormGroup row={true}>
+            <FormGroup sx={{ m: 2 }}>
+              <FormHelperText>Gender</FormHelperText>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.male}
+                    onChange={handleChange}
+                    name="male"
+                  />
+                }
+                label="male"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.female}
+                    onChange={handleChange}
+                    name="female"
+                  />
+                }
+                label="female"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.other}
+                    onChange={handleChange}
+                    name="other"
+                  />
+                }
+                label="other"
+              />
+            </FormGroup>
+            <FormGroup sx={{ m: 2 }}>
+              <FormHelperText>Nationality</FormHelperText>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.dutch}
+                    onChange={handleChange}
+                    name="dutch"
+                  />
+                }
+                label="dutch"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.belgian}
+                    onChange={handleChange}
+                    name="belgian"
+                  />
+                }
+                label="belgian"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.german}
+                    onChange={handleChange}
+                    name="german"
+                  />
+                }
+                label="german"
+              />
+            </FormGroup>
           </FormGroup>
         </FormControl>
       </Card>
