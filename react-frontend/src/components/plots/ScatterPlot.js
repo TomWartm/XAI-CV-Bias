@@ -206,6 +206,9 @@ function ScatterPlot({ data }) {
     dutch: true,
     belgian: true,
     german: true,
+    bachelor: true,
+    master: true,
+    phd: true,
   });
   const handleChange = (event) => {
     setState({
@@ -223,7 +226,11 @@ function ScatterPlot({ data }) {
   const handleGradeChange = (event, newValue) => {
     setGradeValue(newValue);
   };
-
+  // set data filter for languages
+  const [languagesValue, setLanguagesValue] = useState([0, 3]);
+  const handleLanguagesChange = (event, newValue) => {
+    setLanguagesValue(newValue);
+  };
   useEffect(() => {
     console.log("there was a change in a state: ", state, ageValue[0]);
     function ignore_point(d) {
@@ -236,10 +243,20 @@ function ScatterPlot({ data }) {
       if (d.nationality === "Belgian" && !state.belgian) return true;
       if (d.nationality === "German" && !state.german) return true;
       if (!(ageValue[0] <= d.age && d.age <= ageValue[1])) return true;
+      if (d["ind-degree"] === "bachelor" && !state.bachelor) return true;
+      if (d["ind-degree"] === "master" && !state.master) return true;
+      if (d["ind-degree"] === "phd" && !state.phd) return true;
       if (
         !(
           gradeValue[0] <= d["ind-university_grade"] &&
           d["ind-university_grade"] <= gradeValue[1]
+        )
+      )
+        return true;
+      if (
+        !(
+          languagesValue[0] <= d["ind-languages"] &&
+          d["ind-languages"] <= languagesValue[1]
         )
       )
         return true;
@@ -257,7 +274,7 @@ function ScatterPlot({ data }) {
         else d3.select(this).attr("opacity", MAX_OPACITY);
         return true;
       });
-  }, [state, ageValue, gradeValue]);
+  }, [state, ageValue, gradeValue, languagesValue]);
 
   // handle click event --> load data (code duplicate from PopupWindows.js)
   // TODO: remvove this code duplication, but idk when to fetch the data
@@ -307,6 +324,7 @@ function ScatterPlot({ data }) {
 
   return (
     <div className="scatterPlot">
+      <svg ref={svgRef}></svg>
       <Card>
         <FormControl
           sx={{ mt: 2, ml: 3, mr: 3 }}
@@ -417,6 +435,39 @@ function ScatterPlot({ data }) {
               />
             </FormGroup>
             <FormGroup sx={{ m: 2 }}>
+              <FormHelperText>Degree</FormHelperText>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.bachelor}
+                    onChange={handleChange}
+                    name="bachelor"
+                  />
+                }
+                label="bachelor"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.master}
+                    onChange={handleChange}
+                    name="master"
+                  />
+                }
+                label="master"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.phd}
+                    onChange={handleChange}
+                    name="phd"
+                  />
+                }
+                label="phd"
+              />
+            </FormGroup>
+            <FormGroup sx={{ m: 2 }}>
               <FormHelperText>Grade</FormHelperText>
 
               <FormControlLabel
@@ -446,14 +497,43 @@ function ScatterPlot({ data }) {
                     name="grade"
                   />
                 }
-                label=""
+              />
+            </FormGroup>
+            <FormGroup sx={{ m: 2 }}>
+              <FormHelperText>Languages</FormHelperText>
+
+              <FormControlLabel
+                sx={{ height: 100, mt: 2, ml: 0.1 }}
+                control={
+                  <Slider
+                    orientation="vertical"
+                    size="small"
+                    getAriaLabel={() => "Languages range"}
+                    value={languagesValue}
+                    onChange={handleLanguagesChange}
+                    valueLabelDisplay="auto"
+                    marks={[
+                      {
+                        value: 0,
+                        label: "0",
+                      },
+
+                      {
+                        value: 3,
+                        label: "3",
+                      },
+                    ]}
+                    min={0}
+                    max={3}
+                    disableSwap
+                    name="languages"
+                  />
+                }
               />
             </FormGroup>
           </FormGroup>
         </FormControl>
       </Card>
-
-      <svg ref={svgRef}></svg>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogContent>
           <Stack direction="row">
