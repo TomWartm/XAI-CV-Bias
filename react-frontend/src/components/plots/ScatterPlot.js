@@ -198,7 +198,7 @@ function ScatterPlot({ data }) {
       });
   }, [data]);
 
-  // set data filter for gender
+  // set data filter for gender and nationality
   const [state, setState] = useState({
     male: true,
     female: true,
@@ -206,9 +206,6 @@ function ScatterPlot({ data }) {
     dutch: true,
     belgian: true,
     german: true,
-    age1: true,
-    age2: true,
-    age3: true,
   });
   const handleChange = (event) => {
     setState({
@@ -216,9 +213,15 @@ function ScatterPlot({ data }) {
       [event.target.name]: event.target.checked,
     });
   };
+  // set data filter for age
   const [ageValue, setAgeValue] = useState([21, 32]);
-  const handleSliderChange = (event, newValue) => {
+  const handleAgeChange = (event, newValue) => {
     setAgeValue(newValue);
+  };
+  // set data filter for grade
+  const [gradeValue, setGradeValue] = useState([45, 78]);
+  const handleGradeChange = (event, newValue) => {
+    setGradeValue(newValue);
   };
 
   useEffect(() => {
@@ -232,8 +235,14 @@ function ScatterPlot({ data }) {
       if (d.nationality === "Dutch" && !state.dutch) return true;
       if (d.nationality === "Belgian" && !state.belgian) return true;
       if (d.nationality === "German" && !state.german) return true;
-
       if (!(ageValue[0] <= d.age && d.age <= ageValue[1])) return true;
+      if (
+        !(
+          gradeValue[0] <= d["ind-university_grade"] &&
+          d["ind-university_grade"] <= gradeValue[1]
+        )
+      )
+        return true;
       else return false;
     }
     // filter gender
@@ -248,7 +257,7 @@ function ScatterPlot({ data }) {
         else d3.select(this).attr("opacity", MAX_OPACITY);
         return true;
       });
-  }, [state, ageValue]);
+  }, [state, ageValue, gradeValue]);
 
   // handle click event --> load data (code duplicate from PopupWindows.js)
   // TODO: remvove this code duplication, but idk when to fetch the data
@@ -385,7 +394,7 @@ function ScatterPlot({ data }) {
                     size="small"
                     getAriaLabel={() => "Age range"}
                     value={ageValue}
-                    onChange={handleSliderChange}
+                    onChange={handleAgeChange}
                     valueLabelDisplay="auto"
                     marks={[
                       {
@@ -401,6 +410,40 @@ function ScatterPlot({ data }) {
                     min={21}
                     max={32}
                     disableSwap
+                    name="age"
+                  />
+                }
+                label=""
+              />
+            </FormGroup>
+            <FormGroup sx={{ m: 2 }}>
+              <FormHelperText>Grade</FormHelperText>
+
+              <FormControlLabel
+                sx={{ height: 100, mt: 2, ml: 0.1 }}
+                control={
+                  <Slider
+                    orientation="vertical"
+                    size="small"
+                    getAriaLabel={() => "Grade range"}
+                    value={gradeValue}
+                    onChange={handleGradeChange}
+                    valueLabelDisplay="auto"
+                    marks={[
+                      {
+                        value: 45,
+                        label: "45",
+                      },
+
+                      {
+                        value: 78,
+                        label: "78",
+                      },
+                    ]}
+                    min={45}
+                    max={78}
+                    disableSwap
+                    name="grade"
                   />
                 }
                 label=""
