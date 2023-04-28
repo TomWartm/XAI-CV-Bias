@@ -16,6 +16,7 @@ import {
   FormLabel,
   FormControl,
   FormHelperText,
+  Slider,
 } from "@mui/material";
 import { PersonProfile } from "../popup";
 
@@ -205,10 +206,23 @@ function ScatterPlot({ data }) {
     dutch: true,
     belgian: true,
     german: true,
+    age1: true,
+    age2: true,
+    age3: true,
   });
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+  };
+  const [ageValue, setAgeValue] = useState([21, 32]);
+  const handleSliderChange = (event, newValue) => {
+    setAgeValue(newValue);
+  };
 
   useEffect(() => {
-    console.log("there was a change in a Gender state: ", state);
+    console.log("there was a change in a state: ", state, ageValue[0]);
     function ignore_point(d) {
       // returns true if datapoint should be ignored, false otherwise
 
@@ -218,6 +232,8 @@ function ScatterPlot({ data }) {
       if (d.nationality === "Dutch" && !state.dutch) return true;
       if (d.nationality === "Belgian" && !state.belgian) return true;
       if (d.nationality === "German" && !state.german) return true;
+
+      if (!(ageValue[0] <= d.age && d.age <= ageValue[1])) return true;
       else return false;
     }
     // filter gender
@@ -232,14 +248,8 @@ function ScatterPlot({ data }) {
         else d3.select(this).attr("opacity", MAX_OPACITY);
         return true;
       });
-  }, [state]);
+  }, [state, ageValue]);
 
-  const handleChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
-  };
   // handle click event --> load data (code duplicate from PopupWindows.js)
   // TODO: remvove this code duplication, but idk when to fetch the data
   ///////////////////////////////////////////////////////////code duplication top/////////////////////////////////////////////////////////
@@ -362,6 +372,38 @@ function ScatterPlot({ data }) {
                   />
                 }
                 label="german"
+              />
+            </FormGroup>
+            <FormGroup sx={{ m: 2 }}>
+              <FormHelperText>Age</FormHelperText>
+
+              <FormControlLabel
+                sx={{ height: 100, mt: 2, ml: 0.1 }}
+                control={
+                  <Slider
+                    orientation="vertical"
+                    size="small"
+                    getAriaLabel={() => "Age range"}
+                    value={ageValue}
+                    onChange={handleSliderChange}
+                    valueLabelDisplay="auto"
+                    marks={[
+                      {
+                        value: 21,
+                        label: "21",
+                      },
+
+                      {
+                        value: 32,
+                        label: "32",
+                      },
+                    ]}
+                    min={21}
+                    max={32}
+                    disableSwap
+                  />
+                }
+                label=""
               />
             </FormGroup>
           </FormGroup>
