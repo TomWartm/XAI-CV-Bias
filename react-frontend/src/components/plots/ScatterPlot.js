@@ -434,6 +434,7 @@ function ScatterPlot({ data }) {
                 label=""
               />
             </FormGroup>
+            <Divider orientation="vertical" flexItem />
             <FormGroup sx={{ m: 2 }}>
               <FormHelperText>Degree</FormHelperText>
               <FormControlLabel
@@ -485,7 +486,6 @@ function ScatterPlot({ data }) {
                         value: 45,
                         label: "45",
                       },
-
                       {
                         value: 78,
                         label: "78",
@@ -517,7 +517,14 @@ function ScatterPlot({ data }) {
                         value: 0,
                         label: "0",
                       },
-
+                      {
+                        value: 1,
+                        label: "",
+                      },
+                      {
+                        value: 2,
+                        label: "",
+                      },
                       {
                         value: 3,
                         label: "3",
