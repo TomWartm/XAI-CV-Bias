@@ -1,29 +1,29 @@
-import PropTypes from 'prop-types';
-import ReactApexChart from 'react-apexcharts';
+import PropTypes from "prop-types";
+import ReactApexChart from "react-apexcharts";
 // @mui
-import { useTheme, styled } from '@mui/material/styles';
-import { Card, CardHeader } from '@mui/material';
+import { useTheme, styled } from "@mui/material/styles";
+import { Card, CardHeader } from "@mui/material";
 // utils
-import { fNumber } from '../../../utils/formatNumber';
+import { fNumber } from "../../../utils/formatNumber";
 // components
-import { useChart } from '../../../components/chart';
+import { useChart } from "../../../components/chart";
 
 // ----------------------------------------------------------------------
 
 const CHART_HEIGHT = 372;
 const LEGEND_HEIGHT = 72;
 
-const StyledChartWrapper = styled('div')(({ theme }) => ({
+const StyledChartWrapper = styled("div")(({ theme }) => ({
   height: CHART_HEIGHT,
   marginTop: theme.spacing(5),
-  '& .apexcharts-canvas svg': { height: CHART_HEIGHT },
-  '& .apexcharts-canvas svg,.apexcharts-canvas foreignObject': {
-    overflow: 'visible',
+  "& .apexcharts-canvas svg": { height: CHART_HEIGHT },
+  "& .apexcharts-canvas svg,.apexcharts-canvas foreignObject": {
+    overflow: "visible",
   },
-  '& .apexcharts-legend': {
+  "& .apexcharts-legend": {
     height: LEGEND_HEIGHT,
-    alignContent: 'center',
-    position: 'relative !important',
+    alignContent: "center",
+    position: "relative !important",
     borderTop: `solid 1px ${theme.palette.divider}`,
     top: `calc(${CHART_HEIGHT - LEGEND_HEIGHT}px) !important`,
   },
@@ -38,7 +38,13 @@ AppCurrentVisits.propTypes = {
   chartData: PropTypes.array,
 };
 
-export default function AppCurrentVisits({ title, subheader, chartColors, chartData, ...other }) {
+export default function AppCurrentVisits({
+  title,
+  subheader,
+  chartColors,
+  chartData,
+  ...other
+}) {
   const theme = useTheme();
 
   const chartLabels = chartData.map((i) => i.label);
@@ -70,7 +76,12 @@ export default function AppCurrentVisits({ title, subheader, chartColors, chartD
       <CardHeader title={title} subheader={subheader} />
 
       <StyledChartWrapper dir="ltr">
-        <ReactApexChart type="pie" series={chartSeries} options={chartOptions} height={380} />
+        <ReactApexChart
+          type="pie"
+          series={chartSeries}
+          options={chartOptions}
+          height={380}
+        />
       </StyledChartWrapper>
     </Card>
   );

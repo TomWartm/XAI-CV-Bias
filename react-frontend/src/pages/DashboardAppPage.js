@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { useTheme } from "@mui/material/styles";
 
 import {
   Card,
@@ -23,6 +24,7 @@ import React, { useEffect, useState } from "react";
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
+  const theme = useTheme();
   let [fairness, setFairness] = useState({
     groupfairness: [],
     overallscore: 0,
@@ -41,9 +43,9 @@ export default function DashboardAppPage() {
               data.influence[i].label
             ) !== -1
           ) {
-            data.influencecolors.push("#d14529");
+            data.influencecolors.push(theme.palette.error.main);
           } else {
-            data.influencecolors.push("#67706f");
+            data.influencecolors.push(theme.palette.primary.light); // TODO make look better visually
           }
         }
         setFairness(data);
