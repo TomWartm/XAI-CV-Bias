@@ -7,27 +7,34 @@ import shap
 from sklearn.metrics import accuracy_score
 from sklearn.metrics.pairwise import cosine_similarity
 
+
 def load_df():
-    df = pd.read_csv('backend-project/data/dataset.csv')
+    # df = pd.read_csv('backend-project/data/dataset.csv')
+    df = pd.read_csv('data/dataset.csv')
     df = df[df['company'] == 'C']
     df = df.drop(['company'], axis=1)
 
     return df
 
+
 def prepare_dataset(df):
-    bool_cols = ['ind-debateclub', 'ind-programming_exp', 'ind-international_exp', 'ind-entrepeneur_exp', 'ind-exact_study', 'decision']
+    bool_cols = ['ind-debateclub', 'ind-programming_exp', 'ind-international_exp',
+                 'ind-entrepeneur_exp', 'ind-exact_study', 'decision']
     df[bool_cols] = df[bool_cols].astype(int)
 
     scaler = MinMaxScaler()
-    df[['age', 'ind-university_grade']] = scaler.fit_transform(df[['age', 'ind-university_grade']])
+    df[['age', 'ind-university_grade']
+       ] = scaler.fit_transform(df[['age', 'ind-university_grade']])
 
     cat_cols = ['gender', 'nationality', 'sport', 'ind-degree']
     df = pd.get_dummies(df, columns=cat_cols)
 
     return df
 
+
 original_df = load_df()
 ml_dataset = prepare_dataset(original_df.copy())
+
 
 def get_shap_values():
     ids = ml_dataset["Id"]
@@ -48,31 +55,37 @@ def get_shap_values():
     shap_df["actual_decision"] = y.values
 
     multiindex_vals = [
-        ["bias", "fair", "fair","fair","fair","fair","fair","fair","bias", "bias", "bias", "bias", "bias", "bias", "fair","fair","fair","fair","fair","fair","fair","fair","fair","fair","fair","meta", "meta", "meta"],
+        ["bias", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "bias", "bias", "bias", "bias", "bias", "bias",
+            "fair", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "meta", "meta", "meta"],
         ['age', 'university_grade', 'debateclub', 'programming_exp',
-        'international_exp', 'entrepeneur_exp', 'languages',
-        'exact_study', 'gender', 'gender', 'gender',
-        'nationality', 'nationality', 'nationality',
-        'sport', 'sport', 'sport', 'sport', 'sport',
-        'sport', 'sport', 'sport', 'degree',
-        'degree', 'degree', 'meta', 'meta',
-        'meta'],
+         'international_exp', 'entrepeneur_exp', 'languages',
+         'exact_study', 'gender', 'gender', 'gender',
+         'nationality', 'nationality', 'nationality',
+         'sport', 'sport', 'sport', 'sport', 'sport',
+         'sport', 'sport', 'sport', 'degree',
+         'degree', 'degree', 'meta', 'meta',
+         'meta'],
         shap_df.columns.values]
     multiindex = pd.MultiIndex.from_arrays(multiindex_vals)
     shap_df.columns = multiindex
-    
+
     return shap_df
+
 
 def build_scatterplot_data(shap_df):
     scatter_df = pd.DataFrame()
-    scatter_df["bias"] = shap_df.loc[:, ("bias", slice(None), slice(None))].sum(axis=1)
-    scatter_df["qualification"] = shap_df.loc[:, ("fair", slice(None), slice(None))].sum(axis=1)
+    scatter_df["bias"] = shap_df.loc[:,
+                                     ("bias", slice(None), slice(None))].sum(axis=1)
+    scatter_df["qualification"] = shap_df.loc[:,
+                                              ("fair", slice(None), slice(None))].sum(axis=1)
     scatter_df["id"] = shap_df.loc[:, (slice(None), slice(None), "Id")]
 
-    scatter_df = pd.merge(scatter_df, original_df, left_on="id", right_on="Id", how="inner")
+    scatter_df = pd.merge(scatter_df, original_df,
+                          left_on="id", right_on="Id", how="inner")
     scatter_df = scatter_df.drop(columns=["Id"])
 
     return scatter_df
+
 
 def build_totals(shap_df: pd.DataFrame):
     bias_df = shap_df.loc[:, ("bias", slice(None), slice(None))]
@@ -86,7 +99,8 @@ def build_totals(shap_df: pd.DataFrame):
         subdf = shap_df.loc[:, (slice(None), group, slice(None))]
         current_influence = subdf.abs().sum(axis=1).mean()
         influence_tmp.append(current_influence)
-    influence_tmp = (np.array(influence_tmp) / np.array(influence_tmp).sum()).tolist()
+    influence_tmp = (np.array(influence_tmp) /
+                     np.array(influence_tmp).sum()).tolist()
 
     influence = []
     fairness = []
@@ -105,10 +119,13 @@ def build_totals(shap_df: pd.DataFrame):
         "overallscore": overallscore
     }
 
+
 def build_reconsider(scatter_df: pd.DataFrame):
-    filter = scatter_df[scatter_df['decision'] == 0].sort_values("qualification", ascending=False)
+    filter = scatter_df[scatter_df['decision'] == 0].sort_values(
+        "qualification", ascending=False)
     df = filter.head(3)
     return df
+
 
 def build_similarpeople():
     ids = ml_dataset["Id"]
@@ -139,4 +156,3 @@ def train_ml_model():
     similar_people = build_similarpeople()
 
     return (scatter_df, similar_people, reconsider, totals)
-    

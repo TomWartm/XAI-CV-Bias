@@ -139,7 +139,7 @@ export default function CandidatesPlot({
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
       <Grid container divider={<Divider orientation="vertical" flexItem />}>
-        <Grid item lg="auto">
+        <Grid item xs={12} md={7.9} lg={7.9}>
           <Stack direction="column" alignItems="center">
             <Paper sx={{ p: 2 }}>
               <Stack direction="row" spacing={2}>
@@ -200,17 +200,17 @@ export default function CandidatesPlot({
 
         <Divider orientation="vertical" flexItem />
 
-        {/*<Grid item xs>*/}
-
-        <AppReconsiderList
-          title="People to reconsider"
-          list={reconsiderPersons.map((x) => ({
-            id: x.Id,
-            personId: x.Id,
-            image: `/assets/images/avatars/${x.gender}.jpg`,
-            decision: x.decision,
-          }))}
-        />
+        <Grid item xs>
+          <AppReconsiderList
+            title="People to reconsider"
+            list={reconsiderPersons.map((x) => ({
+              id: x.Id,
+              personId: x.Id,
+              image: `/assets/images/avatars/${x.gender}.jpg`,
+              decision: x.decision,
+            }))}
+          />
+        </Grid>
       </Grid>
     </Card>
   );
