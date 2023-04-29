@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import * as d3 from "d3";
 import {
@@ -19,12 +20,14 @@ import {
   Slider,
 } from "@mui/material";
 import { PersonProfile } from "../popup";
+import { PrintTwoTone } from "@mui/icons-material";
 
 ScatterPlot.propTypes = { data: PropTypes.array };
 
 function ScatterPlot({ data }) {
+  const theme = useTheme();
   const svgRef = useRef();
-  const MAX_OPACITY = "0.9";
+  const MAX_OPACITY = "0.5";
   const MIN_OPACITY = "0.1";
   useEffect(() => {
     //create tooltip
@@ -58,19 +61,36 @@ function ScatterPlot({ data }) {
     const xAxis = d3.axisBottom(xScale).ticks(10);
     const yAxis = d3.axisLeft(yScale).ticks(10);
 
+    const getCircleColor = (value) => {
+      if (value >= 0 && value <= 25) return theme.palette.error.main;
+      if (value > 25 && value <= 50) return theme.palette.warning.main;
+      if (value > 50 && value <= 75) return theme.palette.success.main;
+      if (value >= 75) return theme.palette.primary.main;
+    };
+
+    const getCircleStrokeColor = (value) => {
+      if (value >= 0 && value <= 25) return theme.palette.error.dark;
+      if (value > 25 && value <= 50) return theme.palette.warning.dark;
+      if (value > 50 && value <= 75) return theme.palette.success.dark;
+      if (value >= 75) return theme.palette.primary.dark;
+    };
+
     svg
       .append("g")
       .attr("class", "axis")
       .attr("transform", "translate(0," + h / 2 + ")")
+      .attr("opacity", 0) // hide  axis because of PCA
       .call(xAxis);
+
     svg
       .append("g")
       .attr("class", "axis")
       .attr("transform", "translate(" + w / 2 + ",0)")
+      .attr("opacity", 0) // hide  axis because of PCA
       .call(yAxis);
 
-    // set up axis labels
-    svg
+    // set up axis labels (From when we had Qualifications x Bias plot)
+    /*svg
       .append("text")
       .attr("x", w + 20)
       .attr("y", h / 2 + 5)
@@ -97,6 +117,7 @@ function ScatterPlot({ data }) {
           .style("top", 0 + "px");
         console.log("mouseout: Qulification Info");
       });
+
     svg
       .append("text")
       .attr("y", -20)
@@ -122,6 +143,7 @@ function ScatterPlot({ data }) {
           .style("top", 0 + "px");
         console.log("mouseout: Qulification Info");
       });
+      */
 
     // set up legend
     svg
@@ -158,7 +180,7 @@ function ScatterPlot({ data }) {
       .enter()
       .append("circle")
       .attr("fill", function (d) {
-        return d.decision === true ? "rgb(51, 153, 51)" : "rgb(204, 0, 0)";
+        return getCircleColor((d["ind-university_grade"] - 45) * 3); // I put grade temporarily to see how it will look. TODO: scale based on bias once we have PCA positions
       })
       .attr("cx", function (d) {
         return xScale(d.bias);
@@ -166,9 +188,12 @@ function ScatterPlot({ data }) {
       .attr("cy", function (d) {
         return yScale(d.qualification);
       })
-      .attr("r", 5)
+      .attr("r", (d) => d.age - 20) // I put it just to see how it will look. TODO: scale based on qualification instead of age once we have PCA positions
       .attr("opacity", MAX_OPACITY)
-      .style("cursor", "pointer");
+      .style("cursor", "pointer")
+      .style("stroke", function (d) {
+        return getCircleStrokeColor((d["ind-university_grade"] - 45) * 3); // I put grade temporarily to see how it will look. TODO: scale based on bias once we have PCA positions
+      });
 
     circles
       .on("mouseover", function (event, d) {
@@ -183,14 +208,14 @@ function ScatterPlot({ data }) {
               d.qualification.toPrecision(3)
           );
         d3.select(this).attr("stroke", "black").style("stroke-width", 3);
-        console.log("mouseover", d);
+        //console.log("mouseover", d);
       })
       .on("mouseout", function (event, d) {
         tip
           .style("opacity", 0)
           .style("left", 0 + "px") // little hack sth. the invisible element is for sure not clicked by acceident
           .style("top", 0 + "px");
-        console.log("mouseout", d);
+        //console.log("mouseout", d);
         d3.select(this).attr("stroke", "none").style("stroke-width", 0);
       })
       .on("click", function (event, d) {
@@ -232,7 +257,7 @@ function ScatterPlot({ data }) {
     setLanguagesValue(newValue);
   };
   useEffect(() => {
-    console.log("there was a change in a state: ", state, ageValue[0]);
+    //console.log("there was a change in a state: ", state, ageValue[0]);
     function ignore_point(d) {
       // returns true if datapoint should be ignored, false otherwise
 
@@ -284,7 +309,7 @@ function ScatterPlot({ data }) {
   const [personData, setPersonData] = useState({});
   const [similarPersonData, setSimilarPersonData] = useState({});
   const handleClick = async (personId) => {
-    console.log("handleClick", personId);
+    //console.log("handleClick", personId);
     try {
       // (1) get person data
       const responsePerson = await fetch(

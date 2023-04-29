@@ -10,7 +10,11 @@ import {
 } from "@mui/material";
 
 // sections
-import { CandidatesPlot, AppConversionRates, AppCurrentVisits } from "../sections/@dashboard/app";
+import {
+  CandidatesPlot,
+  AppConversionRates,
+  AppCurrentVisits,
+} from "../sections/@dashboard/app";
 
 import GaugeChart from "../components/gaugeChart";
 // data
@@ -20,28 +24,31 @@ import React, { useEffect, useState } from "react";
 
 export default function DashboardAppPage() {
   let [fairness, setFairness] = useState({
-    "groupfairness": [],
-    "overallscore": 0,
-    "influence": [],
-    "influencecolors": []
-})
+    groupfairness: [],
+    overallscore: 0,
+    influence: [],
+    influencecolors: [],
+  });
   useEffect(() => {
     fetch("http://127.0.0.1:8000/fairness")
-    .then((r) => r.json())
-    .then((data) => {
-      data.influencecolors = []
-      for(let i = 0; i < data.influence.length; i++) {
-        data.influence[i].value *= 100; // So hover shows correct number
-        if (["gender", "age", "nationality"].indexOf(data.influence[i].label) !== -1) {
-          data.influencecolors.push("#d14529")
+      .then((r) => r.json())
+      .then((data) => {
+        data.influencecolors = [];
+        for (let i = 0; i < data.influence.length; i++) {
+          data.influence[i].value *= 100; // So hover shows correct number
+          if (
+            ["gender", "age", "nationality"].indexOf(
+              data.influence[i].label
+            ) !== -1
+          ) {
+            data.influencecolors.push("#d14529");
+          } else {
+            data.influencecolors.push("#67706f");
+          }
         }
-        else {
-          data.influencecolors.push("#67706f")
-        }
-      }
-      setFairness(data)
-    })
-  }, [])
+        setFairness(data);
+      });
+  }, []);
 
   return (
     <>
@@ -73,7 +80,7 @@ export default function DashboardAppPage() {
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentVisits 
+            <AppCurrentVisits
               title="Influence by Group"
               subheader="How strong each property influenced your decision"
               chartData={fairness.influence}
