@@ -2,7 +2,7 @@ import argparse
 import pandas as pd
 import ml
 
-from flask import Flask, request, abort
+from flask import Flask, request, abort, Response
 from flask_cors import CORS
 
 
@@ -35,7 +35,19 @@ def create_app():
                 return abort(404)
 
         elif request.method == 'POST':  # TODO mark the influence of bias for this person as zero
-            return "Not implemented"
+            nonlocal scatterdataset
+            nonlocal similarpeopledataset
+            nonlocal reconsiderdataset
+            nonlocal totalfairnessdataset
+
+            ml.ignore_person(id)
+
+            (scatterdataset,
+             similarpeopledataset,
+             reconsiderdataset,
+             totalfairnessdataset) = ml.train_ml_model()
+
+            return Response(status=200)
 
         return abort(405)
 

@@ -147,6 +147,11 @@ def build_similarpeople():
 
     return result
 
+def ignore_person(id):
+    global original_df
+    global ml_dataset
+    original_df = original_df.drop(original_df[original_df["Id"] == id].index)
+    ml_dataset = ml_dataset.drop(ml_dataset[ml_dataset["Id"] == id].index)
 
 def train_ml_model():
     shap_df = get_shap_values()
