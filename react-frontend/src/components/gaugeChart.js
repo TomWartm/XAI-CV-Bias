@@ -6,7 +6,7 @@ import { scaleLinear } from "d3-scale";
 export default function GaugeChart({ value }) {
   const theme = useTheme();
 
-  const redArc = arc()
+  /*const redArc = arc()
     .innerRadius(1)
     .outerRadius(0.9)
     .startAngle(-Math.PI / 2)
@@ -37,12 +37,36 @@ export default function GaugeChart({ value }) {
     .endAngle(Math.PI / 2)
     .padAngle(0.025)
     .cornerRadius(2)();
+    */
+
+  const redArc = arc()
+    .innerRadius(1)
+    .outerRadius(0.9)
+    .startAngle(-Math.PI / 2)
+    .endAngle(-Math.PI / 6)
+    .padAngle(0.025)
+    .cornerRadius(2)();
+
+  const orangeArc = arc()
+    .innerRadius(1)
+    .outerRadius(0.9)
+    .startAngle(-Math.PI / 6)
+    .endAngle(Math.PI / 6)
+    .padAngle(0.025)
+    .cornerRadius(2)();
+
+  const greenArc = arc()
+    .innerRadius(1)
+    .outerRadius(0.9)
+    .startAngle(Math.PI / 6)
+    .endAngle(Math.PI / 2)
+    .padAngle(0.025)
+    .cornerRadius(2)();
 
   const getBlobColor = (value) => {
-    if (value >= 0 && value <= 25) return theme.palette.error.main;
-    if (value > 25 && value <= 50) return theme.palette.warning.main;
-    if (value > 50 && value <= 75) return theme.palette.success.main;
-    if (value >= 75) return theme.palette.primary.main;
+    if (value >= 0 && value <= 33) return theme.palette.error.main;
+    if (value > 33 && value <= 66) return theme.palette.warning.main;
+    if (value >= 66) return theme.palette.success.main;
   };
 
   const percentScale = scaleLinear()
@@ -56,18 +80,15 @@ export default function GaugeChart({ value }) {
   const angle = angleScale(percent);
   const markerLocation = getCoordsOnArc(angle, 1 - (1 - 0.9) / 2);
 
-  let scorerate = ""
+  let scorerate = "";
   if (value < 25) {
-    scorerate = "Very low "
-  }
-  else if (value < 50) {
-    scorerate = "Mediocre "
-  }
-  else if (value < 75) {
-    scorerate = "Good "
-  }
-  else {
-    scorerate = "Excellent "
+    scorerate = "Very low ";
+  } else if (value < 50) {
+    scorerate = "Mediocre ";
+  } else if (value < 75) {
+    scorerate = "Good ";
+  } else {
+    scorerate = "Excellent ";
   }
 
   return (
@@ -76,7 +97,6 @@ export default function GaugeChart({ value }) {
         <path d={redArc} fill={theme.palette.error.main} />
         <path d={orangeArc} fill={theme.palette.warning.main} />
         <path d={greenArc} fill={theme.palette.success.main} />
-        <path d={blueArc} fill={theme.palette.primary.main} />
         <circle
           cx={markerLocation[0]}
           cy={markerLocation[1]}
@@ -105,7 +125,6 @@ export default function GaugeChart({ value }) {
               fontWeight: "bold",
             }}
           >
-            
             {scorerate}
           </Box>
         </Typography>
