@@ -1,3 +1,4 @@
+# similar candidates based on cosine similarity
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from Dataset import DatasetPreprocessor
@@ -21,5 +22,14 @@ def find_similar_pairs(df, threshold):
 
 similar_pairs = find_similar_pairs(df, 0.99999) # change here the treshold
 print(similar_pairs)
+
+# print to see if it is finding similar pairs 
+for pair in similar_pairs:
+    idx1, idx2 = pair
+    features1 = df.iloc[idx1]
+    features2 = df.iloc[idx2]
+    comparison = pd.concat([features1, features2], axis=1)
+    print(comparison)
+    print('-' * 50)
 
 
