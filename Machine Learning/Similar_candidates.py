@@ -1,4 +1,3 @@
-# similar candidates based on cosine similarity
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from Dataset import DatasetPreprocessor
@@ -11,6 +10,13 @@ preprocessor.scale_data('MinMaxScaler')
 preprocessor.one_hot_encode(['gender', 'nationality', 'sport', 'ind-degree'])
 df = preprocessor.df
 
+# Remove specified features
+features_to_remove = [
+    'age', 'gender_male', 'gender_female', 'gender_other',
+    'nationality_Belgian', 'nationality_Dutch', 'nationality_German'
+]
+df = df.drop(columns=features_to_remove)
+
 def find_similar_pairs(df, threshold):
     similarity_matrix = cosine_similarity(df)
     np.fill_diagonal(similarity_matrix, 0)  # set diagonal elements to 0 to avoid self-pairing
@@ -20,7 +26,7 @@ def find_similar_pairs(df, threshold):
 
     return pairs
 
-similar_pairs = find_similar_pairs(df, 0.99999) # change here the treshold
+similar_pairs = find_similar_pairs(df, 1) # change here the threshold
 print(similar_pairs)
 
 # print to see if it is finding similar pairs 
@@ -31,5 +37,3 @@ for pair in similar_pairs:
     comparison = pd.concat([features1, features2], axis=1)
     print(comparison)
     print('-' * 50)
-
-
