@@ -7,22 +7,18 @@ def read(fname):
 
 
 setup(
-    name="dummy_server",
+    name="bias-assesment",
     version="0.0.1",
-    description="Backend for the dummy project of the XAI-IML 2023 course.",
+    description="Backend for the bias assesment project of the XAI-IML 2023 course.",
     long_description=read("README.md"),
     package_data={
         "": [
-            "dataset_blobs.csv",
-            "dataset_circles.csv",
-            "dataset_moons.csv",
+            "dataset.csv",
         ]
     },
     data_files=[(
         "data", [
-            os.path.join("data", "dataset_blobs.csv"),
-            os.path.join("data", "dataset_circles.csv"),
-            os.path.join("data", "dataset_moons.csv"),
+            os.path.join("data", "dataset.csv"),
         ]
     )],
     classifiers=[
@@ -43,6 +39,7 @@ setup(
         "flask-cors>=3.0.10,<3.1",
         "pandas>=1.4.1,<1.5",
         "scikit-learn>=1.0.2",
+        "shap",
     ],
     packages=find_packages(where="src", include=["dummy_server*"]),
     package_dir={"": "src"},
