@@ -136,15 +136,31 @@ def build_reconsider(scatter_df: pd.DataFrame):
     return df
 
 
-def build_similarpeople():
+def build_similarpeople(scatter_df: pd.DataFrame):
     ids = ml_dataset["Id"]
-    X = ml_dataset.drop(columns=["decision", "Id"])
-    X = X.drop(columns=["age", "gender_female", 'gender_male',
+    X1 = ml_dataset.drop(columns=["decision", "Id"])
+    bias_columns = ["age", "gender_female", 'gender_male',
                         'gender_other', 'nationality_Belgian',
-                        'nationality_Dutch', 'nationality_German'])
-    similarities = cosine_similarity(X)
-    np.fill_diagonal(similarities, -1)
-    closest = np.argmax(similarities, axis=1)
+                        'nationality_Dutch', 'nationality_German']
+    X1 = X1.drop(columns=bias_columns)
+    similarities_fair = cosine_similarity(X1)
+    
+    biases = scatter_df["bias"].to_numpy()
+    biasmatrix = np.zeros((len(biases), len(biases)))
+    biasmatrix += np.reshape(biases, (-1, 1))
+    biasmatrix -= np.reshape(biases, (1, -1))
+    biasmatrix = np.abs(biasmatrix)
+    decisions = scatter_df["decision"].to_numpy().astype(np.bool8)
+    dec1 = np.repeat(np.reshape(decisions, (1, -1)), len(decisions), axis=0)
+    dec2 = np.repeat(np.reshape(decisions, (-1, 1)), len(decisions), axis=1)
+    dec = np.logical_not(np.logical_xor(dec1, dec2))
+
+    # Very much intuitive sumation of based on what we should decide (0.3 is just a guess)
+    measure = similarities_fair + 1 + biasmatrix * 0.3
+    measure[dec] = -1
+    
+    closest = np.argmax(measure, axis=1)
+
     result = {}
 
     for index, neighbor in enumerate(closest):
@@ -163,6 +179,6 @@ def train_ml_model():
     scatter_df = build_scatterplot_data(shap_df)
     reconsider = build_reconsider(scatter_df)
     totals = build_totals(shap_df)
-    similar_people = build_similarpeople()
+    similar_people = build_similarpeople(scatter_df)
 
     return (scatter_df, similar_people, reconsider, totals)
