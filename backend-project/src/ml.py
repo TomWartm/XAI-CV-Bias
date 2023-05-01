@@ -1,11 +1,12 @@
 import pandas as pd
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.linear_model import LogisticRegression
 import shap
 from sklearn.metrics import accuracy_score
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.decomposition import PCA
 
 
 def load_df():
@@ -80,6 +81,14 @@ def build_scatterplot_data(shap_df):
                                               ("fair", slice(None), slice(None))].sum(axis=1)
     scatter_df["id"] = shap_df.loc[:, (slice(None), slice(None), "Id")]
 
+    sensitive_attributes = shap_df.loc[:, ("bias", slice(None), slice(None))]
+    #scaler = StandardScaler()
+    #scaled_data = scaler.fit_transform(sensitive_attributes)
+    pca = PCA(n_components=2)
+    reduced = pca.fit_transform(sensitive_attributes)
+    scatter_df["bias_dimred_x"] = reduced[:, 0]
+    scatter_df["bias_dimred_y"] = reduced[:, 1]
+
     scatter_df = pd.merge(scatter_df, original_df,
                           left_on="id", right_on="Id", how="inner")
     scatter_df = scatter_df.drop(columns=["Id"])
@@ -130,20 +139,16 @@ def build_reconsider(scatter_df: pd.DataFrame):
 def build_similarpeople():
     ids = ml_dataset["Id"]
     X = ml_dataset.drop(columns=["decision", "Id"])
+    X = X.drop(columns=["age", "gender_female", 'gender_male',
+                        'gender_other', 'nationality_Belgian',
+                        'nationality_Dutch', 'nationality_German'])
     similarities = cosine_similarity(X)
+    np.fill_diagonal(similarities, -1)
+    closest = np.argmax(similarities, axis=1)
     result = {}
 
-    n = len(X)
-    for index1 in range(n):
-        min = 1
-        minIndex = 0
-        for index2 in range(n):
-            if (index1 != index2):
-                similarity = similarities[index1, index2]
-                if similarity < min:
-                    min = similarity
-                    minIndex = index2
-        result[ids.iloc[index1]] = {"1": ids.iloc[minIndex]}
+    for index, neighbor in enumerate(closest):
+        result[ids.iloc[index]] = {"1": ids.iloc[neighbor]}
 
     return result
 
