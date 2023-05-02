@@ -82,9 +82,9 @@ export default function GaugeChart({ value }) {
 
   let scorerate = "";
   if (value < 25) {
-    scorerate = "Very low ";
+    scorerate = "Low ";
   } else if (value < 50) {
-    scorerate = "Mediocre ";
+    scorerate = "Moderate ";
   } else if (value < 75) {
     scorerate = "Good ";
   } else {
@@ -92,7 +92,7 @@ export default function GaugeChart({ value }) {
   }
 
   return (
-    <Paper sx={{ py: 5 }}>
+    <Paper sx={{ m: 5 }}>
       <svg viewBox={[-1, -1, 2, 1].join(" ")}>
         <path d={redArc} fill={theme.palette.error.main} />
         <path d={orangeArc} fill={theme.palette.warning.main} />
@@ -128,6 +128,7 @@ export default function GaugeChart({ value }) {
             {scorerate}
           </Box>
         </Typography>
+        <br />
         <Typography
           component="span"
           variant="body2"

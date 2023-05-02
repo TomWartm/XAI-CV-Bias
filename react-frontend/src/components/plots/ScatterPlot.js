@@ -62,17 +62,15 @@ function ScatterPlot({ data }) {
     const yAxis = d3.axisLeft(yScale).ticks(10);
 
     const getCircleColor = (value) => {
-      if (value >= 0 && value <= 25) return theme.palette.error.main;
-      if (value > 25 && value <= 50) return theme.palette.warning.main;
-      if (value > 50 && value <= 75) return theme.palette.success.main;
-      if (value >= 75) return theme.palette.primary.main;
+      if (value >= 0 && value <= 33) return theme.palette.error.main;
+      if (value > 33 && value <= 66) return theme.palette.warning.main;
+      if (value >= 66) return theme.palette.success.main;
     };
 
     const getCircleStrokeColor = (value) => {
-      if (value >= 0 && value <= 25) return theme.palette.error.dark;
-      if (value > 25 && value <= 50) return theme.palette.warning.dark;
-      if (value > 50 && value <= 75) return theme.palette.success.dark;
-      if (value >= 75) return theme.palette.primary.dark;
+      if (value >= 0 && value <= 33) return theme.palette.error.dark;
+      if (value > 33 && value <= 66) return theme.palette.warning.dark;
+      if (value >= 66) return theme.palette.success.dark;
     };
 
     svg
@@ -181,7 +179,7 @@ function ScatterPlot({ data }) {
       .append("circle")
       .attr("fill", function (d) {
         //return getCircleColor((d["ind-university_grade"] - 45) * 3); // I put grade temporarily to see how it will look. TODO: scale based on bias once we have PCA positions
-        return getCircleColor((d.bias + 1) * 50);
+        return getCircleColor((Math.abs(d.bias) * -1 + 1) * 100);
       })
       .attr("cx", function (d) {
         return xScale(d.bias_dimred_x / 4 - 0.1);
@@ -189,12 +187,12 @@ function ScatterPlot({ data }) {
       .attr("cy", function (d) {
         return yScale(d.bias_dimred_y);
       })
-      .attr("r", (d) => (d.age - 20) / 1) // I put it just to see how it will look. TODO: scale based on qualification instead of age once we have PCA positions
+      .attr("r", (d) => d.qualification * 5) // I put it just to see how it will look. TODO: scale based on qualification instead of age once we have PCA positions
       .attr("opacity", MAX_OPACITY)
       .style("cursor", "pointer")
       .style("stroke", function (d) {
         //return getCircleStrokeColor((d["ind-university_grade"] - 45) * 3); // I put grade temporarily to see how it will look. TODO: scale based on bias once we have PCA positions
-        return getCircleStrokeColor((d.bias + 1) * 50);
+        return getCircleStrokeColor((Math.abs(d.bias) * -1 + 1) * 100);
       });
 
     circles
