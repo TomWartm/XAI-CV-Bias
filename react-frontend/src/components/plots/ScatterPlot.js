@@ -54,8 +54,8 @@ function ScatterPlot({ data }) {
       .style("overflow", "visible")
       .style("margin-top", "100px");
     //set up scaling
-    const xScale = d3.scaleLinear([-1.2, 1.2], [0, w]);
-    const yScale = d3.scaleLinear([-5, 5], [h, 0]);
+    const xScale = d3.scaleLinear([-0.5, 0.5], [0, w]);
+    const yScale = d3.scaleLinear([-1.5, 1.5], [h, 0]);
 
     //set up axes
     const xAxis = d3.axisBottom(xScale).ticks(10);
@@ -180,19 +180,21 @@ function ScatterPlot({ data }) {
       .enter()
       .append("circle")
       .attr("fill", function (d) {
-        return getCircleColor((d["ind-university_grade"] - 45) * 3); // I put grade temporarily to see how it will look. TODO: scale based on bias once we have PCA positions
+        //return getCircleColor((d["ind-university_grade"] - 45) * 3); // I put grade temporarily to see how it will look. TODO: scale based on bias once we have PCA positions
+        return getCircleColor((d.bias + 1) * 50);
       })
       .attr("cx", function (d) {
-        return xScale(d.bias_dimred_x / 2);
+        return xScale(d.bias_dimred_x / 4 - 0.1);
       })
       .attr("cy", function (d) {
         return yScale(d.bias_dimred_y);
       })
-      .attr("r", (d) => d.age - 20) // I put it just to see how it will look. TODO: scale based on qualification instead of age once we have PCA positions
+      .attr("r", (d) => (d.age - 20) / 1) // I put it just to see how it will look. TODO: scale based on qualification instead of age once we have PCA positions
       .attr("opacity", MAX_OPACITY)
       .style("cursor", "pointer")
       .style("stroke", function (d) {
-        return getCircleStrokeColor((d["ind-university_grade"] - 45) * 3); // I put grade temporarily to see how it will look. TODO: scale based on bias once we have PCA positions
+        //return getCircleStrokeColor((d["ind-university_grade"] - 45) * 3); // I put grade temporarily to see how it will look. TODO: scale based on bias once we have PCA positions
+        return getCircleStrokeColor((d.bias + 1) * 50);
       });
 
     circles
@@ -215,8 +217,9 @@ function ScatterPlot({ data }) {
           .style("opacity", 0)
           .style("left", 0 + "px") // little hack sth. the invisible element is for sure not clicked by acceident
           .style("top", 0 + "px");
+
         //console.log("mouseout", d);
-        d3.select(this).attr("stroke", "none").style("stroke-width", 0);
+        d3.select(this).attr("stroke", "none").style("stroke-width", 1);
       })
       .on("click", function (event, d) {
         handleClick(d.id);

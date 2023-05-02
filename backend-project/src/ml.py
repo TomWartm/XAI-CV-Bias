@@ -100,7 +100,11 @@ def build_scatterplot_data(shap_df):
     scatter_df["id"] = shap_df.loc[:, (slice(None), slice(None), "Id")]
 
     # sensitive_attributes = shap_df.loc[:, ("bias", slice(None), slice(None))]
-    sensitive_attributes = get_sensitive_attributes()
+    sensitive_attributes = get_sensitive_attributes().to_numpy()
+    # TEMPORARY FIX: add noise to sensitive attributes to make them distinguishable
+    noise = np.random.normal(0, 0.1, sensitive_attributes.shape)
+    sensitive_attributes = sensitive_attributes + noise
+
     # print(shap_df.columns)
     # print(shap_df.head())
     # scaler = StandardScaler()
