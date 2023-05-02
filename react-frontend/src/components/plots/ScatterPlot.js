@@ -151,25 +151,25 @@ function ScatterPlot({ data }) {
       .attr("cx", 0)
       .attr("cy", -80)
       .attr("r", 5)
-      .style("fill", "rgb(51, 153, 51)");
+      .style("fill", theme.palette.success.main);
     svg
       .append("circle")
       .attr("cx", 0)
       .attr("cy", -60)
       .attr("r", 5)
-      .style("fill", "rgb(204, 0, 0)");
+      .style("fill", theme.palette.error.main);
     svg
       .append("text")
       .attr("x", 20)
       .attr("y", -80)
-      .text("accepted")
+      .text("fair")
       .style("font-size", "15px")
       .attr("alignment-baseline", "middle");
     svg
       .append("text")
       .attr("x", 20)
       .attr("y", -60)
-      .text("rejected")
+      .text("unfair")
       .style("font-size", "15px")
       .attr("alignment-baseline", "middle");
 
@@ -183,10 +183,10 @@ function ScatterPlot({ data }) {
         return getCircleColor((d["ind-university_grade"] - 45) * 3); // I put grade temporarily to see how it will look. TODO: scale based on bias once we have PCA positions
       })
       .attr("cx", function (d) {
-        return xScale(d.bias);
+        return xScale(d.bias_dimred_x / 2);
       })
       .attr("cy", function (d) {
-        return yScale(d.qualification);
+        return yScale(d.bias_dimred_y);
       })
       .attr("r", (d) => d.age - 20) // I put it just to see how it will look. TODO: scale based on qualification instead of age once we have PCA positions
       .attr("opacity", MAX_OPACITY)

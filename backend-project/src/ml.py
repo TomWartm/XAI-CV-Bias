@@ -37,6 +37,24 @@ original_df = load_df()
 ml_dataset = prepare_dataset(original_df.copy())
 
 
+def get_sensitive_attributes():
+    sensitive_attributes = original_df.loc[:, ["age", "gender", "nationality"]]
+
+    # Split age into 3 categories
+    sensitive_attributes["age"] = pd.cut(sensitive_attributes['age'], bins=[
+        10, 25, 29, 33], labels=["young", "middle-aged", "old"])
+
+    # Turn categorical values into numerical values
+    sensitive_attributes["age"] = sensitive_attributes["age"].map(
+        {"young": 0, "middle-aged": 1, "old": 2})
+    sensitive_attributes["gender"] = sensitive_attributes["gender"].map(
+        {"male": 0, "female": 1, "other": 2})
+    sensitive_attributes["nationality"] = sensitive_attributes["nationality"].map(
+        {"Dutch": 0, "German": 1, "Belgian": 2})
+
+    return sensitive_attributes
+
+
 def get_shap_values():
     ids = ml_dataset["Id"]
     X = ml_dataset.drop(columns=["decision", "Id"])
@@ -46,7 +64,7 @@ def get_shap_values():
     model.fit(X, y)
     y_pred = model.predict(X)
     accuracy = accuracy_score(y, y_pred)
-    print(f"Logistic Regression accuracy: {accuracy:.4f}")
+    # print(f"Logistic Regression accuracy: {accuracy:.4f}")
     explainer = shap.Explainer(model, X)
     shap_values = explainer(X)
 
@@ -81,9 +99,12 @@ def build_scatterplot_data(shap_df):
                                               ("fair", slice(None), slice(None))].sum(axis=1)
     scatter_df["id"] = shap_df.loc[:, (slice(None), slice(None), "Id")]
 
-    sensitive_attributes = shap_df.loc[:, ("bias", slice(None), slice(None))]
-    #scaler = StandardScaler()
-    #scaled_data = scaler.fit_transform(sensitive_attributes)
+    # sensitive_attributes = shap_df.loc[:, ("bias", slice(None), slice(None))]
+    sensitive_attributes = get_sensitive_attributes()
+    # print(shap_df.columns)
+    # print(shap_df.head())
+    # scaler = StandardScaler()
+    # scaled_data = scaler.fit_transform(sensitive_attributes)
     pca = PCA(n_components=2)
     reduced = pca.fit_transform(sensitive_attributes)
     scatter_df["bias_dimred_x"] = reduced[:, 0]
@@ -140,11 +161,11 @@ def build_similarpeople(scatter_df: pd.DataFrame):
     ids = ml_dataset["Id"]
     X1 = ml_dataset.drop(columns=["decision", "Id"])
     bias_columns = ["age", "gender_female", 'gender_male',
-                        'gender_other', 'nationality_Belgian',
-                        'nationality_Dutch', 'nationality_German']
+                    'gender_other', 'nationality_Belgian',
+                    'nationality_Dutch', 'nationality_German']
     X1 = X1.drop(columns=bias_columns)
     similarities_fair = cosine_similarity(X1)
-    
+
     biases = scatter_df["bias"].to_numpy()
     biasmatrix = np.zeros((len(biases), len(biases)))
     biasmatrix += np.reshape(biases, (-1, 1))
@@ -158,7 +179,7 @@ def build_similarpeople(scatter_df: pd.DataFrame):
     # Very much intuitive sumation of based on what we should decide (0.3 is just a guess)
     measure = similarities_fair + 1 + biasmatrix * 0.3
     measure[dec] = -1
-    
+
     closest = np.argmax(measure, axis=1)
 
     result = {}
@@ -168,11 +189,13 @@ def build_similarpeople(scatter_df: pd.DataFrame):
 
     return result
 
+
 def ignore_person(id):
     global original_df
     global ml_dataset
     original_df = original_df.drop(original_df[original_df["Id"] == id].index)
     ml_dataset = ml_dataset.drop(ml_dataset[ml_dataset["Id"] == id].index)
+
 
 def train_ml_model():
     shap_df = get_shap_values()

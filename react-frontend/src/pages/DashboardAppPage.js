@@ -45,7 +45,7 @@ export default function DashboardAppPage() {
           ) {
             data.influencecolors.push(theme.palette.error.main);
           } else {
-            data.influencecolors.push(theme.palette.primary.light); // TODO make look better visually
+            data.influencecolors.push(theme.palette.success.light); // TODO make look better visually
           }
         }
         setFairness(data);
@@ -73,7 +73,7 @@ export default function DashboardAppPage() {
             </Card>
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates
               title="Fairness by Group"
               subheader="(+43%) than last month"
