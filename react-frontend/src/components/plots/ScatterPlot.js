@@ -27,8 +27,21 @@ ScatterPlot.propTypes = { data: PropTypes.array };
 function ScatterPlot({ data }) {
   const theme = useTheme();
   const svgRef = useRef();
-  const MAX_OPACITY = "0.5";
+  const [state, setState] = useState({
+    male: true,
+    female: true,
+    other: true,
+    dutch: true,
+    belgian: true,
+    german: true,
+    bachelor: true,
+    master: true,
+    phd: true,
+  });
+
+  const MAX_OPACITY = "0.9";
   const MIN_OPACITY = "0.1";
+  var simulation = null;
   useEffect(() => {
     //create tooltip
 
@@ -60,6 +73,8 @@ function ScatterPlot({ data }) {
     //set up axes
     const xAxis = d3.axisBottom(xScale).ticks(10);
     const yAxis = d3.axisLeft(yScale).ticks(10);
+
+    simulation = d3.forceSimulation();
 
     const getCircleColor = (value) => {
       if (value >= 0 && value <= 33) return theme.palette.error.main;
@@ -187,13 +202,86 @@ function ScatterPlot({ data }) {
       .attr("cy", function (d) {
         return yScale(d.bias_dimred_y);
       })
-      .attr("r", (d) => d.qualification * 5) // I put it just to see how it will look. TODO: scale based on qualification instead of age once we have PCA positions
+      .attr("r", (d) => Math.exp((1 / 5) * (d.qualification + 10))) // exp to make the radius vary more
       .attr("opacity", MAX_OPACITY)
       .style("cursor", "pointer")
       .style("stroke", function (d) {
         //return getCircleStrokeColor((d["ind-university_grade"] - 45) * 3); // I put grade temporarily to see how it will look. TODO: scale based on bias once we have PCA positions
         return getCircleStrokeColor((Math.abs(d.bias) * -1 + 1) * 100);
-      });
+      })
+      .call(
+        d3
+          .drag() // call specific function when circle is dragged
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended)
+      );
+
+    const x = d3.scaleOrdinal().domain([1, 2, 3]).range([50, 600, 325]);
+    const testvar = state.other
+      ? d3
+          .forceX()
+          .strength(0.3)
+          .x((d) => x(d.gender))
+      : d3
+          .forceX()
+          .strength(0.3)
+          .x((d) => x(1));
+
+    simulation
+      .force(
+        "x",
+        testvar
+        /*d3
+          .forceX()
+          .strength(0.3)
+          .x((d) => x(d.gender))*/
+      )
+      .force(
+        "y",
+        d3
+          .forceY()
+          .strength(0.1)
+          .y(h / 2)
+      )
+      .force(
+        "center",
+        d3
+          .forceCenter()
+          .x(w / 2)
+          .y(h / 2)
+      ) // Attraction to the center of the svg area
+      //.force("charge", d3.forceManyBody().strength(1)) // Makes nodes attract each other
+      .force(
+        "collide",
+        d3
+          .forceCollide()
+          .strength(0.5)
+          .radius((d) => Math.exp((1 / 5) * (d.qualification + 10)))
+          .iterations(1)
+      ); // Force that avoids circle overlapping
+
+    // Apply these forces to the nodes and update their positions.
+    // Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
+    simulation.nodes(data).on("tick", function (d) {
+      circles.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+    });
+
+    // What happens when a circle is dragged?
+    function dragstarted(event, d) {
+      if (!event.active) simulation.alphaTarget(0.03).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+    function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
+    }
+    function dragended(event, d) {
+      if (!event.active) simulation.alphaTarget(0.03);
+      d.fx = null;
+      d.fy = null;
+    }
 
     circles
       .on("mouseover", function (event, d) {
@@ -222,26 +310,25 @@ function ScatterPlot({ data }) {
       .on("click", function (event, d) {
         handleClick(d.id);
       });
+
+    // Update state
+    /*setState((prevState) => ({
+      ...prevState,
+      simulation,
+    }));*/
   }, [data]);
 
   // set data filter for gender and nationality
-  const [state, setState] = useState({
-    male: true,
-    female: true,
-    other: true,
-    dutch: true,
-    belgian: true,
-    german: true,
-    bachelor: true,
-    master: true,
-    phd: true,
-  });
+
   const handleChange = (event) => {
+    //console.log("meh");
+    //simulation.force("x", d3.forceX().strength(1).x(1)).restart();
     setState({
       ...state,
       [event.target.name]: event.target.checked,
     });
   };
+
   // set data filter for age
   const [ageValue, setAgeValue] = useState([21, 32]);
   const handleAgeChange = (event, newValue) => {
@@ -257,8 +344,9 @@ function ScatterPlot({ data }) {
   const handleLanguagesChange = (event, newValue) => {
     setLanguagesValue(newValue);
   };
+
   useEffect(() => {
-    //console.log("there was a change in a state: ", state, ageValue[0]);
+    console.log("there was a change in a state: ", state, ageValue[0]);
     function ignore_point(d) {
       // returns true if datapoint should be ignored, false otherwise
 
@@ -288,7 +376,8 @@ function ScatterPlot({ data }) {
         return true;
       else return false;
     }
-    // filter gender
+
+    // filter plot
     d3.select(svgRef.current)
       .selectAll("circle")
       .filter(function (d) {
