@@ -1,6 +1,7 @@
 import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
+import { getFormLabelUtilityClasses } from "@mui/material";
 
 export default function InteractiveChart({ data, filters, onCircleClick }) {
   const theme = useTheme();
@@ -40,8 +41,6 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
     const xAxis = d3.axisBottom(xScale).ticks(10);
     const yAxis = d3.axisLeft(yScale).ticks(10);
 
-    const simulation = d3.forceSimulation();
-
     const getCircleColor = (value) => {
       if (value >= 0 && value <= 33) return theme.palette.error.main;
       if (value > 33 && value <= 66) return theme.palette.warning.main;
@@ -49,6 +48,7 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
     };
 
     const getCircleStrokeColor = (value) => {
+      //return "#ffffff";
       if (value >= 0 && value <= 33) return theme.palette.error.dark;
       if (value > 33 && value <= 66) return theme.palette.warning.dark;
       if (value >= 66) return theme.palette.success.dark;
@@ -228,8 +228,66 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
         return true;
       });
 
+    /////////// D3 Forces ///////////
+
     const x = d3.scaleOrdinal().domain([1, 2, 3]).range([50, 600, 325]);
-    const testvar = filters.other
+    function getForces(view) {
+      //const strengthX = 0.3;
+      //const strengthY = 0.1;
+      const strengthX = 0.05;
+      const strengthY = 0.05;
+      if (view === "all") {
+        return {
+          x: d3
+            .forceX()
+            .strength(strengthX)
+            .x((d) => xScale(d.bias_dimred_x / 4 - 0.1)),
+          y: d3
+            .forceY()
+            .strength(strengthY)
+            .y((d) => yScale(d.bias_dimred_y)),
+        };
+      } else if (view === "gender") {
+        return {
+          x: d3
+            .forceX()
+            .strength(strengthX)
+            .x((d) => x(d.gender)),
+          y: d3
+            .forceY()
+            .strength(strengthY)
+            .y(h / 2),
+        };
+      } else if (view === "nationality") {
+        return {
+          x: d3
+            .forceX()
+            .strength(strengthX)
+            .x((d) => x(d.nationality)),
+          y: d3
+            .forceY()
+            .strength(strengthY)
+            .y(h / 2),
+        };
+      } else if (view === "age") {
+        return {
+          x: d3
+            .forceX()
+            .strength(strengthX)
+            .x((d) => x(d.age)),
+          y: d3
+            .forceY()
+            .strength(strengthY)
+            .y(h / 2),
+        };
+      }
+      return null;
+    }
+
+    var force = getForces(filters.view);
+    //var force = getForces("all");
+
+    /*const testvar = filters.other
       ? d3
           .forceX()
           .strength(0.3)
@@ -237,40 +295,36 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       : d3
           .forceX()
           .strength(0.3)
-          .x((d) => x(1));
+          .x((d) => x(1));*/
+
+    const simulation = d3.forceSimulation();
 
     simulation
       .force(
         "x",
-        testvar
+        force.x
         /*d3
           .forceX()
           .strength(0.3)
           .x((d) => x(d.gender))*/
       )
-      .force(
-        "y",
-        d3
-          .forceY()
-          .strength(0.1)
-          .y(h / 2)
-      )
-      .force(
+      .force("y", force.y)
+      /*.force(
         "center",
         d3
           .forceCenter()
           .x(w / 2)
           .y(h / 2)
       ) // Attraction to the center of the svg area
-      .force("charge", d3.forceManyBody().strength(1)) // Makes nodes attract each other
+      .force("charge", d3.forceManyBody().strength(1)) // Makes nodes attract each other*/
       .force(
-        "collide",
+        "collide", // Force that avoids circle overlapping
         d3
           .forceCollide()
           .strength(0.5)
           .radius((d) => Math.exp((1 / 5) * (d.qualification + 10)))
           .iterations(1)
-      ); // Force that avoids circle overlapping
+      );
 
     // Apply these forces to the nodes and update their positions.
     // Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
@@ -322,11 +376,10 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
         this.props.onCircleClick(d.id);
       });
 
-    // Update state
-    /*setState((prevState) => ({
-      ...prevState,
-      simulation,
-    }));*/
+    return () => {
+      //console.log("stopped");
+      simulation.stop();
+    };
   }, [data, filters]);
 
   return <svg ref={svgRef}></svg>;

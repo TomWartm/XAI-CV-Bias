@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import {
   Dialog,
@@ -16,6 +16,8 @@ import {
   FormControl,
   FormHelperText,
   Slider,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 import { PersonProfile } from "../popup";
 import { PrintTwoTone } from "@mui/icons-material";
@@ -25,6 +27,7 @@ ScatterPlot.propTypes = { data: PropTypes.array };
 
 function ScatterPlot({ data }) {
   const [state, setState] = useState({
+    view: "all",
     male: true,
     female: true,
     other: true,
@@ -38,9 +41,6 @@ function ScatterPlot({ data }) {
     gradeValue: [45, 78],
     languagesValue: [0, 3],
   });
-
-  const MAX_OPACITY = "0.9";
-  const MIN_OPACITY = "0.1";
 
   // set data filter for gender and nationality
 
@@ -73,6 +73,10 @@ function ScatterPlot({ data }) {
   // set default values
   const [personData, setPersonData] = useState({});
   const [similarPersonData, setSimilarPersonData] = useState({});
+
+  const handleToggleChange = (event, newView) => {
+    setState({ ...state, view: newView });
+  };
 
   const handleClick = async (personId) => {
     //console.log("handleClick", personId);
@@ -116,11 +120,25 @@ function ScatterPlot({ data }) {
   return (
     <div className="scatterPlot">
       <Card>
+        <ToggleButtonGroup
+          color="primary"
+          value={state.view}
+          exclusive
+          onChange={handleToggleChange}
+          aria-label="Platform"
+        >
+          <ToggleButton value="all">All</ToggleButton>
+          <ToggleButton value="gender">Gender</ToggleButton>
+          <ToggleButton value="nationality">Nationality</ToggleButton>
+          <ToggleButton value="age">Age</ToggleButton>
+        </ToggleButtonGroup>
+
         <InteractiveChart
           data={data}
           filters={state}
           onCicleClick={handleClick}
         />
+
         <FormControl
           sx={{ mt: 2, ml: 3, mr: 3 }}
           component="fieldset"
