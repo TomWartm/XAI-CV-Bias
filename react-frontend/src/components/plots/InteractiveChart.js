@@ -127,26 +127,26 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
     // set up legend
     svg
       .append("circle")
-      .attr("cx", 0)
+      .attr("cx", 10)
       .attr("cy", -80)
       .attr("r", 5)
       .style("fill", theme.palette.success.main);
     svg
       .append("circle")
-      .attr("cx", 0)
+      .attr("cx", 10)
       .attr("cy", -60)
       .attr("r", 5)
       .style("fill", theme.palette.error.main);
     svg
       .append("text")
-      .attr("x", 20)
+      .attr("x", 25)
       .attr("y", -80)
       .text("fair")
       .style("font-size", "15px")
       .attr("alignment-baseline", "middle");
     svg
       .append("text")
-      .attr("x", 20)
+      .attr("x", 25)
       .attr("y", -60)
       .text("unfair")
       .style("font-size", "15px")
@@ -230,7 +230,7 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
 
     /////////// D3 Forces ///////////
 
-    const x = d3.scaleOrdinal().domain([1, 2, 3]).range([50, 600, 325]);
+    const x = d3.scaleOrdinal().domain([1, 2, 3]).range([100, 600, 325]);
     function getForces(view) {
       //const strengthX = 0.3;
       //const strengthY = 0.1;
