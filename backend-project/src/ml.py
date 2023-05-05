@@ -161,20 +161,21 @@ def build_reconsider(scatter_df: pd.DataFrame):
     return df
 
 
-def build_similarpeople(scatter_df: pd.DataFrame):
-    ids = ml_dataset["Id"]
-    X1 = ml_dataset.drop(columns=["decision", "Id"])
-    bias_columns = ["age", "gender_female", 'gender_male',
-                    'gender_other', 'nationality_Belgian',
-                    'nationality_Dutch', 'nationality_German']
-    X1 = X1.drop(columns=bias_columns)
+def build_similarpeople(scatter_df: pd.DataFrame, shap_df: pd.DataFrame):
+    ids = shap_df.loc[:, (slice(None), slice(None), "Id")]
+
+    # Generate a matrix of cosine similarity between fair properties for each pair of people
+    X1 = shap_df.loc[:, ("fair", slice(None), slice(None))]
     similarities_fair = cosine_similarity(X1)
 
+    # Generate a matrix of the difference in bias for each pair of people
     biases = scatter_df["bias"].to_numpy()
     biasmatrix = np.zeros((len(biases), len(biases)))
     biasmatrix += np.reshape(biases, (-1, 1))
     biasmatrix -= np.reshape(biases, (1, -1))
     biasmatrix = np.abs(biasmatrix)
+
+    # Generate a matrix with true where the decision was not equal for each pair of people
     decisions = scatter_df["decision"].to_numpy().astype(np.bool8)
     dec1 = np.repeat(np.reshape(decisions, (1, -1)), len(decisions), axis=0)
     dec2 = np.repeat(np.reshape(decisions, (-1, 1)), len(decisions), axis=1)
@@ -189,7 +190,7 @@ def build_similarpeople(scatter_df: pd.DataFrame):
     result = {}
 
     for index, neighbor in enumerate(closest):
-        result[ids.iloc[index]] = {"1": ids.iloc[neighbor]}
+        result[ids.iloc[index].values[0]] = {"1": ids.iloc[neighbor].values[0]}
 
     return result
 
@@ -206,6 +207,6 @@ def train_ml_model():
     scatter_df = build_scatterplot_data(shap_df)
     reconsider = build_reconsider(scatter_df)
     totals = build_totals(shap_df)
-    similar_people = build_similarpeople(scatter_df)
+    similar_people = build_similarpeople(scatter_df, shap_df)
 
     return (scatter_df, similar_people, reconsider, totals)
