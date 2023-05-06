@@ -124,48 +124,48 @@ export default function CandidatesPlot({
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
-      <Grid container divider={<Divider orientation="vertical" flexItem />}>
-        <Grid item xs={12} md={7.9} lg={7.9}>
-          <Stack direction="column" alignItems="center">
-            <Paper sx={{ p: 2 }}>
-              <Stack direction="row" spacing={2}>
-                <Number
-                  number={totalPeople}
-                  text="Total Candidates"
-                  icon={
-                    <PersonOutlineIcon
-                      sx={{ color: theme.palette.text.secondary }}
-                    />
-                  }
-                />
-                <Number
-                  number={accepedPeople}
-                  text="Accepted"
-                  icon={
-                    <CheckCircleOutlineIcon
-                      sx={{ color: theme.palette.text.secondary }}
-                    />
-                  }
-                />
-                <Number
-                  number={rejectedPeople}
-                  text="Rejected"
-                  icon={
-                    <NotInterestedIcon
-                      sx={{ color: theme.palette.text.secondary }}
-                    />
-                  }
-                />
-                <Number
-                  number={0}
-                  text="Unseen"
-                  icon={
-                    <VisibilityOffIcon
-                      sx={{ color: theme.palette.text.secondary }}
-                    />
-                  }
-                />
-                {/*<AppWidgetSummary
+
+      <Grid>
+        <Stack direction="column" alignItems="center">
+          <Paper sx={{ p: 2 }}>
+            <Stack direction="row" spacing={2}>
+              <Number
+                number={totalPeople}
+                text="Total Candidates"
+                icon={
+                  <PersonOutlineIcon
+                    sx={{ color: theme.palette.text.secondary }}
+                  />
+                }
+              />
+              <Number
+                number={accepedPeople}
+                text="Accepted"
+                icon={
+                  <CheckCircleOutlineIcon
+                    sx={{ color: theme.palette.text.secondary }}
+                  />
+                }
+              />
+              <Number
+                number={rejectedPeople}
+                text="Rejected"
+                icon={
+                  <NotInterestedIcon
+                    sx={{ color: theme.palette.text.secondary }}
+                  />
+                }
+              />
+              <Number
+                number={0}
+                text="Unseen"
+                icon={
+                  <VisibilityOffIcon
+                    sx={{ color: theme.palette.text.secondary }}
+                  />
+                }
+              />
+              {/*<AppWidgetSummary
                   title="Weekly Sales"
                   total={714000}
                   icon={"ant-design:android-filled"}
@@ -176,14 +176,13 @@ export default function CandidatesPlot({
                   color="info"
                   icon={"ant-design:apple-filled"}
                 />*/}
-              </Stack>
-            </Paper>
-            <Paper sx={{ px: 10, py: 2 }}>
-              <ScatterPlot data={scatterData}></ScatterPlot>
-              {/*<BubbleChart data={scatterData}></BubbleChart>*/}
-            </Paper>
-          </Stack>
-        </Grid>
+            </Stack>
+          </Paper>
+          <Paper sx={{ px: 10, py: 2 }}>
+            <ScatterPlot data={scatterData}></ScatterPlot>
+            {/*<BubbleChart data={scatterData}></BubbleChart>*/}
+          </Paper>
+        </Stack>
       </Grid>
     </Card>
   );

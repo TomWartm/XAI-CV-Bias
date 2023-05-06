@@ -119,7 +119,7 @@ function ScatterPlot({ data }) {
 
   return (
     <div className="scatterPlot">
-      <Card>
+      <Card sx={{ alignItems: "center", width: "100%" }}>
         <ToggleButtonGroup
           color="primary"
           value={state.view}
@@ -132,12 +132,13 @@ function ScatterPlot({ data }) {
           <ToggleButton value="nationality">Nationality</ToggleButton>
           <ToggleButton value="age">Age</ToggleButton>
         </ToggleButtonGroup>
-
-        <InteractiveChart
-          data={data}
-          filters={state}
-          onCicleClick={handleClick}
-        />
+        <Box>
+          <InteractiveChart
+            data={data}
+            filters={state}
+            onCicleClick={handleClick}
+          />
+        </Box>
 
         <FormControl
           sx={{ mt: 2, ml: 3, mr: 3 }}
