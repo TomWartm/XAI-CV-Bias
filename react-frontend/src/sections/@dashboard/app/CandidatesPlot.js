@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { AppReconsiderList } from "./";
 
 import {
   Grid,
@@ -88,18 +87,6 @@ export default function CandidatesPlot({
     },
   }); */
 
-  // load example person from backend
-  const [reconsiderPersons, setReconsiderPersons] = useState([]);
-  const fetchReconsiderPersonsData = () => {
-    fetch("http://127.0.0.1:8000/reconsider")
-      .then((response) => {
-        //console.log(response);
-        return response.json();
-      })
-      .then((data) => {
-        setReconsiderPersons(data);
-      });
-  };
   // load scatter Data from backend
   const [scatterData, setScatterData] = useState([]);
   const [totalPeople, setTotalPeople] = useState();
@@ -132,7 +119,6 @@ export default function CandidatesPlot({
 
   // fetchDummyPersonData each time App component loads
   useEffect(() => {
-    fetchReconsiderPersonsData();
     fetchScatterData();
   }, []);
   return (
@@ -197,20 +183,6 @@ export default function CandidatesPlot({
               {/*<BubbleChart data={scatterData}></BubbleChart>*/}
             </Paper>
           </Stack>
-        </Grid>
-
-        <Divider orientation="vertical" flexItem />
-
-        <Grid item xs>
-          <AppReconsiderList
-            title="People to reconsider"
-            list={reconsiderPersons.map((x) => ({
-              id: x.Id,
-              personId: x.Id,
-              image: `/assets/images/avatars/${x.gender}.jpg`,
-              decision: x.decision,
-            }))}
-          />
         </Grid>
       </Grid>
     </Card>
