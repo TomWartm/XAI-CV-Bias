@@ -59,11 +59,11 @@ function ScatterPlot({ data }) {
   };
   // set data filter for grade
   const handleGradeChange = (event, newValue) => {
-    setState({ ...state, gradeValueValue: newValue });
+    setState({ ...state, gradeValue: newValue });
   };
   // set data filter for languages
   const handleLanguagesChange = (event, newValue) => {
-    setState({ ...state, gradeLanguageValue: newValue });
+    setState({ ...state, languagesValue: newValue });
   };
 
   // handle click event --> load data (code duplicate from PopupWindows.js)
