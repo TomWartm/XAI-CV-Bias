@@ -2,6 +2,7 @@ import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 import { getFormLabelUtilityClasses } from "@mui/material";
+import Typography from "src/theme/overrides/Typography";
 
 export default function InteractiveChart({ data, filters, onCircleClick }) {
   const theme = useTheme();
@@ -24,7 +25,7 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       .style("padding", "10px");
 
     //setting up container
-    const w = 750;
+    const w = 950;
     const h = 450;
     const svg = d3
       .select(svgRef.current)
@@ -123,34 +124,75 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
         console.log("mouseout: Qulification Info");
       });
       */
-
     // set up legend
+
+    /////
+    svg
+      .append("text")
+      .attr("x", 13)
+      .attr("y", -80)
+      .text("Bias:")
+      .style("font-size", "15px")
+      .attr("alignment-baseline", "middle")
+      .style("font-family", theme.typography.fontFamily)
+      .attr("fill", theme.palette.text.secondary);
     svg
       .append("circle")
-      .attr("cx", 10)
+      .attr("cx", 175)
       .attr("cy", -80)
-      .attr("r", 5)
-      .style("fill", theme.palette.success.main);
-    svg
-      .append("circle")
-      .attr("cx", 10)
-      .attr("cy", -60)
-      .attr("r", 5)
+      .attr("r", 7)
+      .attr("opacity", MAX_OPACITY)
+      .attr("stroke", theme.palette.error.dark)
       .style("fill", theme.palette.error.main);
     svg
-      .append("text")
-      .attr("x", 25)
-      .attr("y", -80)
-      .text("fair")
-      .style("font-size", "15px")
-      .attr("alignment-baseline", "middle");
+      .append("circle")
+      .attr("cx", 150)
+      .attr("cy", -80)
+      .attr("r", 7)
+      .attr("opacity", MAX_OPACITY)
+      .attr("stroke", theme.palette.warning.dark)
+      .style("fill", theme.palette.warning.main);
+    svg
+      .append("circle")
+      .attr("cx", 125)
+      .attr("cy", -80)
+      .attr("r", 7)
+      .attr("opacity", MAX_OPACITY)
+      .attr("stroke", theme.palette.success.dark)
+      .style("fill", theme.palette.success.main);
     svg
       .append("text")
-      .attr("x", 25)
-      .attr("y", -60)
-      .text("unfair")
+      .attr("x", 13)
+      .attr("y", -50)
+      .text("Qualification:")
       .style("font-size", "15px")
-      .attr("alignment-baseline", "middle");
+      .attr("alignment-baseline", "middle")
+      .style("font-family", theme.typography.fontFamily)
+      .attr("fill", theme.palette.text.secondary);
+    svg
+      .append("circle")
+      .attr("cx", 175)
+      .attr("cy", -50)
+      .attr("r", 10)
+      .attr("opacity", MAX_OPACITY)
+      .attr("stroke", theme.palette.text.primary)
+      .style("fill", theme.palette.text.secondary);
+    svg
+      .append("circle")
+      .attr("cx", 150)
+      .attr("cy", -50)
+      .attr("r", 7)
+      .attr("opacity", MAX_OPACITY)
+      .attr("stroke", theme.palette.text.primary)
+      .style("fill", theme.palette.text.secondary);
+    svg
+      .append("circle")
+      .attr("cx", 125)
+      .attr("cy", -50)
+      .attr("r", 4)
+      .attr("opacity", MAX_OPACITY)
+      .attr("stroke", theme.palette.text.primary)
+      .style("fill", theme.palette.text.secondary);
 
     // set up data
     var circles = svg

@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { useTheme } from "@mui/material/styles";
-
+import { AppReconsiderList } from "../sections/@dashboard/app";
 import {
   Card,
   CardHeader,
@@ -31,6 +31,19 @@ export default function DashboardAppPage() {
     influence: [],
     influencecolors: [],
   });
+  // load example person from backend
+  const [reconsiderPersons, setReconsiderPersons] = useState([]);
+  const fetchReconsiderPersonsData = () => {
+    fetch("http://127.0.0.1:8000/reconsider")
+      .then((response) => {
+        //console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        setReconsiderPersons(data);
+      });
+  };
+
   useEffect(() => {
     fetch("http://127.0.0.1:8000/fairness")
       .then((r) => r.json())
@@ -50,6 +63,7 @@ export default function DashboardAppPage() {
         }
         setFairness(data);
       });
+    fetchReconsiderPersonsData();
   }, []);
 
   return (
@@ -89,7 +103,17 @@ export default function DashboardAppPage() {
               chartColors={fairness.influencecolors}
             />
           </Grid>
-
+          <Grid item xs>
+            <AppReconsiderList
+              title="People to reconsider"
+              list={reconsiderPersons.map((x) => ({
+                id: x.Id,
+                personId: x.Id,
+                image: `/assets/images/avatars/${x.gender}.jpg`,
+                decision: x.decision,
+              }))}
+            />
+          </Grid>
           <Grid item xs={12} md={12} lg={12}>
             <CandidatesPlot
               title="Fairness Scatterplot"

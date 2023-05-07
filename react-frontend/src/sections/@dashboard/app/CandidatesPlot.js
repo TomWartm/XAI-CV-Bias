@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { AppReconsiderList } from "./";
 
 import {
   Grid,
@@ -88,18 +87,6 @@ export default function CandidatesPlot({
     },
   }); */
 
-  // load example person from backend
-  const [reconsiderPersons, setReconsiderPersons] = useState([]);
-  const fetchReconsiderPersonsData = () => {
-    fetch("http://127.0.0.1:8000/reconsider")
-      .then((response) => {
-        //console.log(response);
-        return response.json();
-      })
-      .then((data) => {
-        setReconsiderPersons(data);
-      });
-  };
   // load scatter Data from backend
   const [scatterData, setScatterData] = useState([]);
   const [totalPeople, setTotalPeople] = useState();
@@ -132,54 +119,53 @@ export default function CandidatesPlot({
 
   // fetchDummyPersonData each time App component loads
   useEffect(() => {
-    fetchReconsiderPersonsData();
     fetchScatterData();
   }, []);
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
-      <Grid container divider={<Divider orientation="vertical" flexItem />}>
-        <Grid item xs={12} md={7.9} lg={7.9}>
-          <Stack direction="column" alignItems="center">
-            <Paper sx={{ p: 2 }}>
-              <Stack direction="row" spacing={2}>
-                <Number
-                  number={totalPeople}
-                  text="Total Candidates"
-                  icon={
-                    <PersonOutlineIcon
-                      sx={{ color: theme.palette.text.secondary }}
-                    />
-                  }
-                />
-                <Number
-                  number={accepedPeople}
-                  text="Accepted"
-                  icon={
-                    <CheckCircleOutlineIcon
-                      sx={{ color: theme.palette.text.secondary }}
-                    />
-                  }
-                />
-                <Number
-                  number={rejectedPeople}
-                  text="Rejected"
-                  icon={
-                    <NotInterestedIcon
-                      sx={{ color: theme.palette.text.secondary }}
-                    />
-                  }
-                />
-                <Number
-                  number={0}
-                  text="Unseen"
-                  icon={
-                    <VisibilityOffIcon
-                      sx={{ color: theme.palette.text.secondary }}
-                    />
-                  }
-                />
-                {/*<AppWidgetSummary
+
+      <Grid>
+        <Stack direction="column" alignItems="center">
+          <Paper sx={{ p: 2 }}>
+            <Stack direction="row" spacing={2}>
+              <Number
+                number={totalPeople}
+                text="Total Candidates"
+                icon={
+                  <PersonOutlineIcon
+                    sx={{ color: theme.palette.text.secondary }}
+                  />
+                }
+              />
+              <Number
+                number={accepedPeople}
+                text="Accepted"
+                icon={
+                  <CheckCircleOutlineIcon
+                    sx={{ color: theme.palette.text.secondary }}
+                  />
+                }
+              />
+              <Number
+                number={rejectedPeople}
+                text="Rejected"
+                icon={
+                  <NotInterestedIcon
+                    sx={{ color: theme.palette.text.secondary }}
+                  />
+                }
+              />
+              <Number
+                number={0}
+                text="Unseen"
+                icon={
+                  <VisibilityOffIcon
+                    sx={{ color: theme.palette.text.secondary }}
+                  />
+                }
+              />
+              {/*<AppWidgetSummary
                   title="Weekly Sales"
                   total={714000}
                   icon={"ant-design:android-filled"}
@@ -190,28 +176,13 @@ export default function CandidatesPlot({
                   color="info"
                   icon={"ant-design:apple-filled"}
                 />*/}
-              </Stack>
-            </Paper>
-            <Paper sx={{ px: 10, py: 2 }}>
-              <ScatterPlot data={scatterData}></ScatterPlot>
-              {/*<BubbleChart data={scatterData}></BubbleChart>*/}
-            </Paper>
-          </Stack>
-        </Grid>
-
-        <Divider orientation="vertical" flexItem />
-
-        <Grid item xs>
-          <AppReconsiderList
-            title="People to reconsider"
-            list={reconsiderPersons.map((x) => ({
-              id: x.Id,
-              personId: x.Id,
-              image: `/assets/images/avatars/${x.gender}.jpg`,
-              decision: x.decision,
-            }))}
-          />
-        </Grid>
+            </Stack>
+          </Paper>
+          <Paper sx={{ px: 10, py: 2 }}>
+            <ScatterPlot data={scatterData}></ScatterPlot>
+            {/*<BubbleChart data={scatterData}></BubbleChart>*/}
+          </Paper>
+        </Stack>
       </Grid>
     </Card>
   );
