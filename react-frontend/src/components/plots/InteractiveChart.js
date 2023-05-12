@@ -1,8 +1,6 @@
 import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import { getFormLabelUtilityClasses } from "@mui/material";
-import Typography from "src/theme/overrides/Typography";
 
 export default function InteractiveChart({ data, filters, onCircleClick }) {
   const theme = useTheme();
@@ -133,7 +131,7 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       .append("text")
       .attr("x", 13)
       .attr("y", -80)
-      .text("Bias:")
+      .text("Fairness:")
       .style("font-size", "15px")
       .attr("alignment-baseline", "middle")
       .style("font-family", theme.typography.fontFamily)
@@ -144,8 +142,8 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       .attr("cy", -80)
       .attr("r", 7)
       .attr("opacity", MAX_OPACITY)
-      .attr("stroke", theme.palette.error.dark)
-      .style("fill", theme.palette.error.main);
+      .attr("stroke", theme.palette.success.dark)
+      .style("fill", theme.palette.success.main);
     svg
       .append("circle")
       .attr("cx", 150)
@@ -160,8 +158,8 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       .attr("cy", -80)
       .attr("r", 7)
       .attr("opacity", MAX_OPACITY)
-      .attr("stroke", theme.palette.success.dark)
-      .style("fill", theme.palette.success.main);
+      .attr("stroke", theme.palette.error.dark)
+      .style("fill", theme.palette.error.main);
     svg
       .append("text")
       .attr("x", 13)
@@ -453,16 +451,11 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
     console.log("states:", filters);
     circles
       .on("mouseover", function (event, d) {
-        /*         tip
+        tip
           .style("opacity", 1)
           .style("left", event.pageX - 25 + "px")
-          .style("top", event.pageY - 125 + "px")
-          .html(
-            "<b>Bias:</b> " +
-              d.bias.toPrecision(3) +
-              "<br><b>Qualification:</b> " +
-              d.qualification.toPrecision(3)
-          ); */
+          .style("top", event.pageY - 50 + "px")
+          .html("<b>Person:</b> " + d.id);
 
         console.log(filters.view);
         circles.attr("stroke", "black").style("stroke-width", (d2) => {
