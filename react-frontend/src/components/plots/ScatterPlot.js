@@ -75,7 +75,6 @@ function ScatterPlot({ data }) {
 
   const handleToggleChange = (event, newView) => {
     setState({ ...state, view: newView });
-    console.log("toggle view", state.view);
   };
 
   const handleClick = async (personId) => {

@@ -23,7 +23,7 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       .style("padding", "10px")
       .style("pointer-events", "none");
 
-    console.log(svgRef.current.offsetHeight);
+    //console.log(svgRef.current.offsetHeight);
     //setting up container
     const w = 950;
     const h = 450;
@@ -396,7 +396,7 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       medium: [25, 26, 27, 28],
       high: [29, 30, 31, 32],
     };
-    console.log(age_categories);
+    //console.log(age_categories);
     const get_age_category = (age) => {
       if (age_categories.low.includes(age)) {
         return "21-24";
@@ -448,7 +448,7 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
         } else return false;
       } else return false;
     }
-    console.log("states:", filters);
+    //console.log("states:", filters);
     circles
       .on("mouseover", function (event, d) {
         tip
@@ -457,7 +457,7 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
           .style("top", event.pageY - 50 + "px")
           .html("<b>Person:</b> " + d.id);
 
-        console.log(filters.view);
+        //console.log(filters.view);
         circles.attr("stroke", "black").style("stroke-width", (d2) => {
           if (same_cluster(filters.view, d, d2)) {
             return 5;
