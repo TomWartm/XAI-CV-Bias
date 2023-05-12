@@ -1,8 +1,6 @@
 import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import { getFormLabelUtilityClasses } from "@mui/material";
-import Typography from "src/theme/overrides/Typography";
 
 export default function InteractiveChart({ data, filters, onCircleClick }) {
   const theme = useTheme();
@@ -22,8 +20,10 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       .style("border", "solid")
       .style("border-width", "1px")
       .style("border-radius", "5px")
-      .style("padding", "10px");
+      .style("padding", "10px")
+      .style("pointer-events", "none");
 
+    //console.log(svgRef.current.offsetHeight);
     //setting up container
     const w = 950;
     const h = 450;
@@ -131,7 +131,7 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       .append("text")
       .attr("x", 13)
       .attr("y", -80)
-      .text("Bias:")
+      .text("Fairness:")
       .style("font-size", "15px")
       .attr("alignment-baseline", "middle")
       .style("font-family", theme.typography.fontFamily)
@@ -142,8 +142,8 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       .attr("cy", -80)
       .attr("r", 7)
       .attr("opacity", MAX_OPACITY)
-      .attr("stroke", theme.palette.error.dark)
-      .style("fill", theme.palette.error.main);
+      .attr("stroke", theme.palette.success.dark)
+      .style("fill", theme.palette.success.main);
     svg
       .append("circle")
       .attr("cx", 150)
@@ -158,8 +158,8 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       .attr("cy", -80)
       .attr("r", 7)
       .attr("opacity", MAX_OPACITY)
-      .attr("stroke", theme.palette.success.dark)
-      .style("fill", theme.palette.success.main);
+      .attr("stroke", theme.palette.error.dark)
+      .style("fill", theme.palette.error.main);
     svg
       .append("text")
       .attr("x", 13)
@@ -390,29 +390,110 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       d.fy = null;
     }
 
+    ////// Hovering over //////////
+    let age_categories = {
+      low: [21, 22, 23, 24],
+      medium: [25, 26, 27, 28],
+      high: [29, 30, 31, 32],
+    };
+    //console.log(age_categories);
+    const get_age_category = (age) => {
+      if (age_categories.low.includes(age)) {
+        return "21-24";
+      } else if (age_categories.medium.includes(age)) {
+        return "25-28";
+      } else if (age_categories.high.includes(age)) {
+        return "29-32";
+      }
+    };
+    function same_age_category(age1, age2) {
+      if (
+        age_categories.low.includes(age1) &&
+        age_categories.low.includes(age2)
+      )
+        return true;
+      else if (
+        age_categories.medium.includes(age1) &&
+        age_categories.medium.includes(age2)
+      )
+        return true;
+      else if (
+        age_categories.high.includes(age1) &&
+        age_categories.high.includes(age2)
+      )
+        return true;
+      else return false;
+    }
+
+    function same_cluster(view, d1, d2) {
+      if (view === "all") {
+        if (
+          d1.gender === d2.gender &&
+          d1.nationality === d2.nationality &&
+          same_age_category(d1.age, d2.age)
+        ) {
+          return true;
+        } else return false;
+      } else if (view === "gender") {
+        // this doesn't get reached now, because states are not cahnged correctly
+        if (d1.gender === d2.gender) {
+          return true;
+        } else return false;
+      } else if (view === "nationality") {
+        if (d1.nationality === d2.nationality) {
+          return true;
+        } else return false;
+      } else if (view === "age") {
+        if (same_age_category(d1.age, d2.age)) {
+          return true;
+        } else return false;
+      } else return false;
+    }
+    //console.log("states:", filters);
     circles
       .on("mouseover", function (event, d) {
-        tip
+        /* tip
           .style("opacity", 1)
           .style("left", event.pageX - 25 + "px")
-          .style("top", event.pageY - 85 + "px")
-          .html(
-            "<b>Bias:</b> " +
-              d.bias.toPrecision(3) +
-              "<br><b>Qualification:</b> " +
-              d.qualification.toPrecision(3)
-          );
-        d3.select(this).attr("stroke", "black").style("stroke-width", 3);
-        //console.log("mouseover", d);
+          .style("top", event.pageY - 50 + "px")
+          .html("<b>Person:</b> " + d.id); */
+
+        //console.log(filters.view);
+        circles.attr("stroke", "black").style("stroke-width", (d2) => {
+          if (same_cluster(filters.view, d, d2)) {
+            return 5;
+          } else {
+            return 1;
+          }
+        });
+
+        svg
+          .append("text")
+          .attr("id", "highlighted-text")
+          .attr("x", 13)
+          .attr("y", -20)
+          .style("font-size", "15px")
+          .attr("alignment-baseline", "middle")
+          .style("font-family", theme.typography.fontFamily)
+          .attr("fill", theme.palette.text.secondary)
+          .text("Highlighted: ")
+          .append("tspan")
+          .style("font-size", "15px")
+          .attr("alignment-baseline", "middle")
+          .style("font-family", theme.typography.fontFamily)
+          .attr("fill", theme.palette.text.primary)
+          .text(function () {
+            return (
+              d.gender + ", " + d.nationality + ", " + get_age_category(d.age)
+            );
+          });
       })
       .on("mouseout", function (event, d) {
-        tip
-          .style("opacity", 0)
-          .style("left", 0 + "px") // little hack sth. the invisible element is for sure not clicked by acceident
-          .style("top", 0 + "px");
-
+        tip.style("opacity", 0);
         //console.log("mouseout", d);
-        d3.select(this).attr("stroke", "none").style("stroke-width", 1);
+        //d3.select(this).attr("stroke", "none").style("stroke-width", 1);
+        circles.attr("stroke", "none").style("stroke-width", 1);
+        svg.select("#highlighted-text").remove();
       })
       .on("click", function (event, d) {
         this.props.onCircleClick(d.id);
@@ -422,7 +503,7 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       //console.log("stopped");
       simulation.stop();
     };
-  }, [data, filters]);
+  }, [data, filters, theme]);
 
   return <svg ref={svgRef}></svg>;
 }

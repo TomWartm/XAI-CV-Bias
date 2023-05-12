@@ -20,7 +20,6 @@ import {
   ToggleButtonGroup,
 } from "@mui/material";
 import { PersonProfile } from "../popup";
-import { PrintTwoTone } from "@mui/icons-material";
 import InteractiveChart from "./InteractiveChart";
 
 ScatterPlot.propTypes = { data: PropTypes.array };
