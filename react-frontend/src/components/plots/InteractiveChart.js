@@ -502,7 +502,7 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
       //console.log("stopped");
       simulation.stop();
     };
-  }, [data, filters]);
+  }, [data, filters, theme]);
 
   return <svg ref={svgRef}></svg>;
 }
