@@ -435,6 +435,7 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
           return true;
         } else return false;
       } else if (view === "gender") {
+        // this doesn't get reached now, because states are not cahnged correctly
         if (d1.gender === d2.gender) {
           return true;
         } else return false;
@@ -451,11 +452,11 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
     //console.log("states:", filters);
     circles
       .on("mouseover", function (event, d) {
-        tip
+        /* tip
           .style("opacity", 1)
           .style("left", event.pageX - 25 + "px")
           .style("top", event.pageY - 50 + "px")
-          .html("<b>Person:</b> " + d.id);
+          .html("<b>Person:</b> " + d.id); */
 
         //console.log(filters.view);
         circles.attr("stroke", "black").style("stroke-width", (d2) => {
