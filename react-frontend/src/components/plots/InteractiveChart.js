@@ -2,7 +2,7 @@ import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-export default function InteractiveChart({ data, filters, onCircleClick }) {
+export default function InteractiveChart({ data, filters, onCircleClick, onCircleMouseover }) {
   const theme = useTheme();
   const svgRef = useRef();
 
@@ -496,7 +496,11 @@ export default function InteractiveChart({ data, filters, onCircleClick }) {
         svg.select("#highlighted-text").remove();
       })
       .on("click", function (event, d) {
-        this.props.onCircleClick(d.id);
+        onCircleClick(d.id);
+      }).on("mouseover", function(event, d) {
+        onCircleMouseover(d.id)
+      }).on("mouseout", function(event, d) {
+        onCircleMouseover(null)
       });
 
     return () => {

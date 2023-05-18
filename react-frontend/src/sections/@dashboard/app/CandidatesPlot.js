@@ -177,7 +177,7 @@ export default function CandidatesPlot({
                 />*/}
             </Stack>
           </Paper>
-          <Paper sx={{ px: 10, py: 2 }}>
+          <Paper sx={{ px: 10, py: 2, width: "100%"}}>
             <ScatterPlot data={scatterData}></ScatterPlot>
             {/*<BubbleChart data={scatterData}></BubbleChart>*/}
           </Paper>
