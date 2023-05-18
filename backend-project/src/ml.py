@@ -10,10 +10,14 @@ from sklearn.decomposition import PCA
 
 
 def load_df():
-    # df = pd.read_csv('backend-project/data/dataset.csv')
     df = pd.read_csv('data/dataset.csv')
     df = df[df['company'] == 'C']
     df = df.drop(['company'], axis=1)
+
+    np.random.seed(0)
+    accepted = df[df["decision"] == True].sample(frac=0.6)
+    rejected = df[df["decision"] == False].sample(frac=0.6)
+    df = pd.concat([accepted, rejected])
 
     return df
 
