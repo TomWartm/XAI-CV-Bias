@@ -71,7 +71,7 @@ function ScatterPlot({ data }) {
   ///////////////////////////////////////////////////////////code duplication top/////////////////////////////////////////////////////////
   const [open, setOpen] = useState(false);
   // set default values
-  const [sidePersonData, setSidePersonData] = useState({})
+  const [sidePersonData, setSidePersonData] = useState({});
   const [personData, setPersonData] = useState({});
   const [similarPersonData, setSimilarPersonData] = useState({});
 
@@ -100,10 +100,10 @@ function ScatterPlot({ data }) {
           `Error! result of fetch("http://127.0.0.1:8000/similarpeople/${personId}" not as expected. It is: ${resultPerson}. Probably there is a non existing Id requested.`
         );
       }
-      console.log(
-        `"result of GET /similarpeople/${personId} is: `,
-        JSON.stringify(resultPerson, null, 4)
-      );
+      //console.log(
+      //  `"result of GET /similarpeople/${personId} is: `,
+      //  JSON.stringify(resultPerson, null, 4)
+      //);
 
       setPersonData(resultPerson[0]);
       setSimilarPersonData(resultPerson[1]);
@@ -117,18 +117,17 @@ function ScatterPlot({ data }) {
   };
 
   async function handleMouseover(personId) {
-    console.log(personId)
+    //console.log(personId)
 
     if (personId == null) {
       //setSidePersonData({})
-    }
-    else {
-      let response = await fetch(`http://127.0.0.1:8000/person/${personId}`)
+    } else {
+      let response = await fetch(`http://127.0.0.1:8000/person/${personId}`);
       if (!response.ok) {
-        throw new Error("Couldn't load person")
+        throw new Error("Couldn't load person");
       }
-      let person = await response.json()
-      setSidePersonData(person[0])
+      let person = await response.json();
+      setSidePersonData(person[0]);
     }
   }
   ///////////////////////////////////////////////////////////code duplication bottom/////////////////////////////////////////////////////////
@@ -376,8 +375,8 @@ function ScatterPlot({ data }) {
           </Card>
         </Grid>
         <Grid item xs={3} md={3} lg={3}>
-          <Card sx={{width: "100%"}}>
-            <PersonProfile personData={sidePersonData}/>
+          <Card sx={{ width: "100%" }}>
+            <PersonProfile personData={sidePersonData} />
           </Card>
         </Grid>
       </Grid>
