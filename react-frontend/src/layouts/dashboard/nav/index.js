@@ -95,8 +95,14 @@ export default function Nav({ openNav, onCloseNav }) {
     >
       {isDesktop ? (
         <Drawer
-          open
-          variant="permanent"
+          //open
+          //variant="permanent"
+          open={openNav}
+          onClose={onCloseNav}
+          variant="temporary"
+          ModalProps={{
+            keepMounted: true,
+          }}
           PaperProps={{
             sx: {
               width: NAV_WIDTH,

@@ -15,7 +15,6 @@ export default function InteractiveChart({
 
   useEffect(() => {
     if (data.length > 0) {
-      console.log("UseEffect");
       const MAX_OPACITY = "0.9"; // TODO: define in one of the two components only
       const MIN_OPACITY = "0.1";
       //create tooltip
@@ -52,14 +51,14 @@ export default function InteractiveChart({
       const yAxis = d3.axisLeft(yScale).ticks(10);
 
       const getCircleColor = (value) => {
-        if (value >= 0 && value <= 33) return theme.palette.error.main;
+        if (value <= 33) return theme.palette.error.main; // Some points have negative value smh
         if (value > 33 && value <= 66) return theme.palette.warning.main;
         if (value >= 66) return theme.palette.success.main;
       };
 
       const getCircleStrokeColor = (value) => {
         //return "#ffffff";
-        if (value >= 0 && value <= 33) return theme.palette.error.dark;
+        if (value <= 33) return theme.palette.error.dark;
         if (value > 33 && value <= 66) return theme.palette.warning.dark;
         if (value >= 66) return theme.palette.success.dark;
       };
@@ -264,7 +263,6 @@ export default function InteractiveChart({
         .enter()
         .append("circle")
         .attr("fill", function (d) {
-          //return getCircleColor((d["ind-university_grade"] - 45) * 3); // I put grade temporarily to see how it will look. TODO: scale based on bias once we have PCA positions
           return getCircleColor((Math.abs(d.bias) * -1 + 1) * 100);
         })
         .attr("cx", function (d) {
@@ -277,7 +275,6 @@ export default function InteractiveChart({
         .attr("opacity", MAX_OPACITY)
         .style("cursor", "pointer")
         .style("stroke", function (d) {
-          //return getCircleStrokeColor((d["ind-university_grade"] - 45) * 3); // I put grade temporarily to see how it will look. TODO: scale based on bias once we have PCA positions
           return getCircleStrokeColor((Math.abs(d.bias) * -1 + 1) * 100);
         })
         .call(
@@ -560,7 +557,7 @@ export default function InteractiveChart({
       return () => {
         // first call of useEffect happends without the data.
         // Everytime I change the view, the filters change, and this unmount is called for the previous effect
-        console.log("Unmounted");
+        console.log("Simulation stopped");
         simulation.stop();
 
         textLeft.remove();

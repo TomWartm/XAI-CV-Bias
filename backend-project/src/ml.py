@@ -8,6 +8,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.decomposition import PCA
 
+SUBSET_FRAC = 0.8#0.6
 
 def load_df():
     df = pd.read_csv('data/dataset.csv')
@@ -15,8 +16,8 @@ def load_df():
     df = df.drop(['company'], axis=1)
 
     np.random.seed(0)
-    accepted = df[df["decision"] == True].sample(frac=0.6)
-    rejected = df[df["decision"] == False].sample(frac=0.6)
+    accepted = df[df["decision"] == True].sample(frac=SUBSET_FRAC)
+    rejected = df[df["decision"] == False].sample(frac=SUBSET_FRAC)
     df = pd.concat([accepted, rejected])
 
     return df
