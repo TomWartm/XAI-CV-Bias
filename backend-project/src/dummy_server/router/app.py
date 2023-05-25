@@ -1,6 +1,6 @@
 import argparse
 import pandas as pd
-import ml
+import dummy_server.ml as ml
 
 from flask import Flask, request, abort, Response
 from flask_cors import CORS
