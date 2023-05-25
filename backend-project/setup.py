@@ -5,6 +5,7 @@ from setuptools import setup, find_packages
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+# Numba and numpy was added with fixed version, because this tends to fuck around and 0.54 worked 
 
 setup(
     name="bias-assesment",
@@ -34,6 +35,8 @@ setup(
         ]
     },
     install_requires=[
+        "numpy==1.20.3",
+    	"numba==0.54.0",
         "Flask>=2.0.0",
         "flask-restful>=0.3.9,<0.4",
         "flask-cors>=3.0.10,<3.1",
