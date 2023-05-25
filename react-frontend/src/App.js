@@ -11,6 +11,9 @@ import ScrollToTop from './components/scroll-to-top';
 // ----------------------------------------------------------------------
 
 export default function App() {
+
+  window.BASE_BACKEND = "http://127.0.0.1:8000/"
+
   return (
     <HelmetProvider>
       <BrowserRouter>

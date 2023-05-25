@@ -34,7 +34,7 @@ export default function DashboardAppPage() {
   // load example person from backend
   const [reconsiderPersons, setReconsiderPersons] = useState([]);
   const fetchReconsiderPersonsData = () => {
-    fetch("http://127.0.0.1:8000/reconsider")
+    fetch(`${window.BASE_BACKEND}reconsider`)
       .then((response) => {
         //console.log(response);
         return response.json();
@@ -45,7 +45,7 @@ export default function DashboardAppPage() {
   };
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/fairness")
+    fetch(`${window.BASE_BACKEND}fairness`)
       .then((r) => r.json())
       .then((data) => {
         data.influencecolors = [];

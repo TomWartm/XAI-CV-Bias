@@ -83,7 +83,7 @@ function ScatterPlot({ data }) {
     try {
       // (1) get person data
       const responsePerson = await fetch(
-        `http://127.0.0.1:8000/similarpeople/${personId}`,
+        `${window.BASE_BACKEND}similarpeople/${personId}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },

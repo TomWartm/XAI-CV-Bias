@@ -92,7 +92,7 @@ export default function CandidatesPlot({
   const [accepedPeople, setAcceptedPeople] = useState();
   const [rejectedPeople, setRejectedPeople] = useState();
   const fetchScatterData = () => {
-    fetch("http://127.0.0.1:8000/scatterdata")
+    fetch(`${window.BASE_BACKEND}scatterdata`)
       .then((response) => {
         //console.log(response);
         return response.json();

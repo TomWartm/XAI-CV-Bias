@@ -7,7 +7,7 @@ PersonProfile.propTypes = {
 export default function PersonProfile({ personData }) {
   const ignoreClicked = () => {
     // Probably reloading the entire page is not a nice way to do this
-    fetch("http://127.0.0.1:8000/person/" + personData.Id, {
+    fetch(`${window.BASE_BACKEND}person/` + personData.Id, {
       method: "POST",
     }).then((r) => window.location.reload());
   };

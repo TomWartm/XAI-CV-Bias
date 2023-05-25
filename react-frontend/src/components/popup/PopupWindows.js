@@ -31,7 +31,7 @@ export default function PopupWindows({ personId }) {
     try {
       // (1) get person data
       const responsePerson = await fetch(
-        `http://127.0.0.1:8000/person/${personId}`,
+        `${window.BASE_BACKEND}person/${personId}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -45,7 +45,7 @@ export default function PopupWindows({ personId }) {
       const resultPerson = await responsePerson.json();
       if (resultPerson.length < 1) {
         throw new Error(
-          `Error! result of fetch("http://127.0.0.1:8000/person/${personId}" not as expected. It is: ${resultPerson}. Probably there is a non existing Id requested.`
+          `Error! result of fetch("${window.BASE_BACKEND}person/${personId}" not as expected. It is: ${resultPerson}. Probably there is a non existing Id requested.`
         );
       }
       console.log(
@@ -58,7 +58,7 @@ export default function PopupWindows({ personId }) {
       const similarPersonId = "x8011e"; // TODO: fetch this from server
       // (3) get similar person data
       const responseSimilarPerson = await fetch(
-        `http://127.0.0.1:8000/person/${similarPersonId}`,
+        `${window.BASE_BACKEND}person/${similarPersonId}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -72,7 +72,7 @@ export default function PopupWindows({ personId }) {
       const resultSimilarPerson = await responseSimilarPerson.json();
       if (resultSimilarPerson.length < 1) {
         throw new Error(
-          `Error! result of fetch("http://127.0.0.1:8000/person/${similarPersonId}" not as expected. It is: ${resultSimilarPerson}. Probably there is a non existing Id requested.`
+          `Error! result of fetch("${window.BASE_BACKEND}person/${similarPersonId}" not as expected. It is: ${resultSimilarPerson}. Probably there is a non existing Id requested.`
         );
       }
       console.log(
