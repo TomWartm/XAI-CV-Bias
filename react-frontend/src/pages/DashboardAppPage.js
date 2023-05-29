@@ -14,7 +14,6 @@ import {
 import {
   CandidatesPlot,
   AppConversionRates,
-  AppCurrentVisits,
 } from "../sections/@dashboard/app";
 
 import GaugeChart from "../components/gaugeChart";
@@ -50,7 +49,8 @@ export default function DashboardAppPage() {
       .then((data) => {
         data.influencecolors = [];
         for (let i = 0; i < data.influence.length; i++) {
-          data.influence[i].value *= 100; // So hover shows correct number
+          data.influence[i].value *= 100;
+          data.influence[i].label = data.influence[i].label.replace("_", " ").replace("exp", "experience")
           if (
             ["gender", "age", "nationality"].indexOf(
               data.influence[i].label
@@ -58,7 +58,7 @@ export default function DashboardAppPage() {
           ) {
             data.influencecolors.push(theme.palette.error.main);
           } else {
-            data.influencecolors.push(theme.palette.success.light); // TODO make look better visually
+            data.influencecolors.push(theme.palette.info.main); // TODO make look better visually
           }
         }
         setFairness(data);
@@ -95,8 +95,8 @@ export default function DashboardAppPage() {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentVisits
+          <Grid item xs={12} md={8} lg={8}>
+            <AppConversionRates
               title="Influence by Group"
               subheader="How strong each property influenced your decision"
               chartData={fairness.influence}
