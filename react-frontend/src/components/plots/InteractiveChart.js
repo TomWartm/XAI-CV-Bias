@@ -13,6 +13,8 @@ export default function InteractiveChart({
   const svgRef = useRef();
   //const simulationRef = useRef();
 
+  let simulationRef = useRef(d3.forceSimulation());
+
   useEffect(() => {
     if (data.length > 0) {
       const MAX_OPACITY = "0.9"; // TODO: define in one of the two components only
@@ -386,14 +388,14 @@ export default function InteractiveChart({
 
       var force = getForces(filters.view);
       //var force = getForces("all");
-
-      const simulation = d3.forceSimulation();
-      console.log("Simulation created");
+      
+      let simulation = simulationRef.current;
       //if (simulationRef.current) {
       // Stop previous simulation
       //  simulationRef.current.stop();
       //simulationRef.current.restart();
       //}
+      
 
       simulation
         .force("x", force.x)
@@ -414,9 +416,13 @@ export default function InteractiveChart({
         });
       // Apply these forces to the nodes and update their positions.
       // Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
-      simulation.nodes(data).on("tick", function (d) {
-        circles.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
-      });
+      if(simulation.nodes().length === 0) {
+        simulation.nodes(data).on("tick", function (d) {
+          circles.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
+        });
+      }
+
+      simulation.alpha(1).restart()
 
       //simulationRef.current = simulation;
 
