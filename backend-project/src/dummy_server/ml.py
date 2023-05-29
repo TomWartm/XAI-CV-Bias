@@ -151,6 +151,7 @@ def build_totals(shap_df: pd.DataFrame):
             fairness.append({"label": group, "value": current_fairness})
 
     overallscore = 100 - round(bias_total_influence * 100)
+    influence.sort(key=lambda x: x["value"], reverse=True)
 
     return {
         "influence": influence,
@@ -162,7 +163,7 @@ def build_totals(shap_df: pd.DataFrame):
 def build_reconsider(scatter_df: pd.DataFrame):
     filter = scatter_df[scatter_df['decision'] == 0].sort_values(
         "qualification", ascending=False)
-    df = filter.head(3)
+    df = filter.head(5)
     return df
 
 
