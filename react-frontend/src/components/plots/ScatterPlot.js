@@ -74,6 +74,21 @@ function ScatterPlot({ data }) {
   const [sidePersonData, setSidePersonData] = useState({});
   const [personData, setPersonData] = useState({});
   const [similarPersonData, setSimilarPersonData] = useState({});
+  const initialState = {
+    gender: true,
+    age: true,
+    nationality: true,
+    "ind-degree": true,
+    "ind-university_grade": true,
+    "ind-exact_study": true,
+    "ind-languages": true,
+    "ind-programming_exp": true,
+    "ind-international_exp": true,
+    "ind-entrepeneur_exp": true,
+    "ind-debateclub": true,
+    sport: true,
+  };
+  const [PersonDataSame, setPersonDataSame] = useState(initialState); // this is true in locations where attributes of PersonData and SimilarPersonData are the same
 
   const handleToggleChange = (event, newView) => {
     setState({ ...state, view: newView });
@@ -107,6 +122,13 @@ function ScatterPlot({ data }) {
 
       setPersonData(resultPerson[0]);
       setSimilarPersonData(resultPerson[1]);
+
+      // compute differences in person and similarPerson
+      const temp = {};
+      for (const [key, value] of Object.entries(resultPerson[0])) {
+        temp[key] = value === resultPerson[1][key];
+      }
+      setPersonDataSame(temp);
 
       //open the window
       setOpen(true);
@@ -376,7 +398,10 @@ function ScatterPlot({ data }) {
         </Grid>
         <Grid item xs={3} md={3} lg={3}>
           <Card sx={{ width: "100%" }}>
-            <PersonProfile personData={sidePersonData} />
+            <PersonProfile
+              personData={sidePersonData}
+              attributeColor={initialState}
+            />
           </Card>
         </Grid>
       </Grid>
@@ -391,7 +416,10 @@ function ScatterPlot({ data }) {
               >
                 <b>Person</b>
               </Typography>
-              <PersonProfile personData={personData} />
+              <PersonProfile
+                personData={personData}
+                attributeColor={PersonDataSame}
+              />
             </Box>
             <Divider orientation="vertical" flexItem />
             <Box sx={{ p: 6, pt: 2, pb: 2 }} backgroundColor="#f2f2f2">
@@ -402,7 +430,10 @@ function ScatterPlot({ data }) {
               >
                 <b>Similar person</b>
               </Typography>
-              <PersonProfile personData={similarPersonData} />
+              <PersonProfile
+                personData={similarPersonData}
+                attributeColor={PersonDataSame}
+              />
             </Box>
           </Stack>
         </DialogContent>

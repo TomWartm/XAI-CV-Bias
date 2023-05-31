@@ -4,7 +4,7 @@ PersonProfile.propTypes = {
   personData: PropTypes.object,
 };
 
-export default function PersonProfile({ personData }) {
+export default function PersonProfile({ personData, attributeColor }) {
   const ignoreClicked = () => {
     // Probably reloading the entire page is not a nice way to do this
     fetch(`${window.BASE_BACKEND}person/` + personData.Id, {
@@ -13,11 +13,10 @@ export default function PersonProfile({ personData }) {
   };
 
   if (personData == undefined || personData == null || !("Id" in personData)) {
-    return <div>Nothing selected so far.</div>
-  }
-  else {
+    return <div>Nothing selected so far.</div>;
+  } else {
     return (
-      <Stack direction="row" sx={{ pt: 4, justifyContent: "center"}}>
+      <Stack direction="row" sx={{ pt: 4, justifyContent: "center" }}>
         <Stack direction="column" alignItems="left" spacing={2}>
           <Box
             component="img"
@@ -38,7 +37,7 @@ export default function PersonProfile({ personData }) {
               <b>{personData.decision ? "Accepted" : "Rejected"}</b>
             </Typography>
           </Box>
-  
+
           <Box>
             <Stack direction="row" spacing={1}>
               <Box>
@@ -53,13 +52,32 @@ export default function PersonProfile({ personData }) {
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: attributeColor.gender
+                      ? "text.secondary"
+                      : "info.main",
+                  }}
+                >
                   {personData.gender}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: attributeColor.age ? "text.secondary" : "info.main",
+                  }}
+                >
                   {personData.age}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: attributeColor.nationality
+                      ? "text.secondary"
+                      : "info.main",
+                  }}
+                >
                   {personData.nationality}
                 </Typography>
               </Box>
@@ -88,16 +106,44 @@ export default function PersonProfile({ personData }) {
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: attributeColor["ind-degree"]
+                      ? "text.secondary"
+                      : "info.main",
+                  }}
+                >
                   {personData["ind-degree"]}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: attributeColor["ind-university_grade"]
+                      ? "text.secondary"
+                      : "info.main",
+                  }}
+                >
                   {personData["ind-university_grade"].toString()}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: attributeColor["ind-exact_study"]
+                      ? "text.secondary"
+                      : "info.main",
+                  }}
+                >
                   {personData["ind-exact_study"].toString()}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: attributeColor["ind-languages"]
+                      ? "text.secondary"
+                      : "info.main",
+                  }}
+                >
                   {personData["ind-languages"].toString()}
                 </Typography>
               </Box>
@@ -126,16 +172,44 @@ export default function PersonProfile({ personData }) {
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: attributeColor["ind-programming_exp"]
+                      ? "text.secondary"
+                      : "info.main",
+                  }}
+                >
                   {personData["ind-programming_exp"].toString()}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: attributeColor["ind-international_exp"]
+                      ? "text.secondary"
+                      : "info.main",
+                  }}
+                >
                   {personData["ind-international_exp"].toString()}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: attributeColor["ind-entrepeneur_exp"]
+                      ? "text.secondary"
+                      : "info.main",
+                  }}
+                >
                   {personData["ind-entrepeneur_exp"].toString()}
                 </Typography>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: attributeColor["ind-debateclub"]
+                      ? "text.secondary"
+                      : "info.main",
+                  }}
+                >
                   {personData["ind-debateclub"].toString()}
                 </Typography>
               </Box>
@@ -155,7 +229,14 @@ export default function PersonProfile({ personData }) {
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: attributeColor.sport
+                      ? "text.secondary"
+                      : "info.main",
+                  }}
+                >
                   {personData.sport}
                 </Typography>
               </Box>
@@ -167,5 +248,5 @@ export default function PersonProfile({ personData }) {
         </Stack>
       </Stack>
     );
-  } 
+  }
 }
