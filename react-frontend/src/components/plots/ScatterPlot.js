@@ -396,7 +396,7 @@ function ScatterPlot({ data }) {
             </FormControl>
           </Card>
         </Grid>
-        <Grid item xs={3} md={3} lg={3}>
+        <Grid item>
           <Card sx={{ width: "100%" }}>
             <PersonProfile
               personData={sidePersonData}
