@@ -5,6 +5,7 @@ PersonProfile.propTypes = {
 };
 
 export default function PersonProfile({ personData, attributeColor }) {
+  const boldFontsize = 600;
   const ignoreClicked = () => {
     // Probably reloading the entire page is not a nice way to do this
     fetch(`${window.BASE_BACKEND}person/` + personData.Id, {
@@ -58,7 +59,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor.gender
                       ? "text.secondary"
                       : "info.main",
-                    fontWeight: attributeColor.gender ? "" : "bold",
+                    fontWeight: attributeColor.gender ? "" : boldFontsize,
                   }}
                 >
                   {personData.gender}
@@ -67,7 +68,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                   variant="body2"
                   sx={{
                     color: attributeColor.age ? "text.secondary" : "info.main",
-                    fontWeight: attributeColor.age ? "" : "bold",
+                    fontWeight: attributeColor.age ? "" : boldFontsize,
                   }}
                 >
                   {personData.age}
@@ -78,7 +79,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor.nationality
                       ? "text.secondary"
                       : "info.main",
-                    fontWeight: attributeColor.nationality ? "" : "bold",
+                    fontWeight: attributeColor.nationality ? "" : boldFontsize,
                   }}
                 >
                   {personData.nationality}
@@ -115,7 +116,9 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor["ind-degree"]
                       ? "text.secondary"
                       : "info.main",
-                    fontWeight: attributeColor["ind-degree"] ? "" : "bold",
+                    fontWeight: attributeColor["ind-degree"]
+                      ? ""
+                      : boldFontsize,
                   }}
                 >
                   {personData["ind-degree"]}
@@ -128,7 +131,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                       : "info.main",
                     fontWeight: attributeColor["ind-university_grade"]
                       ? ""
-                      : "bold",
+                      : boldFontsize,
                   }}
                 >
                   {personData["ind-university_grade"].toString()}
@@ -139,7 +142,9 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor["ind-exact_study"]
                       ? "text.secondary"
                       : "info.main",
-                    fontWeight: attributeColor["ind-exact_study"] ? "" : "bold",
+                    fontWeight: attributeColor["ind-exact_study"]
+                      ? ""
+                      : boldFontsize,
                   }}
                 >
                   {personData["ind-exact_study"].toString()}
@@ -150,7 +155,9 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor["ind-languages"]
                       ? "text.secondary"
                       : "info.main",
-                    fontWeight: attributeColor["ind-languages"] ? "" : "bold",
+                    fontWeight: attributeColor["ind-languages"]
+                      ? ""
+                      : boldFontsize,
                   }}
                 >
                   {personData["ind-languages"].toString()}
@@ -189,7 +196,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                       : "info.main",
                     fontWeight: attributeColor["ind-programming_exp"]
                       ? ""
-                      : "bold",
+                      : boldFontsize,
                   }}
                 >
                   {personData["ind-programming_exp"].toString()}
@@ -202,7 +209,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                       : "info.main",
                     fontWeight: attributeColor["ind-international_exp"]
                       ? ""
-                      : "bold",
+                      : boldFontsize,
                   }}
                 >
                   {personData["ind-international_exp"].toString()}
@@ -215,7 +222,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                       : "info.main",
                     fontWeight: attributeColor["ind-entrepeneur_exp"]
                       ? ""
-                      : "bold",
+                      : boldFontsize,
                   }}
                 >
                   {personData["ind-entrepeneur_exp"].toString()}
@@ -226,7 +233,9 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor["ind-debateclub"]
                       ? "text.secondary"
                       : "info.main",
-                    fontWeight: attributeColor["ind-debateclub"] ? "" : "bold",
+                    fontWeight: attributeColor["ind-debateclub"]
+                      ? ""
+                      : boldFontsize,
                   }}
                 >
                   {personData["ind-debateclub"].toString()}
@@ -254,7 +263,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor.sport
                       ? "text.secondary"
                       : "info.main",
-                    fontWeight: attributeColor.sport ? "" : "bold",
+                    fontWeight: attributeColor.sport ? "" : boldFontsize,
                   }}
                 >
                   {personData.sport}
