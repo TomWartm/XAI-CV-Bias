@@ -1,6 +1,7 @@
 import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
+import { floor } from "lodash";
 
 export default function InteractiveChart({
   data,
@@ -205,16 +206,16 @@ export default function InteractiveChart({
         .style("fill", theme.palette.grey[400]);
 
       // Add cluster labels
-      const x = d3.scaleOrdinal().domain([1, 2, 3]).range([100, 600, 325]);
+      const x = d3.scaleOrdinal().domain([1, 2, 3]).range([200, 500, 800]);
       var text1, text2, text3;
       if (filters.view === "gender") {
-        text1 = "Female";
-        text2 = "Male";
+        text1 = "Male";
+        text2 = "Female";
         text3 = "Other";
       } else if (filters.view === "nationality") {
-        text1 = "Belgian";
-        text2 = "Dutch";
-        text3 = "German";
+        text1 = "Dutch";
+        text2 = "German";
+        text3 = "Belgian";
       } else if (filters.view === "age") {
         text1 = "21-24 y/o";
         text2 = "25-28 y/o";
@@ -376,7 +377,10 @@ export default function InteractiveChart({
             x: d3
               .forceX()
               .strength(strengthX)
-              .x((d) => x(d.age)),
+              .x((d) => {
+                let bin = floor((d.age - 21) / 4)
+                return x(bin + 1)
+              }),
             y: d3
               .forceY()
               .strength(strengthY)
