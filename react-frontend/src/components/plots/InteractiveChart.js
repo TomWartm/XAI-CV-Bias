@@ -558,9 +558,11 @@ export default function InteractiveChart({
         })
         .on("mouseover", function (event, d) {
           onCircleMouseover(d.id);
+          d3.select(this).style("stroke-width", 3);
         })
         .on("mouseout", function (event, d) {
           onCircleMouseover(null);
+          d3.select(this).style("stroke-width", 1);
         });
 
       setRenderCount((prevCount) => prevCount + 1);
