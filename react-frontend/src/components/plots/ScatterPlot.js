@@ -40,6 +40,8 @@ function ScatterPlot({ data }) {
     ageValue: [21, 32],
     gradeValue: [45, 78],
     languagesValue: [0, 3],
+    rejected: true,
+    accepted: true,
   });
 
   // set data filter for gender and nationality
@@ -390,6 +392,31 @@ function ScatterPlot({ data }) {
                         name="languages"
                       />
                     }
+                  />
+                </FormGroup>
+
+                <Divider orientation="vertical" flexItem />
+                <FormGroup sx={{ m: 2 }}>
+                  <FormHelperText>Decision</FormHelperText>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={state.accepted}
+                        onChange={handleChange}
+                        name="accepted"
+                      />
+                    }
+                    label="accepted"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={state.rejected}
+                        onChange={handleChange}
+                        name="rejected"
+                      />
+                    }
+                    label="rejected"
                   />
                 </FormGroup>
               </FormGroup>

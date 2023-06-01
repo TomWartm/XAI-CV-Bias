@@ -317,6 +317,8 @@ export default function InteractiveChart({
           )
         )
           return true;
+        if (d.decision && !filters.accepted) return true;
+        if (!d.decision && !filters.rejected) return true;
         else return false;
       }
 
@@ -378,8 +380,8 @@ export default function InteractiveChart({
               .forceX()
               .strength(strengthX)
               .x((d) => {
-                let bin = floor((d.age - 21) / 4)
-                return x(bin + 1)
+                let bin = floor((d.age - 21) / 4);
+                return x(bin + 1);
               }),
             y: d3
               .forceY()
@@ -392,14 +394,13 @@ export default function InteractiveChart({
 
       var force = getForces(filters.view);
       //var force = getForces("all");
-      
+
       let simulation = simulationRef.current;
       //if (simulationRef.current) {
       // Stop previous simulation
       //  simulationRef.current.stop();
       //simulationRef.current.restart();
       //}
-      
 
       simulation
         .force("x", force.x)
@@ -420,13 +421,13 @@ export default function InteractiveChart({
         });
       // Apply these forces to the nodes and update their positions.
       // Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
-      if(simulation.nodes().length === 0) {
+      if (simulation.nodes().length === 0) {
         simulation.nodes(data).on("tick", function (d) {
           circles.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
         });
       }
 
-      simulation.alpha(1).restart()
+      simulation.alpha(1).restart();
 
       //simulationRef.current = simulation;
 
