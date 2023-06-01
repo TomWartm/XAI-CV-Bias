@@ -58,6 +58,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor.gender
                       ? "text.secondary"
                       : "info.main",
+                    fontWeight: attributeColor.gender ? "" : "bold",
                   }}
                 >
                   {personData.gender}
@@ -66,6 +67,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                   variant="body2"
                   sx={{
                     color: attributeColor.age ? "text.secondary" : "info.main",
+                    fontWeight: attributeColor.age ? "" : "bold",
                   }}
                 >
                   {personData.age}
@@ -76,6 +78,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor.nationality
                       ? "text.secondary"
                       : "info.main",
+                    fontWeight: attributeColor.nationality ? "" : "bold",
                   }}
                 >
                   {personData.nationality}
@@ -112,6 +115,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor["ind-degree"]
                       ? "text.secondary"
                       : "info.main",
+                    fontWeight: attributeColor["ind-degree"] ? "" : "bold",
                   }}
                 >
                   {personData["ind-degree"]}
@@ -122,6 +126,9 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor["ind-university_grade"]
                       ? "text.secondary"
                       : "info.main",
+                    fontWeight: attributeColor["ind-university_grade"]
+                      ? ""
+                      : "bold",
                   }}
                 >
                   {personData["ind-university_grade"].toString()}
@@ -132,6 +139,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor["ind-exact_study"]
                       ? "text.secondary"
                       : "info.main",
+                    fontWeight: attributeColor["ind-exact_study"] ? "" : "bold",
                   }}
                 >
                   {personData["ind-exact_study"].toString()}
@@ -142,6 +150,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor["ind-languages"]
                       ? "text.secondary"
                       : "info.main",
+                    fontWeight: attributeColor["ind-languages"] ? "" : "bold",
                   }}
                 >
                   {personData["ind-languages"].toString()}
@@ -178,6 +187,9 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor["ind-programming_exp"]
                       ? "text.secondary"
                       : "info.main",
+                    fontWeight: attributeColor["ind-programming_exp"]
+                      ? ""
+                      : "bold",
                   }}
                 >
                   {personData["ind-programming_exp"].toString()}
@@ -188,6 +200,9 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor["ind-international_exp"]
                       ? "text.secondary"
                       : "info.main",
+                    fontWeight: attributeColor["ind-international_exp"]
+                      ? ""
+                      : "bold",
                   }}
                 >
                   {personData["ind-international_exp"].toString()}
@@ -198,6 +213,9 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor["ind-entrepeneur_exp"]
                       ? "text.secondary"
                       : "info.main",
+                    fontWeight: attributeColor["ind-entrepeneur_exp"]
+                      ? ""
+                      : "bold",
                   }}
                 >
                   {personData["ind-entrepeneur_exp"].toString()}
@@ -208,6 +226,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor["ind-debateclub"]
                       ? "text.secondary"
                       : "info.main",
+                    fontWeight: attributeColor["ind-debateclub"] ? "" : "bold",
                   }}
                 >
                   {personData["ind-debateclub"].toString()}
@@ -235,6 +254,7 @@ export default function PersonProfile({ personData, attributeColor }) {
                     color: attributeColor.sport
                       ? "text.secondary"
                       : "info.main",
+                    fontWeight: attributeColor.sport ? "" : "bold",
                   }}
                 >
                   {personData.sport}
