@@ -26,7 +26,7 @@ def find_similar_pairs(df, threshold):
 
     return pairs
 
-similar_pairs = find_similar_pairs(df, 1) # change here the threshold
+similar_pairs = find_similar_pairs(df, 0.999999) # change here the threshold
 print(similar_pairs)
 
 # print to see if it is finding similar pairs 
