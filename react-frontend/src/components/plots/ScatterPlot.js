@@ -424,7 +424,7 @@ function ScatterPlot({ data }) {
           </Card>
         </Grid>
         <Grid item>
-          <Card sx={{ width: "100%" }}>
+          <Card sx={{ width: "200px" }}>
             <PersonProfile
               personData={sidePersonData}
               attributeColor={initialState}
