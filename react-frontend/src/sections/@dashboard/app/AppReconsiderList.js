@@ -31,7 +31,7 @@ export default function AppReconsiderList({
     <Card {...other} sx={{ height: "100%", border: "none", boxShadow: "none" }}>
       <CardHeader title={title} subheader={subheader} />
 
-      <CardContent sx={{ width: 275 }}>
+      <CardContent sx={{ width: 400 }}>
         <Scrollbar>
           <Stack spacing={2} sx={{ m: 2, pr: 0 }} alignItems="left">
             {list.map((personSummary) => (
@@ -58,7 +58,7 @@ ReconsiderItem.propTypes = {
 };
 
 function ReconsiderItem({ personSummary }) {
-  const { image, personId, decision } = personSummary;
+  const { image, personId, decision, name, surname } = personSummary;
 
   return (
     <Stack direction="row" alignItems="center" spacing={1}>
@@ -70,7 +70,7 @@ function ReconsiderItem({ personSummary }) {
       />
 
       <Box sx={{ flexGrow: 1 }}>
-        <PopupWindows personId={personId}></PopupWindows>
+        <PopupWindows personId={personId} name={name} surname={surname}></PopupWindows>
       </Box>
 
       <Box>

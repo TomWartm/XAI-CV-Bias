@@ -43,6 +43,7 @@ setup(
         "pandas>=1.4.1,<1.5",
         "scikit-learn>=1.0.2",
         "shap",
+        "faker"
     ],
     packages=find_packages(where="src", include=["dummy_server*"]),
     package_dir={"": "src"},

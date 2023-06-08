@@ -18,7 +18,7 @@ PopupWindows.propTypes = {
   personId: PropTypes.string,
 };
 
-export default function PopupWindows({ personId }) {
+export default function PopupWindows({ personId , name, surname}) {
   // TODO: resolve this code duplication with ScatterPlot.js
   ///////////////////////////////////////////////////////////code duplication top/////////////////////////////////////////////////////////
   const [open, setOpen] = useState(false);
@@ -88,7 +88,7 @@ export default function PopupWindows({ personId }) {
   return (
     <>
       <Button onClick={handleClick} variant="body2">
-        {personId}
+        {name} {surname}
       </Button>
 
       <Dialog open={open} onClose={() => setOpen(false)}>

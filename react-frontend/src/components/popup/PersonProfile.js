@@ -43,6 +43,21 @@ export default function PersonProfile({ personData, attributeColor }) {
             <Stack direction="row" spacing={1}>
               <Box>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                  <b>Name: </b>
+                </Typography>
+              </Box>
+              <Box>
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                  >
+                  {personData.name} {personData.surname}
+                </Typography>
+              </Box>
+            </Stack>
+            <Stack direction="row" spacing={1}>
+              <Box>
+                <Typography variant="body2" sx={{ color: "text.secondary" }}>
                   <b>Gender: </b>
                 </Typography>
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>

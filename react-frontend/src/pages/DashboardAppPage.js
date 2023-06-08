@@ -111,6 +111,8 @@ export default function DashboardAppPage() {
                 personId: x.Id,
                 image: `/assets/images/avatars/${x.gender}.jpg`,
                 decision: x.decision,
+                name: x.name,
+                surname: x.surname
               }))}
             />
           </Grid>
