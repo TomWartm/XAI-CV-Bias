@@ -94,8 +94,8 @@ export default function DashboardAppPage() {
           <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates
               title="Fairness by Group"
-              subheader="(+43%) than last month"
               chartData={fairness.groupfairness}
+              fakeittillyoumakeit={true}
             />
           </Grid>
 
@@ -121,8 +121,8 @@ export default function DashboardAppPage() {
           </Grid>
           <Grid item xs={12} md={12} lg={12}>
             <CandidatesPlot
-              title="Fairness Scatterplot"
-              subheader="A plot of candidates' qualifications against potential bias"
+              title="Fairness Explorer"
+              subheader="An interactive plot to explore your blindspots. Candidates with similar demographics are closer to each other. Is there areas for improvement?"
               chartLabels={[
                 "01/01/2003",
                 "02/01/2003",
