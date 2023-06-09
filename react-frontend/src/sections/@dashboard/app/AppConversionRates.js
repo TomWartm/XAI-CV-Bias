@@ -20,6 +20,7 @@ export default function AppConversionRates({
   subheader,
   chartData,
   chartColors,
+  borderRadius = 8,
   ...other
 }) {
   const chartLabels = chartData.map((i) => i.label);
@@ -54,14 +55,19 @@ export default function AppConversionRates({
       },
     },
     plotOptions: {
-      bar: { horizontal: true, barHeight: "40%", borderRadius: 8, distributed: distributed },
+      bar: {
+        horizontal: true,
+        barHeight: "40%",
+        borderRadius: borderRadius,
+        distributed: distributed,
+      },
     },
     colors: chartColors,
     xaxis: {
       categories: chartLabels,
     },
     legend: {
-      show: false, 
+      show: false,
     },
   });
 

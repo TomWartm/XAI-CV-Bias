@@ -105,6 +105,7 @@ export default function DashboardAppPage() {
               subheader="How strong each property influenced your decision"
               chartData={fairness.influence}
               chartColors={fairness.influencecolors}
+              borderRadius={4}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={4}>

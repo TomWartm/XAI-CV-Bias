@@ -28,7 +28,7 @@ export default function AppReconsiderList({
   ...other
 }) {
   return (
-    <Card {...other} sx={{ height: "100%", border: "none", boxShadow: "none" }}>
+    <Card {...other} sx={{ height: "100%" }}>
       <CardHeader title={title} subheader={subheader} />
 
       <CardContent sx={{ width: 275 }}>
