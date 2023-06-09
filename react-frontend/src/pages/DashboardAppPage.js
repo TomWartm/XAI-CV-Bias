@@ -9,11 +9,13 @@ import {
   Typography,
   CardContent,
 } from "@mui/material";
+import Iconify from "../components/iconify";
 
 // sections
 import {
   CandidatesPlot,
   AppConversionRates,
+  AppTrafficBySite,
 } from "../sections/@dashboard/app";
 
 import GaugeChart from "../components/gaugeChart";
@@ -50,7 +52,9 @@ export default function DashboardAppPage() {
         data.influencecolors = [];
         for (let i = 0; i < data.influence.length; i++) {
           data.influence[i].value *= 100;
-          data.influence[i].label = data.influence[i].label.replace("_", " ").replace("exp", "experience")
+          data.influence[i].label = data.influence[i].label
+            .replace("_", " ")
+            .replace("exp", "experience");
           if (
             ["gender", "age", "nationality"].indexOf(
               data.influence[i].label
@@ -95,7 +99,7 @@ export default function DashboardAppPage() {
             />
           </Grid>
 
-          <Grid item xs={12} md={8} lg={8}>
+          <Grid item xs={12} md={6} lg={8}>
             <AppConversionRates
               title="Influence by Group"
               subheader="How strong each property influenced your decision"
@@ -103,7 +107,7 @@ export default function DashboardAppPage() {
               chartColors={fairness.influencecolors}
             />
           </Grid>
-          <Grid item xs>
+          <Grid item xs={12} md={6} lg={4}>
             <AppReconsiderList
               title="People to reconsider"
               list={reconsiderPersons.map((x) => ({

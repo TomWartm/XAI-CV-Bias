@@ -14,6 +14,7 @@ export default function InteractiveChart({
   //const simulationRef = useRef();
 
   let simulationRef = useRef(d3.forceSimulation());
+  const containerRef = useRef(null);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -35,7 +36,7 @@ export default function InteractiveChart({
 
       //console.log(svgRef.current.offsetHeight);
       //setting up container
-      const w = 950;
+      const w = containerRef.current.offsetWidth; //width depents on the width of the component we are in
       const h = 450;
       const svg = d3
         .select(svgRef.current)
@@ -139,7 +140,7 @@ export default function InteractiveChart({
       /////
       svg
         .append("text")
-        .attr("x", 13)
+        .attr("x", w - 180)
         .attr("y", -80)
         .text("Fairness:")
         .style("font-size", "15px")
@@ -148,7 +149,7 @@ export default function InteractiveChart({
         .attr("fill", theme.palette.text.secondary);
       svg
         .append("circle")
-        .attr("cx", 175)
+        .attr("cx", w - 25)
         .attr("cy", -80)
         .attr("r", 7)
         .attr("opacity", MAX_OPACITY)
@@ -156,7 +157,7 @@ export default function InteractiveChart({
         .style("fill", theme.palette.success.main);
       svg
         .append("circle")
-        .attr("cx", 150)
+        .attr("cx", w - 50)
         .attr("cy", -80)
         .attr("r", 7)
         .attr("opacity", MAX_OPACITY)
@@ -164,7 +165,7 @@ export default function InteractiveChart({
         .style("fill", theme.palette.warning.main);
       svg
         .append("circle")
-        .attr("cx", 125)
+        .attr("cx", w - 75)
         .attr("cy", -80)
         .attr("r", 7)
         .attr("opacity", MAX_OPACITY)
@@ -172,7 +173,7 @@ export default function InteractiveChart({
         .style("fill", theme.palette.error.main);
       svg
         .append("text")
-        .attr("x", 13)
+        .attr("x", w - 180)
         .attr("y", -50)
         .text("Qualification:")
         .style("font-size", "15px")
@@ -181,7 +182,7 @@ export default function InteractiveChart({
         .attr("fill", theme.palette.text.secondary);
       svg
         .append("circle")
-        .attr("cx", 175)
+        .attr("cx", w - 25)
         .attr("cy", -50)
         .attr("r", 10)
         .attr("opacity", MAX_OPACITY)
@@ -189,7 +190,7 @@ export default function InteractiveChart({
         .style("fill", theme.palette.grey[400]);
       svg
         .append("circle")
-        .attr("cx", 150)
+        .attr("cx", w - 50)
         .attr("cy", -50)
         .attr("r", 7)
         .attr("opacity", MAX_OPACITY)
@@ -197,7 +198,7 @@ export default function InteractiveChart({
         .style("fill", theme.palette.grey[400]);
       svg
         .append("circle")
-        .attr("cx", 125)
+        .attr("cx", w - 75)
         .attr("cy", -50)
         .attr("r", 4)
         .attr("opacity", MAX_OPACITY)
@@ -205,16 +206,19 @@ export default function InteractiveChart({
         .style("fill", theme.palette.grey[400]);
 
       // Add cluster labels
-      const x = d3.scaleOrdinal().domain([1, 2, 3]).range([100, 600, 325]);
+      const x = d3
+        .scaleOrdinal()
+        .domain([1, 2, 3])
+        .range([w / 4, (3 * w) / 4, w / 2]);
       var text1, text2, text3;
       if (filters.view === "gender") {
         text1 = "Female";
         text2 = "Male";
         text3 = "Other";
       } else if (filters.view === "nationality") {
-        text1 = "Belgian";
-        text2 = "Dutch";
-        text3 = "German";
+        text1 = "Dutch";
+        text2 = "German";
+        text3 = "Belgian";
       } else if (filters.view === "age") {
         text1 = "21-24 y/o";
         text2 = "25-28 y/o";
@@ -388,14 +392,13 @@ export default function InteractiveChart({
 
       var force = getForces(filters.view);
       //var force = getForces("all");
-      
+
       let simulation = simulationRef.current;
       //if (simulationRef.current) {
       // Stop previous simulation
       //  simulationRef.current.stop();
       //simulationRef.current.restart();
       //}
-      
 
       simulation
         .force("x", force.x)
@@ -416,13 +419,13 @@ export default function InteractiveChart({
         });
       // Apply these forces to the nodes and update their positions.
       // Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
-      if(simulation.nodes().length === 0) {
+      if (simulation.nodes().length === 0) {
         simulation.nodes(data).on("tick", function (d) {
           circles.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
         });
       }
 
-      simulation.alpha(1).restart()
+      simulation.alpha(1).restart();
 
       //simulationRef.current = simulation;
 
@@ -573,5 +576,9 @@ export default function InteractiveChart({
     }
   }, [data, filters, theme]);
 
-  return <svg ref={svgRef}></svg>;
+  return (
+    <div ref={containerRef}>
+      <svg ref={svgRef}></svg>
+    </div>
+  );
 }
