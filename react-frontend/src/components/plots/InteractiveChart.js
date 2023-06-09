@@ -1,6 +1,7 @@
 import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
+import { floor } from "lodash";
 
 export default function InteractiveChart({
   data,
@@ -212,8 +213,8 @@ export default function InteractiveChart({
         .range([w / 4, (3 * w) / 4, w / 2]);
       var text1, text2, text3;
       if (filters.view === "gender") {
-        text1 = "Female";
-        text2 = "Male";
+        text1 = "Male";
+        text2 = "Female";
         text3 = "Other";
       } else if (filters.view === "nationality") {
         text1 = "Dutch";
@@ -320,6 +321,8 @@ export default function InteractiveChart({
           )
         )
           return true;
+        if (d.decision && !filters.accepted) return true;
+        if (!d.decision && !filters.rejected) return true;
         else return false;
       }
 
@@ -380,7 +383,10 @@ export default function InteractiveChart({
             x: d3
               .forceX()
               .strength(strengthX)
-              .x((d) => x(d.age)),
+              .x((d) => {
+                let bin = floor((d.age - 21) / 4);
+                return x(bin + 1);
+              }),
             y: d3
               .forceY()
               .strength(strengthY)
@@ -556,9 +562,11 @@ export default function InteractiveChart({
         })
         .on("mouseover", function (event, d) {
           onCircleMouseover(d.id);
+          d3.select(this).style("stroke-width", 3);
         })
         .on("mouseout", function (event, d) {
           onCircleMouseover(null);
+          d3.select(this).style("stroke-width", 1);
         });
 
       setRenderCount((prevCount) => prevCount + 1);

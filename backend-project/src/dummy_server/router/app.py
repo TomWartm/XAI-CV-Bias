@@ -12,6 +12,7 @@ def create_app():
 
     # dataset = pd.read_csv("backend-project/data/dataset.csv")
     dataset = pd.read_csv("data/dataset.csv")
+    dataset = ml.extend_with_names(dataset)
     (scatterdataset,
      similarpeopledataset,
      reconsiderdataset,

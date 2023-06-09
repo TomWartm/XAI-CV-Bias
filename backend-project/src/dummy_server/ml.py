@@ -7,8 +7,16 @@ import shap
 from sklearn.metrics import accuracy_score
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.decomposition import PCA
+import faker
 
 SUBSET_FRAC = 0.8#0.6
+
+def extend_with_names(df):
+    fake = faker.Faker()
+    df['name'] = [fake.first_name_male() if gender == 1 else fake.first_name_female() for gender in df['gender']]
+    df['surname'] = [fake.last_name() for _ in range(len(df))]
+
+    return df
 
 def load_df():
     df = pd.read_csv('data/dataset.csv')
@@ -19,6 +27,8 @@ def load_df():
     accepted = df[df["decision"] == True].sample(frac=SUBSET_FRAC)
     rejected = df[df["decision"] == False].sample(frac=SUBSET_FRAC)
     df = pd.concat([accepted, rejected])
+
+    df = extend_with_names(df)
 
     return df
 
@@ -62,13 +72,15 @@ def get_sensitive_attributes():
 
 def get_shap_values():
     ids = ml_dataset["Id"]
-    X = ml_dataset.drop(columns=["decision", "Id"])
+    names = ml_dataset["name"]
+    surname = ml_dataset["surname"]
+    X = ml_dataset.drop(columns=["decision", "Id", "name", "surname"])
     y = ml_dataset["decision"]
 
     model = LogisticRegression(max_iter=1000)
     model.fit(X, y)
     y_pred = model.predict(X)
-    accuracy = accuracy_score(y, y_pred)
+    #accuracy = accuracy_score(y, y_pred)
     # print(f"Logistic Regression accuracy: {accuracy:.4f}")
     explainer = shap.Explainer(model, X)
     shap_values = explainer(X)
@@ -77,10 +89,12 @@ def get_shap_values():
     shap_df["Id"] = ids.values
     shap_df['predicted_decision'] = y_pred
     shap_df["actual_decision"] = y.values
+    shap_df["name"] = names
+    shap_df["surname"] = surname
 
     multiindex_vals = [
         ["bias", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "bias", "bias", "bias", "bias", "bias", "bias",
-            "fair", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "meta", "meta", "meta"],
+            "fair", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "fair", "meta", "meta", "meta", "meta", "meta"],
         ['age', 'university_grade', 'debateclub', 'programming_exp',
          'international_exp', 'entrepeneur_exp', 'languages',
          'exact_study', 'gender', 'gender', 'gender',
@@ -88,7 +102,7 @@ def get_shap_values():
          'sport', 'sport', 'sport', 'sport', 'sport',
          'sport', 'sport', 'sport', 'degree',
          'degree', 'degree', 'meta', 'meta',
-         'meta'],
+         'meta', "meta", "meta"],
         shap_df.columns.values]
     multiindex = pd.MultiIndex.from_arrays(multiindex_vals)
     shap_df.columns = multiindex
@@ -118,6 +132,7 @@ def build_scatterplot_data(shap_df):
     reduced = pca.fit_transform(sensitive_attributes)
     scatter_df["bias_dimred_x"] = reduced[:, 0]
     scatter_df["bias_dimred_y"] = reduced[:, 1]
+
 
     scatter_df = pd.merge(scatter_df, original_df,
                           left_on="id", right_on="Id", how="inner")
