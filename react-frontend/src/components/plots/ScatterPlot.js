@@ -393,6 +393,30 @@ function ScatterPlot({ data }) {
                   }
                 />
               </FormGroup>
+              <Divider orientation="vertical" flexItem />
+              <FormGroup sx={{ m: 2 }}>
+                <FormHelperText>Decision</FormHelperText>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={state.accepted}
+                      onChange={handleChange}
+                      name="accepted"
+                    />
+                  }
+                  label="accepted"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={state.rejected}
+                      onChange={handleChange}
+                      name="rejected"
+                    />
+                  }
+                  label="rejected"
+                />
+              </FormGroup>
             </FormGroup>
           </FormControl>
         </Grid>
