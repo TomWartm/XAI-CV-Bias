@@ -13,7 +13,7 @@ SUBSET_FRAC = 0.8#0.6
 
 def extend_with_names(df):
     fake = faker.Faker()
-    df['name'] = [fake.first_name_male() if gender == 1 else fake.first_name_female() for gender in df['gender']]
+    df['name'] = [fake.first_name_male() if gender == "male" else fake.first_name_female() for gender in df['gender']]
     df['surname'] = [fake.last_name() for _ in range(len(df))]
 
     return df
