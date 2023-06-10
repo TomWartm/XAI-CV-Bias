@@ -15,6 +15,7 @@ export default function InteractiveChart({
   //const simulationRef = useRef();
 
   let simulationRef = useRef(d3.forceSimulation());
+  const containerRef = useRef(null);
 
   useEffect(() => {
     if (data.length > 0) {
@@ -36,7 +37,7 @@ export default function InteractiveChart({
 
       //console.log(svgRef.current.offsetHeight);
       //setting up container
-      const w = 950;
+      const w = containerRef.current.offsetWidth; //width depents on the width of the component we are in
       const h = 450;
       const svg = d3
         .select(svgRef.current)
@@ -140,7 +141,7 @@ export default function InteractiveChart({
       /////
       svg
         .append("text")
-        .attr("x", 13)
+        .attr("x", w - 180)
         .attr("y", -80)
         .text("Fairness:")
         .style("font-size", "15px")
@@ -149,7 +150,7 @@ export default function InteractiveChart({
         .attr("fill", theme.palette.text.secondary);
       svg
         .append("circle")
-        .attr("cx", 175)
+        .attr("cx", w - 25)
         .attr("cy", -80)
         .attr("r", 7)
         .attr("opacity", MAX_OPACITY)
@@ -157,7 +158,7 @@ export default function InteractiveChart({
         .style("fill", theme.palette.success.main);
       svg
         .append("circle")
-        .attr("cx", 150)
+        .attr("cx", w - 50)
         .attr("cy", -80)
         .attr("r", 7)
         .attr("opacity", MAX_OPACITY)
@@ -165,7 +166,7 @@ export default function InteractiveChart({
         .style("fill", theme.palette.warning.main);
       svg
         .append("circle")
-        .attr("cx", 125)
+        .attr("cx", w - 75)
         .attr("cy", -80)
         .attr("r", 7)
         .attr("opacity", MAX_OPACITY)
@@ -173,7 +174,7 @@ export default function InteractiveChart({
         .style("fill", theme.palette.error.main);
       svg
         .append("text")
-        .attr("x", 13)
+        .attr("x", w - 180)
         .attr("y", -50)
         .text("Qualification:")
         .style("font-size", "15px")
@@ -182,7 +183,7 @@ export default function InteractiveChart({
         .attr("fill", theme.palette.text.secondary);
       svg
         .append("circle")
-        .attr("cx", 175)
+        .attr("cx", w - 25)
         .attr("cy", -50)
         .attr("r", 10)
         .attr("opacity", MAX_OPACITY)
@@ -190,7 +191,7 @@ export default function InteractiveChart({
         .style("fill", theme.palette.grey[400]);
       svg
         .append("circle")
-        .attr("cx", 150)
+        .attr("cx", w - 50)
         .attr("cy", -50)
         .attr("r", 7)
         .attr("opacity", MAX_OPACITY)
@@ -198,7 +199,7 @@ export default function InteractiveChart({
         .style("fill", theme.palette.grey[400]);
       svg
         .append("circle")
-        .attr("cx", 125)
+        .attr("cx", w - 75)
         .attr("cy", -50)
         .attr("r", 4)
         .attr("opacity", MAX_OPACITY)
@@ -206,7 +207,10 @@ export default function InteractiveChart({
         .style("fill", theme.palette.grey[400]);
 
       // Add cluster labels
-      const x = d3.scaleOrdinal().domain([1, 2, 3]).range([200, 500, 800]);
+      const x = d3
+        .scaleOrdinal()
+        .domain([1, 2, 3])
+        .range([w / 4, (3 * w) / 4, w / 2]);
       var text1, text2, text3;
       if (filters.view === "gender") {
         text1 = "Male";
@@ -580,5 +584,9 @@ export default function InteractiveChart({
     }
   }, [data, filters, theme]);
 
-  return <svg ref={svgRef}></svg>;
+  return (
+    <div ref={containerRef}>
+      <svg ref={svgRef}></svg>
+    </div>
+  );
 }

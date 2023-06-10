@@ -126,7 +126,7 @@ export default function CandidatesPlot({
 
       <Grid>
         <Stack direction="column" alignItems="center">
-          <Paper sx={{ p: 2 }}>
+          {/*<Paper sx={{ p: 2 }}>
             <Stack direction="row" spacing={2}>
               <Number
                 number={totalPeople}
@@ -164,20 +164,9 @@ export default function CandidatesPlot({
                   />
                 }
               />
-              {/*<AppWidgetSummary
-                  title="Weekly Sales"
-                  total={714000}
-                  icon={"ant-design:android-filled"}
-                />
-                <AppWidgetSummary
-                  title="New Users"
-                  total={1352831}
-                  color="info"
-                  icon={"ant-design:apple-filled"}
-                />*/}
             </Stack>
-          </Paper>
-          <Paper sx={{ px: 10, py: 2, width: "100%"}}>
+              </Paper>*/}
+          <Paper sx={{ px: 3, py: 2, width: "100%" }}>
             <ScatterPlot data={scatterData}></ScatterPlot>
             {/*<BubbleChart data={scatterData}></BubbleChart>*/}
           </Paper>
