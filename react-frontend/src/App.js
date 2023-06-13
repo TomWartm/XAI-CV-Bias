@@ -13,8 +13,8 @@ import ScrollToTop from './components/scroll-to-top';
 export default function App() {
 
   // For deployment change this to:
-  // window.BASE_BACKEND = "http://be.c3-cv-bias-assessment.course-xai-iml23.isginf.ch/"
-  window.BASE_BACKEND = "http://127.0.0.1:8000/"
+  window.BASE_BACKEND = "http://be.c3-cv-bias-assessment.course-xai-iml23.isginf.ch/"
+  // window.BASE_BACKEND = "http://127.0.0.1:8000/"
 
   return (
     <HelmetProvider>
