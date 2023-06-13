@@ -59,7 +59,7 @@ export default function PopupWindows({ personId , name, surname}) {
       const resultPerson = await responsePerson.json();
       if (resultPerson.length < 1) {
         throw new Error(
-          `Error! result of fetch("http://127.0.0.1:8000/similarpeople/${personId}" not as expected. It is: ${resultPerson}. Probably there is a non existing Id requested.`
+          `Error! result of fetch("similarpeople/${personId}" not as expected. It is: ${resultPerson}. Probably there is a non existing Id requested.`
         );
       }
       //console.log(
