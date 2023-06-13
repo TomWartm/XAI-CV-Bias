@@ -12,6 +12,8 @@
 We all have some amount of unconcious bias, whether that's towards someone's race, gender, age, sexual orientation or even education, socioeconomic backround etc. That's not always bad, but it can be deleterious when these shortcuts are used by desicion-makers such as recruiters.
 Our goal is to create an interactive tool that assists recruiters in identifying and overcome their biases. The focus of the proposed project is the interactivity of the user interface.
 
+Find the deployed version at [CV Bias Assessment](http://c3-cv-bias-assessment.course-xai-iml23.isginf.ch/dashboard/app).
+
 
 ### Users
 - Recruiters
