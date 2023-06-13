@@ -19,6 +19,9 @@ export default function AppConversionRates({
   title,
   subheader,
   chartData,
+  chartColors,
+  borderRadius = 8,
+  fakeittillyoumakeit = false,
   ...other
 }) {
   const chartLabels = chartData.map((i) => i.label);
@@ -26,14 +29,21 @@ export default function AppConversionRates({
   const chartSeries = chartData.map((i) => i.value);
 
   // Adding some dummy rows teporarily
-  chartLabels.push("Gender & Age");
-  chartSeries.push(90);
-  chartLabels.push("Gender & National...");
-  chartSeries.push(89);
-  chartLabels.push("Nationality & Age");
-  chartSeries.push(74);
-  chartLabels.push("Gender & Age & Na..");
-  chartSeries.push(73);
+  if (fakeittillyoumakeit) {
+    chartLabels.push("Gender & Age");
+    chartSeries.push(90);
+    chartLabels.push("Gender & National...");
+    chartSeries.push(89);
+    chartLabels.push("Nationality & Age");
+    chartSeries.push(74);
+    chartLabels.push("Gender & Age & Na..");
+    chartSeries.push(73);
+  }
+
+  let distributed = false;
+  if (chartColors != undefined) {
+    distributed = true;
+  }
 
   const chartOptions = useChart({
     tooltip: {
@@ -46,10 +56,19 @@ export default function AppConversionRates({
       },
     },
     plotOptions: {
-      bar: { horizontal: true, barHeight: "40%", borderRadius: 8 },
+      bar: {
+        horizontal: true,
+        barHeight: "40%",
+        borderRadius: borderRadius,
+        distributed: distributed,
+      },
     },
+    colors: chartColors,
     xaxis: {
       categories: chartLabels,
+    },
+    legend: {
+      show: false,
     },
   });
 
