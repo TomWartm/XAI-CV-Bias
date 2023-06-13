@@ -30,7 +30,7 @@ Define all the tasks you want your dashboard solve.
 
 ## Requirements
 - conda
-- python
+- python 3
 
 ## How to Run
 
@@ -53,6 +53,17 @@ To run the frontend:
 - open the frontend folder called "react-frontend";
 - start the front end by using the following two commands ```npm install```, ```npm start```;
 If all the steps have been successfully executed a new browser window will open automatically.
+
+
+
+
+
+## Versioning
+
+Tags:
+- Week 1: [Week 1 Tag](https://gitlab.inf.ethz.ch/COURSE-XAI-IML22/dummy-fullstack/-/tags/stable-readme)
+- Milestone 3: [Tag](https://gitlab.inf.ethz.ch/course-xai-iml23/c3-cv-bias-assessment/-/tags/milestone3)
+- Final Version: [Tag](https://gitlab.inf.ethz.ch/course-xai-iml23/c3-cv-bias-assessment/-/tags/final_submission)
 
 ## Backend-Specifications
 
@@ -127,19 +138,3 @@ If all the steps have been successfully executed a new browser window will open 
   - onClick -> open Person Pop-up 
 #### 4. Fairness score
   - BarPlot of influence of biased/unfair attributes to the hiring decission.
-
-
-
-## Versioning
-Create stable versions of your code each week by using gitlab tags.\
-Take a look at [Gitlab Tags](https://docs.gitlab.com/ee/topics/git/tags.html) for more details. 
-
-Then list here the weekly tags. \
-We will evaluate your code every week, based on the corresponding version.
-
-Tags:
-- Week 1: [Week 1 Tag](https://gitlab.inf.ethz.ch/COURSE-XAI-IML22/dummy-fullstack/-/tags/stable-readme)
-- Milestone 3: [Tag](https://gitlab.inf.ethz.ch/course-xai-iml23/c3-cv-bias-assessment/-/tags/milestone3)
-
-
-
