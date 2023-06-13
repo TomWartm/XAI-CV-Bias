@@ -24,9 +24,9 @@ Link: [https://www.kaggle.com/datasets/ictinstitute/utrecht-fairness-recruitment
 See the folder Data-Analysis for exploration.
 
 ### Tasks
-Define all the tasks you want your dashboard solve.
-
-
+Allow users to view their past decisions and search for biases in them in a guided fashion. 
+Review decisions for the people affected most by bias.
+Figure out which criterias mattered most in the decision and if this should be the case.
 
 ## Requirements
 - conda
