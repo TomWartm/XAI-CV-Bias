@@ -8,6 +8,9 @@
 3. Tom Wartmann
 4. Jannis Widmer
 
+## Contribution
+We all had a contribution in the project. We decided on how to design the tool together, then we defined tasks and divided them fairly among the team members. There where soft trends in task assignment: Vito Pagone was mostly working on the machine learning parts, Simon Perisanidis and Tom Wartmann were mostly working on the frontend, and Jannis Widmer mainly worked on the backend.
+
 ## Project Description 
 We all have some amount of unconcious bias, whether that's towards someone's race, gender, age, sexual orientation or even education, socioeconomic backround etc. That's not always bad, but it can be deleterious when these shortcuts are used by desicion-makers such as recruiters.
 Our goal is to create an interactive tool that assists recruiters in identifying and overcome their biases. The focus of the proposed project is the interactivity of the user interface.
