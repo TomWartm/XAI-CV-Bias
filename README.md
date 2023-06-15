@@ -66,6 +66,6 @@ If all the steps have been successfully executed a new browser window will open 
 ## Versioning
 
 Tags:
-- Final Version: [Tag](https://gitlab.inf.ethz.ch/course-xai-iml23/c3-cv-bias-assessment/-/tags/final_submission)
+- Final Version: [Tag](https://gitlab.inf.ethz.ch/course-xai-iml23/c3-cv-bias-assessment/-/tags/final-submission)
 
 
